@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memphis 901 Buyer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1e2a3a;--bg2:#0f172a;--bg3:#1e293b;--blue:#3b82f6;--blue2:#60a5fa;--blue3:#93c5fd;--gold:#f59e0b;--gold2:#fbbf24;--white:#f1f5f9;--dim:#64748b;--dim2:#94a3b8;--border:rgba(255,255,255,.08);--hover:rgba(59,130,246,.1);--radius:14px;}
+*{box-sizing:border-box;margin:0;padding:0}
+.pair-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.pair-row .card-full{margin-bottom:0}
+body{font-family:'DM Sans',sans-serif;background:linear-gradient(160deg,#0f172a 0%,#1e2a3a 50%,#0f1f35 100%);background-attachment:fixed;color:var(--white);min-height:100vh;font-size:85%}
+header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px solid rgba(59,130,246,.15);position:sticky;top:0;z-index:200;box-shadow:0 4px 30px rgba(0,0,0,.6)}
+.hdr{max-width:1480px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:66px;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.gem{width:24px;height:37px}
+.brand h1{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;font-weight:400;letter-spacing:.08em;line-height:1}
+.brand h1 .m901{color:#ffffff}
+.brand h1 .buyer{color:#4ade80}
+.brand p{font-size:.62rem;color:var(--dim);letter-spacing:.2em;text-transform:uppercase;margin-top:2px}
+.hdr-right{display:flex;align-items:center;gap:8px}
+.upd-time{font-size:.65rem;color:var(--dim);text-align:right;line-height:1.4}
+.upd-time strong{color:var(--blue3);display:block;font-size:.7rem}
+
+.spin{display:inline-block}
+
+@keyframes rot{to{transform:rotate(360deg)}}
+.cattabs{background:rgba(2,8,23,.8);backdrop-filter:blur(12px);border-bottom:1px solid rgba(59,130,246,.12);padding:0 28px;overflow-x:auto;scrollbar-width:none}
+.cattabs::-webkit-scrollbar{display:none}
+.ctabs-inner{max-width:1480px;margin:0 auto;display:flex}
+.ctab{padding:14px 22px;cursor:pointer;font-size:.83rem;font-weight:600;color:var(--dim);border-bottom:3px solid transparent;transition:all .18s;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.ctab:hover{color:var(--white)}.ctab.active{color:#fbbf24;border-bottom-color:#f59e0b}
+.main{max-width:1480px;margin:0 auto;padding:24px 28px 60px}
+.section{display:none}.section.active{display:block}
+.subtabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;justify-content:center}
+.stab{padding:7px 20px;border-radius:20px;cursor:pointer;font-size:.79rem;font-weight:600;background:rgba(255,255,255,.04);color:var(--dim2);border:1.5px solid rgba(255,255,255,.12);transition:all .25s}
+.stab:hover{border-color:rgba(59,130,246,.5);color:#93c5fd;background:rgba(59,130,246,.08)}.stab.active{background:linear-gradient(135deg,#1d4ed8,#3b82f6);color:#fff;border-color:#3b82f6}
+.stab.dimmed{opacity:.4;border-color:rgba(255,255,255,.08);color:rgba(255,255,255,.35)}
+.iph-filters{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:24px}
+.iph-filters .stab{display:flex;align-items:center;justify-content:center;gap:6px;height:36px;font-size:.72rem;border-radius:20px;padding:0 16px}
+.iph-filters .stab svg{flex-shrink:0;width:13px;height:13px}
+
+
+.subsec{display:none}.subsec.active{display:block}
+.info{background:rgba(200,168,75,.07);border:1px solid rgba(200,168,75,.17);border-radius:10px;padding:12px 16px;margin-bottom:18px;font-size:.79rem;color:rgba(238,244,255,.72);display:flex;gap:10px;align-items:flex-start;line-height:1.65}
+.info-i{flex-shrink:0;font-size:1rem;margin-top:1px}
+
+
+.model-block{margin-bottom:26px}
+.model-label{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--dim2);margin-bottom:9px;padding-left:2px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:860px){.two-col{grid-template-columns:1fr}}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .2s}
+.card:hover{border-color:rgba(27,95,199,.28)}
+.card-hdr{padding:11px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.card-hdr.u-hdr{background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(16,185,129,.06))}
+.card-hdr.l-hdr{background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(220,38,38,.07))}
+.card-hdr h4{font-size:.85rem;font-weight:700;color:var(--white)}
+.card-note{padding:5px 18px;font-size:.69rem;color:var(--dim2);background:rgba(0,0,0,.15);border-bottom:1px solid var(--border);font-style:italic}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:7px;font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.b-ul{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
+.b-lk{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3)}
+.b-wifi{background:rgba(14,165,233,.12);color:#7dd3fc}
+.b-cell{background:rgba(139,92,246,.12);color:#c4b5fd}
+.card-full{background:linear-gradient(135deg,#0f1e35 0%,#0d1829 100%);border:1px solid rgba(59,130,246,.18);border-radius:var(--radius);overflow:hidden;margin-bottom:18px;transition:all .22s;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.card-full:hover{border-color:rgba(59,130,246,.35)}
+.cfhdr{background:linear-gradient(135deg,rgba(59,130,246,.18) 0%,rgba(99,102,241,.12) 100%);padding:13px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(59,130,246,.15)}
+.cfhdr h3{font-size:.92rem;font-weight:700;color:#f1f5f9}
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{padding:8px 16px;text-align:left;font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:#93c5fd;background:rgba(15,23,42,.6);border-bottom:1px solid rgba(59,130,246,.12)}
+.tbl td{padding:10px 16px;font-size:.84rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+.tbl tr:hover td{background:rgba(59,130,246,.06)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--hover)}
+.cap{font-weight:600;color:var(--blue3);font-size:.81rem}
+.pr{font-weight:800;font-size:.9rem;color:#fbbf24}
+.pr2{font-weight:600;font-size:.87rem;color:#e2e8f0}
+.nu{color:var(--dim);font-size:.77rem;font-style:italic}
+.gp{display:inline-flex;align-items:center;padding:2px 8px;border-radius:7px;font-size:.67rem;font-weight:700;letter-spacing:.03em}
+.g-hso{background:rgba(34,197,94,.18);color:#4ade80;border:1px solid rgba(34,197,94,.2)}
+.g-a{background:rgba(59,130,246,.18);color:#93c5fd;border:1px solid rgba(59,130,246,.2)}
+.g-b{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.2)}
+.g-c{background:rgba(249,115,22,.18);color:#fdba74;border:1px solid rgba(249,115,22,.2)}
+.g-d{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.2)}
+.g-doa{background:rgba(107,114,128,.18);color:#d1d5db;border:1px solid rgba(107,114,128,.2)}
+.cpill{display:inline-flex;align-items:center;padding:2px 8px;border-radius:7px;font-size:.68rem;font-weight:600}
+.c-ul{background:rgba(34,197,94,.11);color:#4ade80}
+.c-att{background:rgba(99,102,241,.11);color:#a5b4fc}
+.c-lk{background:rgba(239,68,68,.09);color:#fca5a5}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid var(--blue);border-radius:10px;padding:12px 20px;font-size:.83rem;color:var(--white);box-shadow:0 8px 30px #0009;transform:translateY(60px);opacity:0;transition:all .3s;z-index:999;max-width:300px;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tbl-wrap::-webkit-scrollbar{height:4px}
+.tbl-wrap::-webkit-scrollbar-track{background:rgba(255,255,255,.03)}
+.tbl-wrap::-webkit-scrollbar-thumb{background:var(--blue);border-radius:3px}
+.ded-btn{width:100%;background:rgba(200,168,75,.06);border:1px solid rgba(200,168,75,.14);border-radius:0 0 var(--radius) var(--radius);color:var(--gold);font-size:.73rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:8px 16px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;transition:background .18s}
+.ded-btn:hover{background:rgba(200,168,75,.11)}
+.ded-btn .ded-arrow{transition:transform .22s;font-size:.8rem}
+.ded-btn.open .ded-arrow{transform:rotate(180deg)}
+.ded-panel{display:none;padding:12px 16px 14px;background:rgba(200,168,75,.04);border-top:1px solid rgba(200,168,75,.1)}
+.ded-panel.open{display:block}
+.ded-grid{display:grid;grid-template-columns:1fr auto;gap:4px 16px}
+.ded-label{font-size:.74rem;color:var(--dim2);padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.ded-amt{font-size:.74rem;font-weight:700;color:#f87171;text-align:right;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04);white-space:nowrap}
+.ded-note{font-size:.68rem;color:var(--dim);margin-top:8px;font-style:italic;line-height:1.5}
+
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--blue);border-radius:3px}
+@media(max-width:600px){.hdr{padding:12px 14px;height:auto;flex-wrap:wrap}.main{padding:14px 14px 40px}.cattabs{padding:0 14px}}
+
+/* ── AGREEMENT OVERLAY ── */
+#agree-overlay{position:fixed;inset:0;background:rgba(2,6,14,.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:flex-end;justify-content:center}
+#agree-modal{background:#070d1a;border:1px solid rgba(0,0,0,.2);border-bottom:none;border-radius:24px 24px 0 0;width:100%;max-width:500px;max-height:78vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 -12px 50px rgba(0,0,0,.4);animation:slide-up .35s cubic-bezier(.32,1.2,.64,1)}
+@keyframes slide-up{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+#agree-handle{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:12px 20px 0;background:#070d1a}
+#agree-handle-bar{width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:4px;margin-bottom:12px}
+#agree-header{display:flex;align-items:center;gap:10px;width:100%;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.06)}
+#agree-icon{width:36px;height:36px;background:linear-gradient(135deg,#1b5fc7,#2e80f5);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+#agree-icon svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+#agree-header-text{flex:1}
+#agree-header-text h2{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.08em;color:#fff;line-height:1}
+#agree-header-text h2 span{color:#4ade80}
+#agree-header-text p{font-size:.6rem;color:rgba(255,255,255,.32);letter-spacing:.12em;text-transform:uppercase;margin-top:1px}
+#agree-scroll-hint{flex-shrink:0;margin:10px 20px 0;padding:7px 12px;background:rgba(91,163,255,.08);border:1px solid rgba(91,163,255,.15);border-radius:8px;display:flex;align-items:center;gap:7px;font-size:.67rem;color:var(--blue3);font-weight:600}
+#agree-scroll-hint svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;animation:bob .9s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
+#agree-body{overflow-y:auto;padding:14px 20px 6px;flex:1;scrollbar-width:thin;scrollbar-color:rgba(27,95,199,.5) transparent}
+#agree-body::-webkit-scrollbar{width:3px}
+#agree-body::-webkit-scrollbar-thumb{background:var(--blue);border-radius:2px}
+.ag-block{padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.ag-block:last-child{border-bottom:none}
+.ag-block-title{font-size:.72rem;font-weight:700;color:rgba(238,244,255,.9);margin-bottom:5px;display:flex;align-items:center;gap:6px;letter-spacing:.01em}
+.ag-block-title::before{content:'';width:2px;height:11px;border-radius:2px;background:var(--blue);flex-shrink:0}
+.ag-block p,.ag-block li{font-size:.73rem;color:rgba(238,244,255,.55);line-height:1.6;margin-bottom:3px}
+.ag-block ul{padding-left:14px;margin-top:3px}
+.ag-block li{margin-bottom:2px}
+.ag-block.ag-red{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:10px;padding:10px 13px;margin-bottom:0}
+.ag-block.ag-red .ag-block-title::before{background:#f87171}
+.ag-block.ag-red .ag-block-title{color:#fca5a5}
+.ag-block.ag-red p{color:rgba(252,165,165,.7)}
+#agree-footer{flex-shrink:0;padding:12px 20px 20px}
+#agree-progress-track{height:2px;background:rgba(255,255,255,.07);border-radius:2px;margin-bottom:11px;overflow:hidden}
+#agree-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),#4ade80);border-radius:2px;transition:width .15s ease}
+#agree-bottom-row{display:flex;align-items:center;gap:10px}
+#agree-note{font-size:.64rem;color:rgba(255,255,255,.28);flex:1;line-height:1.35}
+#agree-btn{background:rgba(27,95,199,.2);border:1.5px solid rgba(27,95,199,.5);color:rgba(91,163,255,.5);padding:10px 20px;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:700;cursor:not-allowed;transition:all .25s;white-space:nowrap;flex-shrink:0}
+#agree-btn:disabled{opacity:1}
+#agree-btn.ready{background:rgba(34,197,94,.12);border-color:#4ade80;color:#4ade80;cursor:pointer;animation:glow-green 1s ease-out}
+#agree-btn.ready:hover{background:#4ade80;color:#000;border-color:#4ade80}
+@keyframes glow-green{0%{box-shadow:0 0 0 0 rgba(74,222,128,.45)}70%{box-shadow:0 0 0 10px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
+
+/* ── INFO TAB ── */
+.info-doc{max-width:820px;margin:0 auto}
+.info-hero{background:linear-gradient(135deg,rgba(27,95,199,.15),rgba(27,95,199,.05));border:1px solid rgba(27,95,199,.2);border-radius:14px;padding:24px 28px;margin-bottom:26px;text-align:center}
+.info-hero-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.12em;color:var(--white);margin-bottom:4px}
+.info-hero-sub{font-size:.78rem;color:var(--dim2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.info-hero-contact{font-size:.82rem;color:var(--blue3)}
+.info-hero-contact a{color:var(--blue3);text-decoration:none;font-weight:700}
+.ia-section{display:flex;gap:16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:14px}
+.ia-section--warn{background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.18)}
+.ia-num{width:28px;height:28px;border-radius:50%;background:rgba(27,95,199,.2);border:1px solid var(--blue);color:var(--blue3);font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.ia-num--warn{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.4);color:#fca5a5}
+.ia-title{font-size:.88rem;font-weight:700;color:var(--white);margin-bottom:8px}
+.ia-section p{font-size:.81rem;color:rgba(238,244,255,.78);line-height:1.7;margin-bottom:6px}
+.ia-section p:last-child{margin-bottom:0}
+.ia-warn{color:#fca5a5 !important;font-weight:700}
+.ia-table-wrap{overflow-x:auto;margin:10px 0}
+.ia-tbl{width:100%;border-collapse:collapse;font-size:.78rem}
+.ia-tbl th{padding:7px 12px;text-align:left;color:var(--dim);font-size:.67rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border);background:rgba(0,0,0,.12)}
+.ia-tbl td{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.035);vertical-align:middle;color:rgba(238,244,255,.8)}
+.ia-tbl tr:last-child td{border-bottom:none}
+.ia-footer{text-align:center;padding:20px;background:rgba(27,95,199,.06);border:1px solid rgba(27,95,199,.15);border-radius:12px;margin-top:6px}
+.ia-footer p{font-size:.78rem;color:var(--dim2);line-height:1.7}
+.ia-footer a{color:var(--blue3);text-decoration:none;font-weight:600}
+.sell-bar{display:flex;align-items:center;justify-content:center;padding:9px 16px;border-top:1px solid var(--border)}
+.sell-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(16,185,129,.1));border:1px solid rgba(34,197,94,.4);color:#4ade80;padding:6px 20px;border-radius:20px;font-size:.72rem;font-weight:700;cursor:pointer;transition:all .25s;font-family:'DM Sans',sans-serif;letter-spacing:.04em}
+.sell-btn:hover{background:linear-gradient(135deg,rgba(34,197,94,.3),rgba(16,185,129,.2));border-color:#4ade80}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr">
+    <div class="brand">
+      <svg class="gem" viewBox="0 0 34 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Phone body outline -->
+        <rect x="2" y="2" width="30" height="48" rx="5" stroke="#c8a84b" stroke-width="2.2" fill="none"/>
+        <!-- Top speaker -->
+        <rect x="11" y="7.5" width="12" height="2.5" rx="1.2" fill="#c8a84b"/>
+        <!-- Bottom home indicator -->
+        <rect x="12" y="43" width="10" height="2" rx="1" fill="#c8a84b"/>
+        <!-- Dollar vertical bar -->
+        <line x1="17" y1="17" x2="17" y2="37" stroke="#5ba3ff" stroke-width="2" stroke-linecap="round"/>
+        <!-- Dollar top curve -->
+        <path d="M22 20.5 C22 18.5 20 17 17 17 C14 17 12 18.8 12 21 C12 23.2 14 24 17 24.5 C20 25 22 26 22 28.5 C22 31 20 33 17 33 C14 33 12 31.5 12 29.5" stroke="#5ba3ff" stroke-width="2" stroke-linecap="round" fill="none"/>
+      </svg>
+      <div><h1><span class="m901">Memphis</span> <span class="buyer">901 Buyer</span></h1><a href="tel:+19017131565" style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:#f59e0b;letter-spacing:.1em;text-transform:uppercase;margin-top:4px;text-decoration:none;transition:color .18s;font-weight:700" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='#f59e0b'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>(901) 713-1565</a></div>
+    </div>
+    
+  </div>
+</header>
+
+<div class="cattabs">
+  <div class="ctabs-inner">
+    <div class="ctab active" onclick="showCat('iphones',this)">iPhones</div>
+    <div class="ctab" onclick="showCat('ipads',this)">iPads</div>
+    <div class="ctab" onclick="showCat('macbooks',this)">MacBooks</div>
+    <div class="ctab" onclick="showCat('samsung',this)">Samsung</div>
+    <div class="ctab" onclick="showCat('watches',this)">Watches &amp; AirPods</div>
+    <div class="ctab" onclick="showCat('info',this)">Info</div>
+  </div>
+</div>
+
+<main class="main">
+
+  <div class="section active" id="sec-iphones">
+    <div class="iph-filters">
+
+      <div class="stab active" onclick="showSub('iph','new-ul',this)">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+        New — Unlocked
+      </div>
+
+      <div class="stab" onclick="showSub('iph','used-ul',this)">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+        Used — Unlocked
+      </div>
+
+      <div class="stab" onclick="showSub('iph','new-lk',this)">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        New — Sim Locked
+      </div>
+
+      <div class="stab" onclick="showSub('iph','used-lk',this)">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Used — Sim Locked
+      </div>
+
+    </div>
+    <div style="text-align:center;margin:-10px 0 18px;font-size:.72rem;font-weight:600;color:var(--dim2);letter-spacing:.12em;text-transform:uppercase">We Buy at Those Prices &nbsp;↓</div>
+    <div class="subsec active" id="iph-new-ul"><div id="ni-ul-blocks"></div></div>
+    <div class="subsec" id="iph-new-lk"><div id="ni-lk-blocks"></div></div>
+    <div class="subsec" id="iph-used-ul">
+      <div id="ui-ul-blocks"></div>
+    </div>
+    <div class="subsec" id="iph-used-lk">
+      <div id="ui-lk-blocks"></div>
+    </div>
+  </div>
+
+  <div class="section" id="sec-ipads">
+    <div class="subtabs">
+      <div class="stab active" onclick="showSub('ipad','new',this)">New iPads</div>
+      <div class="stab" onclick="showSub('ipad','used',this)">Used iPads</div>
+    </div>
+    <div class="subsec active" id="ipad-new"><div id="nipad-cards"></div></div>
+    <div class="subsec" id="ipad-used">
+      <div id="uipad-cards"></div>
+    </div>
+  </div>
+
+  <div class="section" id="sec-macbooks">
+    <div id="mac-cards"></div>
+  </div>
+
+  <div class="section" id="sec-samsung">
+    <div class="subtabs">
+      <div class="stab active" onclick="showSub('sam','ul',this)">Unlocked</div>
+      <div class="stab" onclick="showSub('sam','lk',this)">Sim Locked</div>
+    </div>
+    <div class="subsec active" id="sam-ul"><div id="sam-ul-cards"></div></div>
+    <div class="subsec" id="sam-lk"><div id="sam-lk-cards"></div></div>
+  </div>
+
+  <div class="section" id="sec-watches">
+    <div class="subtabs">
+      <div class="stab active" onclick="showSub('wa','watch',this)">Apple Watch</div>
+      <div class="stab" onclick="showSub('wa','air',this)">AirPods</div>
+    </div>
+    <div class="subsec active" id="wa-watch">
+      <div id="watch-cards"></div>
+    </div>
+    <div class="subsec" id="wa-air"><div id="air-cards"></div></div>
+  </div>
+
+  <!-- ── INFO / AGREEMENT TAB ── -->
+  <div class="section" id="sec-info">
+    <div class="info-doc">
+
+      <div class="info-hero">
+        <div class="info-hero-title">Vendor Agreement</div>
+        <div class="info-hero-sub">Memphis 901 Buyer · Sapphire Wholesale LLC</div>
+        <div class="info-hero-contact">
+          <a href="tel:+19017131565">📞 (901) 713-1565</a>
+          &nbsp;·&nbsp; Memphis, Tennessee
+          &nbsp;·&nbsp; Mon–Sat 8:00 AM – 9:00 PM
+        </div>
+      </div>
+
+      <div class="ia-section"><div class="ia-num">1</div><div>
+        <div class="ia-title">Business Hours &amp; Contact</div>
+        <p>Open <strong>Monday – Saturday: 8:00 AM – 9:00 PM</strong>. Closed Sundays. All transactions must occur during posted business hours. No exceptions.</p>
+        <p>📍 Memphis, Tennessee &nbsp;|&nbsp; 📞 <a href="tel:+19017131565">(901) 713-1565</a></p>
+      </div></div>
+
+      <div class="ia-section"><div class="ia-num">2</div><div>
+        <div class="ia-title">Lawful Possession Requirement</div>
+        <p class="ia-warn">⚠ WE ONLY PURCHASE FROM SUPPLIERS WHO ARE IN LAWFUL POSSESSION OF THEIR PRODUCTS.</p>
+        <p>You must legally own the device OR have written authorization from the owner to sell it. The device must NOT be stolen, lost, obtained through fraud, subject to any disputed transaction, or subject to any court order or law enforcement investigation. There must be NO liens or claims against this device.</p>
+        <p><strong>If you do not meet these requirements, DO NOT PROCEED. We will refuse your transaction.</strong></p>
+      </div></div>
+
+      <div class="ia-section"><div class="ia-num">3</div><div>
+        <div class="ia-title">Right to Refuse Business</div>
+        <p>Sapphire Wholesale LLC reserves the absolute right to refuse business to any supplier for any reason, including: inability to provide truthful information about device origin, device fails any verification checks (IMEI, carrier status, activation lock), suspected fraudulent or stolen merchandise, inconsistencies in your account of device ownership, pattern of selling devices with issues or flags, refusal to cooperate with inspection, previous transactions resulting in stolen device reports, or suspicion of criminal activity.</p>
+        <p>No explanation will be provided. No refund will be issued if a transaction is rejected.</p>
+      </div></div>
+
+      <div class="ia-section"><div class="ia-num">4</div><div>
+        <div class="ia-title">Payment Methods &amp; Terms</div>
+        <p><strong>Accepted:</strong> Cash (in-person only) · CashApp · Zelle · Pre-arranged mobile payments.</p>
+        <p>Payment is issued <em>after</em> successful inspection and verification. We do NOT hold payments or issue advance payments. Payment is contingent on device passing all inspections.</p>
+      </div></div>
+
+      <div class="ia-section"><div class="ia-num">5</div><div>
+        <div class="ia-title">Inspection Process &amp; Device Grading</div>
+        <p>All inspections are completed on the <strong>same business day</strong>. You are welcome to remain present during inspection.</p>
+        <div class="ia-table-wrap"><table class="ia-tbl">
+          <thead><tr><th>Grade</th><th>Condition</th></tr></thead>
+          <tbody>
+            <tr><td><span class="gp g-hso">A+ GRADE</span></td><td>Fully functional, perfect condition, no dents or scratches anywhere</td></tr>
+            <tr><td><span class="gp g-a">B GRADE</span></td><td>Fully functional, dents or scratches present. No heavy/deep scratches</td></tr>
+            <tr><td><span class="gp g-b">C GRADE</span></td><td>Fully functional, heavy dents or scratches, cracked glass, good LCD</td></tr>
+            <tr><td><span class="gp g-c">D GRADE</span></td><td>Fully functional, heavy dents/scratches, LCD lines/spots, NO blackout LCD</td></tr>
+            <tr><td><span class="gp g-d">DOA</span></td><td>No power, any combination of problems, no missing parts allowed</td></tr>
+            <tr><td><span class="gp g-hso">NEW/SEALED</span></td><td>Non-active, box in good condition, all sealed intact. Never used</td></tr>
+            <tr><td><span class="gp g-a">NEW/OPENED</span></td><td>Activation OK (30+ days), box in good condition, plastic on all accessories &amp; screen. Never used</td></tr>
+            <tr><td><span class="gp g-hso">HSO</span></td><td>New device swapped from Apple, no box, no signs of use, NEVER ACTIVATED. Must have plastic. "N" MODEL NUMBER</td></tr>
+          </tbody>
+        </table></div>
+        <p>Devices with defects are deducted accordingly. You will be informed of grading results and final offer. You have the right to refuse the final offer and walk away — no fee.</p>
+      </div></div>
+
+      <div class="ia-section"><div class="ia-num">6</div><div>
+        <div class="ia-title">Verification &amp; IMEI Checks</div>
+        <p>All devices undergo mandatory verification: SICKW database search, Hitek verification, national carrier blacklists, Apple theft recovery database, iCloud activation lock status, Find My iPhone status, and AT&amp;T / Verizon / T-Mobile / Sprint blacklist checks.</p>
+        <p>If any check fails, the device is <strong>rejected immediately</strong>. No payment will be issued. You may take the device back or leave it — your choice.</p>
+      </div></div>
+
+      <div class="ia-section"><div class="ia-num">7</div><div>
+        <div class="ia-title">MDM Locked Devices Policy</div>
+        <p>We CAN purchase MDM locked devices, but they receive <strong>significant price deductions</strong>. If your device has an MDM lock, message us <em>before</em> bringing the device so we can provide an estimated deduction. Do NOT assume we will purchase or assume any specific price point for MDM units without prior confirmation.</p>
+      </div></div>
+
+      <div class="ia-section ia-section--warn"><div class="ia-num ia-num--warn">9</div><div>
+        <div class="ia-title">Legal Responsibility &amp; Indemnification</div>
+        <p class="ia-warn">⚠ IMPORTANT — READ CAREFULLY</p>
+        <p>By accepting payment from Sapphire Wholesale LLC, you provide a <strong>guarantee and warranty</strong> that all goods are acquired legally. You accept ALL legal responsibility for any claims made against Sapphire Wholesale LLC for goods sold — including stolen property claims, fraud, defective goods, or any other legal claim by law enforcement, carriers, original owners, or any third party.</p>
+        <p>You agree to <strong>fully indemnify</strong> Sapphire Wholesale LLC and pay ALL legal costs (attorney fees, court costs, investigative expenses) incurred in defending against such claims, regardless of whether the claim is valid.</p>
+        <p>If a device you sold us is later reported stolen — <strong>you are liable</strong>. If we face legal action over a device — <strong>you must pay our legal defense costs</strong>.</p>
+      </div></div>
+
+      <div class="ia-section ia-section--warn"><div class="ia-num ia-num--warn">10</div><div>
+        <div class="ia-title">Stolen &amp; Fraudulent Device Policy</div>
+        <p class="ia-warn">⚠ WE DO NOT BUY STOLEN OR FRAUDULENT PHONES.</p>
+        <p>This includes devices reported stolen, flagged on carrier blacklists, on IMEI theft recovery databases, obtained through theft/robbery/scam/fraud, counterfeit or replica devices, devices with cloned IMEIs, or devices with false condition representations.</p>
+        <p>If you attempt to sell stolen devices: we will refuse the transaction, may file a police report with your information, and reserve the right to contact law enforcement. You may face criminal charges independently of our actions.</p>
+      </div></div>
+
+      <div class="ia-section"><div class="ia-num">11</div><div>
+        <div class="ia-title">Verification &amp; Law Enforcement Cooperation</div>
+        <p>We record the ESN/IMEI for every device purchased, creating a permanent record. All devices are photographed and fully documented. Sapphire Wholesale LLC <strong>regularly cooperates with law enforcement investigations</strong> and provides device records, documentation, and vendor information when requested. Your information will be provided to law enforcement if requested. Selling stolen property can result in criminal charges.</p>
+      </div></div>
+
+      <div class="ia-section"><div class="ia-num">12</div><div>
+        <div class="ia-title">Data Wipe &amp; Privacy Protocol</div>
+        <p>After purchase, all personal data is removed, all accounts (Apple ID, Google, etc.) are removed, and the device is restored to factory default settings. No personal information from the previous owner remains on any sold device.</p>
+      </div></div>
+
+      <div class="ia-section"><div class="ia-num">15</div><div>
+        <div class="ia-title">Tennessee Law &amp; Jurisdiction</div>
+        <p>This agreement is governed by the laws of the State of Tennessee. Selling stolen property in Tennessee is a crime — penalties include fines and imprisonment. We reserve the right to pursue civil claims for damages, file police reports, and cooperate with law enforcement.</p>
+      </div></div>
+
+      <div class="ia-footer">
+        <p>By conducting any transaction with Sapphire Wholesale LLC, you acknowledge you have read and agree to all terms above.</p>
+        <p>Effective Date: 2/27/2026 &nbsp;·&nbsp; Memphis, Tennessee &nbsp;·&nbsp; <a href="tel:+19017131565">(901) 713-1565</a></p>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<div id="toast"></div>
+
+<!-- ── AGREEMENT OVERLAY ── -->
+<div id="agree-overlay">
+  <div id="agree-modal">
+
+    <!-- drag handle -->
+    <div id="agree-handle">
+      <div id="agree-handle-bar"></div>
+      <div id="agree-header">
+        <div id="agree-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div id="agree-header-text">
+          <h2><span>Memphis 901</span> Buyer — Vendor Terms</h2>
+          <p>Scroll to read · Agree to continue</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- scroll hint -->
+    <div id="agree-scroll-hint">
+      <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      Scroll down to read all terms before agreeing
+    </div>
+
+    <!-- body -->
+    <div id="agree-body">
+
+      <div class="ag-block ag-red">
+        <div class="ag-block-title">Lawful Possession Requirement</div>
+        <p>You must be the <strong style="color:#fca5a5">legal owner</strong> of any device you intend to sell, or have written authorization. The device must <strong style="color:#fca5a5">NOT</strong> be stolen, lost, obtained through fraud, or under any legal hold or investigation.</p>
+        <p><strong style="color:#fca5a5">If this does not apply to you — do not proceed.</strong></p>
+      </div>
+
+      <div class="ag-block">
+        <div class="ag-block-title">Legal Responsibility & Indemnification</div>
+        <p>By accepting payment you <strong style="color:#eef4ff">guarantee</strong> all goods are legally acquired. You accept full legal responsibility for any claims — stolen property, fraud, or third-party claims — made against Sapphire Wholesale LLC and agree to cover all associated legal costs.</p>
+      </div>
+
+      <div class="ag-block">
+        <div class="ag-block-title">Verification Process</div>
+        <p>All devices go through mandatory IMEI checks via SICKW, Hitek, carrier blacklists, and Apple theft databases. Failed checks = immediate rejection, no payment issued.</p>
+      </div>
+
+      <div class="ag-block">
+        <div class="ag-block-title">Stolen Device Policy</div>
+        <p>We do not purchase stolen or fraudulent devices. Attempting to sell stolen property may result in a police report filed with your information. In Tennessee, selling stolen property is a criminal offense.</p>
+      </div>
+
+      <div class="ag-block">
+        <div class="ag-block-title">Business Hours</div>
+        <p><strong style="color:#eef4ff">Mon – Sat 8:00 AM – 9:00 PM &nbsp;·&nbsp; Closed Sundays</strong><br>Memphis, Tennessee &nbsp;·&nbsp; <a href="tel:+19017131565" style="color:#5ba3ff;text-decoration:none">(901) 713-1565</a></p>
+      </div>
+
+      <div class="ag-block">
+        <div class="ag-block-title">By agreeing you confirm</div>
+        <ul>
+          <li>You legally own the device or have written authorization to sell it</li>
+          <li>All information provided is truthful and accurate</li>
+          <li>The device was not stolen or obtained fraudulently</li>
+          <li>No outstanding legal claims or disputes exist on the device</li>
+          <li>You accept full indemnification responsibility</li>
+          <li>You understand law enforcement may contact you if the device is flagged</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- footer -->
+    <div id="agree-footer">
+      <div id="agree-progress-track"><div id="agree-progress-fill"></div></div>
+      <div id="agree-bottom-row">
+        <div id="agree-note">Read all terms to unlock</div>
+        <button id="agree-btn" onclick="acceptAgreement()" disabled>I Agree &amp; Enter</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── ADMIN OVERLAY ── -->
+<div id="adm-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(2,6,14,.97);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)">
+
+  <!-- LOGIN -->
+  <div id="adm-login" style="display:flex;align-items:center;justify-content:center;height:100%">
+    <div style="background:#0f172a;border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:36px 32px;width:320px;text-align:center">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.1em;color:#fff;margin-bottom:4px">ADMIN ACCESS</div>
+      <div style="font-size:.65rem;color:rgba(255,255,255,.3);letter-spacing:.15em;text-transform:uppercase;margin-bottom:28px">Memphis 901 Buyer</div>
+      <input id="adm-pass-input" type="password" placeholder="Enter password" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:12px 16px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;margin-bottom:10px"/>
+      <div id="adm-err" style="display:none;color:#fca5a5;font-size:.75rem;margin-bottom:10px"></div>
+      <button onclick="adminLogin()" style="width:100%;background:var(--blue);border:none;border-radius:10px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:700;padding:12px;cursor:pointer;margin-bottom:12px">Unlock Admin Panel</button>
+      <button onclick="adminClose()" style="width:100%;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:10px;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif;font-size:.8rem;padding:9px;cursor:pointer">Cancel</button>
+    </div>
+  </div>
+
+  <!-- PANEL -->
+  <div id="adm-panel" style="display:none;flex-direction:column;height:100%;overflow:hidden">
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;background:#070d1a">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:32px;height:32px;background:linear-gradient(135deg,#1b5fc7,#2e80f5);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem">⚙️</div>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.08em;color:#fff">Admin Panel <span style="color:#4ade80">· Memphis 901 Buyer</span></div>
+          <div style="font-size:.6rem;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase">Edit prices, models & listings</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button id="adm-save-btn" onclick="admSave()" style="background:rgba(27,95,199,.2);border:1.5px solid var(--blue);color:var(--blue3);padding:8px 20px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s">Save All Changes</button>
+        <button onclick="admResetAll()" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#fca5a5;padding:8px 14px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer">Reset</button>
+        <button onclick="adminLogout()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.5);padding:8px 14px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.75rem;cursor:pointer">Exit</button>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div style="display:flex;flex:1;overflow:hidden">
+
+      <!-- Sidebar nav -->
+      <div id="adm-nav" style="width:160px;flex-shrink:0;border-right:1px solid rgba(255,255,255,.06);overflow-y:auto;padding:12px 0;background:#070d1a"></div>
+
+      <!-- Content -->
+      <div id="adm-content" style="flex:1;overflow-y:auto;padding:20px 24px"></div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+.adm-nav-item{padding:10px 18px;font-size:.78rem;font-weight:600;color:rgba(255,255,255,.4);cursor:pointer;border-left:3px solid transparent;transition:all .18s}
+.adm-nav-item:hover{color:rgba(255,255,255,.75);background:rgba(255,255,255,.04)}
+.adm-nav-item.active{color:#5ba3ff;border-left-color:var(--blue);background:rgba(27,95,199,.1)}
+.adm-section-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--dim);margin-bottom:16px}
+.adm-card{background:#0f172a;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:16px;margin-bottom:14px}
+.adm-card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.adm-card-title{font-size:.82rem;font-weight:700;color:var(--white)}
+.adm-card-name-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.adm-card-name-row label{font-size:.68rem;color:var(--dim);white-space:nowrap}
+.adm-tbl{width:100%;border-collapse:collapse;margin-top:4px}
+.adm-tbl th{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);padding:5px 8px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left}
+.adm-tbl td{padding:4px 4px}
+.adm-inp{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:6px;color:#eef4ff;font-family:'DM Sans',sans-serif;font-size:.76rem;padding:5px 8px;width:100%;outline:none;transition:border-color .15s}
+.adm-inp:focus{border-color:var(--blue)}
+.adm-num{max-width:80px;text-align:right}
+.adm-btn-add{background:rgba(27,95,199,.15);border:1px solid rgba(27,95,199,.3);color:var(--blue3);padding:4px 12px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:700;cursor:pointer}
+.adm-btn-del{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#fca5a5;padding:4px 8px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.68rem;cursor:pointer}
+.adm-btn-new-card{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#4ade80;padding:9px 20px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:700;cursor:pointer;margin-top:4px}
+.adm-loading{color:var(--dim);font-size:.8rem;padding:20px}
+</style>
+
+<script>
+const DISC=0.83;
+
+const dp=v=>{const n=parseFloat(v);return(!isNaN(n)&&n>0)?Math.round(n*DISC/5)*5:null};
+const $p=(v,c='pr')=>v!==null?`<span class="${c}">$${Number(v).toLocaleString()}</span>`:`<span class="nu">—</span>`;
+const sn=v=>{const s=String(v||'').replace(/[$,\s]/g,'');const n=parseFloat(s);return(!isNaN(n)&&n>0)?n:null};
+
+let DATA={
+  newPhone:{
+    '17pm-ul':{t:'iPhone 17 Pro Max',tp:'ul',r:[['256GB',1185,1125],['512GB',1315,1255],['1TB',1465,1370],['2TB',1695,1610]]},
+    '17pm-lk':{t:'iPhone 17 Pro Max',tp:'lk',r:[['256GB',875,855],['512GB',1075,1030],['1TB',1175,1145],['2TB',1275,1245]]},
+    '17p-ul': {t:'iPhone 17 Pro',tp:'ul',r:[['256GB',1060,1000],['512GB',1180,1090],['1TB',1370,1305]]},
+    '17p-lk': {t:'iPhone 17 Pro',tp:'lk',r:[['256GB',785,765],['512GB',925,905],['1TB',1055,1035]]},
+    '17a-ul': {t:'iPhone 17 Air',tp:'ul',r:[['256GB',800,750],['512GB',930,880],['1TB',1040,990]]},
+    '17a-lk': {t:'iPhone 17 Air',tp:'lk',r:[['256GB',470,450],['512GB',510,490],['1TB',565,545]]},
+    '17-ul':  {t:'iPhone 17',tp:'ul',r:[['256GB',715,665],['512GB',865,815]]},
+    '17-lk':  {t:'iPhone 17',tp:'lk',r:[['256GB',540,520],['512GB',660,640]]},
+    '16pm-ul':{t:'iPhone 16 Pro Max',tp:'ul',r:[['256GB',940,870],['512GB',1040,970],['1TB',1135,1065]]},
+    '16pm-lk':{t:'iPhone 16 Pro Max',tp:'lk',r:[['256GB',690,670],['512GB',760,740],['1TB',830,810]]},
+    '16p-ul': {t:'iPhone 16 Pro',tp:'ul',r:[['128GB',760,715],['256GB',850,805],['512GB',930,885],['1TB',1010,965]]},
+    '16p-lk': {t:'iPhone 16 Pro',tp:'lk',r:[['128GB',465,445],['256GB',565,545],['512GB',615,595],['1TB',655,635]]},
+    '16plus-ul':{t:'iPhone 16 Plus',tp:'ul',r:[['128GB',530,500],['256GB',590,560],['512GB',640,610]]},
+    '16plus-lk':{t:'iPhone 16 Plus',tp:'lk',r:[['128GB',330,310],['256GB',380,360],['512GB',420,400]]},
+    '16-ul':  {t:'iPhone 16',tp:'ul',r:[['128GB',430,400],['256GB',480,450],['512GB',530,500]]},
+    '16-lk':  {t:'iPhone 16',tp:'lk',r:[['128GB',250,230],['256GB',290,270],['512GB',330,310]]},
+    '16e-ul': {t:'iPhone 16E',tp:'ul',r:[['128GB',340,310],['256GB',385,355],['512GB',440,410]]},
+    '15pm-ul':{t:'iPhone 15 Pro Max',tp:'ul',r:[['256GB',580,540],['512GB',660,620],['1TB',740,700]]},
+    '15-ul':  {t:'iPhone 15',tp:'ul',r:[['128GB',290,260],['256GB',360,330],['512GB',420,390]]},
+    '14-ul':  {t:'iPhone 14',tp:'ul',r:[['128GB',190,170],['256GB',240,220],['512GB',295,275]]},
+  },
+  usedPhone:{
+    'u17pm-ul':{t:'iPhone 17 Pro Max',tp:'ul',r:[['256GB',1010,980,780,550,180],['512GB',1110,1080,865,650,200],['1TB',1230,1200,970,730,215],['2TB',1410,1380,1120,800,235]]},
+    'u17pm-lk':{t:'iPhone 17 Pro Max',tp:'lk',r:[['256GB',800,780,585,330,75],['512GB',995,955,680,350,75],['1TB',1105,1045,730,360,75],['2TB',1205,1135,790,385,75]]},
+    'u17p-ul': {t:'iPhone 17 Pro',tp:'ul',r:[['256GB',900,870,695,495,180],['512GB',1030,1000,810,575,225],['1TB',1130,1100,890,640,255]]},
+    'u17p-lk': {t:'iPhone 17 Pro',tp:'lk',r:[['256GB',715,685,510,260,55],['512GB',855,825,555,280,55],['1TB',1040,990,615,300,55]]},
+    'u17a-ul': {t:'iPhone 17 Air',tp:'ul',r:[['256GB',650,620,485,385,95],['512GB',770,740,570,450,130],['1TB',870,840,655,535,165]]},
+    'u17a-lk': {t:'iPhone 17 Air',tp:'lk',r:[['256GB',395,365,270,130,40],['512GB',460,430,300,160,40],['1TB',530,480,380,215,40]]},
+    'u17-ul':  {t:'iPhone 17',tp:'ul',r:[['256GB',620,600,470,320,70],['512GB',720,700,550,385,90]]},
+    'u17-lk':  {t:'iPhone 17',tp:'lk',r:[['256GB',495,470,330,175,35],['512GB',620,600,435,225,40]]},
+    'u16pm-ul':{t:'iPhone 16 Pro Max',tp:'ul',r:[['256GB',820,800,630,465,135],['512GB',920,890,695,530,150],['1TB',1010,980,765,575,170]]},
+    'u16pm-lk':{t:'iPhone 16 Pro Max',tp:'lk',r:[['256GB',610,580,435,290,65],['512GB',700,660,500,320,70]]},
+    'u16p-ul': {t:'iPhone 16 Pro',tp:'ul',r:[['128GB',660,630,495,350,105],['256GB',730,710,550,390,115],['512GB',810,790,610,440,130],['1TB',900,880,680,495,145]]},
+    'u16p-lk': {t:'iPhone 16 Pro',tp:'lk',r:[['128GB',430,410,300,225,50],['256GB',510,490,355,265,50],['512GB',570,540,390,290,55]]},
+    'u16-ul':  {t:'iPhone 16',tp:'ul',r:[['128GB',380,360,265,185,45],['256GB',430,410,305,215,50]]},
+    'u15pm-ul':{t:'iPhone 15 Pro Max',tp:'ul',r:[['256GB',530,510,400,295,70],['512GB',610,580,450,345,75],['1TB',700,670,525,410,85]]},
+    'u15-ul':  {t:'iPhone 15',tp:'ul',r:[['128GB',250,240,180,135,30],['256GB',300,290,220,170,40]]},
+    'u14-ul':  {t:'iPhone 14',tp:'ul',r:[['128GB',160,155,120,90,20],['256GB',210,200,155,120,25]]},
+    'u16plus-ul':{t:'iPhone 16 Plus',tp:'ul',r:[['128GB',475,465,270,180,30],['256GB',505,495,290,200,30],['512GB',535,525,315,215,30]]},
+    'u16plus-lk':{t:'iPhone 16 Plus',tp:'lk',r:[['128GB',330,310,215,130,30],['256GB',360,350,240,145,30],['512GB',400,390,250,160,30]]},
+    'u16-lk':{t:'iPhone 16',tp:'lk',r:[['128GB',315,295,205,130,20],['256GB',345,325,230,140,20],['512GB',375,355,250,155,20]]},
+    'u15pm-lk':{t:'iPhone 15 Pro Max',tp:'lk',r:[['256GB',395,385,275,145,40],['512GB',425,415,295,165,40],['1TB',455,445,315,175,40]]},
+    'u15p-ul':{t:'iPhone 15 Pro',tp:'ul',r:[['128GB',385,375,240,150,30],['256GB',405,395,260,170,30],['512GB',425,415,275,190,30],['1TB',445,435,275,190,30]]},
+    'u15p-lk':{t:'iPhone 15 Pro',tp:'lk',r:[['128GB',300,300,205,130,30],['256GB',330,320,225,130,30],['512GB',350,340,240,150,30],['1TB',410,350,265,155,30]]},
+    'u15plus-ul':{t:'iPhone 15 Plus',tp:'ul',r:[['128GB',350,340,185,115,25],['256GB',370,360,200,130,25],['512GB',390,380,210,130,25]]},
+    'u15plus-lk':{t:'iPhone 15 Plus',tp:'lk',r:[['128GB',260,245,165,100,25],['256GB',290,260,180,110,25],['512GB',290,280,195,115,25]]},
+    'u15-lk':{t:'iPhone 15',tp:'lk',r:[['128GB',245,225,155,100,20],['256GB',265,245,180,110,20],['512GB',285,265,195,115,20]]},
+    'u14pm-ul':{t:'iPhone 14 Pro Max',tp:'ul',r:[['128GB',355,345,215,145,30],['256GB',375,365,240,160,30],['512GB',395,385,250,165,30],['1TB',415,405,250,190,30]]},
+    'u14pm-lk':{t:'iPhone 14 Pro Max',tp:'lk',r:[['128GB',285,265,180,110,30],['256GB',310,290,195,120,30],['512GB',330,310,210,130,30],['1TB',350,340,225,130,30]]},
+    'u14p-ul':{t:'iPhone 14 Pro',tp:'ul',r:[['128GB',300,295,190,125,20],['256GB',320,315,210,130,20],['512GB',340,335,220,135,20],['1TB',355,350,220,160,20]]},
+    'u14p-lk':{t:'iPhone 14 Pro',tp:'lk',r:[['128GB',255,240,155,95,20],['256GB',280,250,175,105,20],['512GB',295,275,185,110,20],['1TB',305,300,205,120,20]]},
+    'u14plus-ul':{t:'iPhone 14 Plus',tp:'ul',r:[['128GB',280,275,125,90,20],['256GB',300,295,135,100,20],['512GB',315,310,135,100,20]]},
+    'u14plus-lk':{t:'iPhone 14 Plus',tp:'lk',r:[['128GB',185,170,100,60,20],['256GB',200,190,105,70,20],['512GB',215,210,115,70,20]]},
+    'u14-lk':{t:'iPhone 14',tp:'lk',r:[['128GB',165,165,100,65,10],['256GB',175,165,105,70,10],['512GB',190,180,115,75,10]]},
+    'u13pm-ul':{t:'iPhone 13 Pro Max',tp:'ul',r:[['128GB',320,310,185,125,20],['256GB',340,330,200,135,20],['512GB',360,350,220,135,20],['1TB',380,370,205,160,20]]},
+    'u13pm-lk':{t:'iPhone 13 Pro Max',tp:'lk',r:[['128GB',260,250,155,90,20],['256GB',270,260,165,95,20],['512GB',280,270,175,105,20],['1TB',280,270,175,110,20]]},
+    'u13p-ul':{t:'iPhone 13 Pro',tp:'ul',r:[['128GB',275,265,145,105,20],['256GB',295,285,155,115,20],['512GB',315,305,175,115,20],['1TB',320,310,160,130,20]]},
+    'u13p-lk':{t:'iPhone 13 Pro',tp:'lk',r:[['128GB',200,190,120,70,20],['256GB',210,200,130,75,20],['512GB',220,210,135,80,20],['1TB',230,220,140,90,20]]},
+    'u13-ul':{t:'iPhone 13',tp:'ul',r:[['128GB',210,205,110,85,10],['256GB',230,220,130,90,10],['512GB',240,230,130,90,10]]},
+    'u13-lk':{t:'iPhone 13',tp:'lk',r:[['128GB',170,160,90,65,10],['256GB',180,170,100,70,10],['512GB',190,180,100,70,10]]},
+    'u13m-ul':{t:'iPhone 13 Mini',tp:'ul',r:[['128GB',180,170,75,40,10],['256GB',190,180,90,55,10],['512GB',200,190,90,55,10]]},
+    'u13m-lk':{t:'iPhone 13 Mini',tp:'lk',r:[['128GB',115,105,40,25,10],['256GB',115,115,45,30,10],['512GB',120,120,55,40,10]]},
+    'use3-ul':{t:'iPhone SE (3rd Gen)',tp:'ul',r:[['64GB',90,80,20,10,5],['128GB',100,90,30,20,5],['256GB',110,100,40,30,5]]},
+    'use3-lk':{t:'iPhone SE (3rd Gen)',tp:'lk',r:[['64GB',55,50,15,10,5],['128GB',60,55,15,10,5],['256GB',65,60,15,10,5]]},
+    'u12pm-ul':{t:'iPhone 12 Pro Max',tp:'ul',r:[['128GB',250,235,105,60,15],['256GB',270,255,120,70,15],['512GB',285,270,120,70,15]]},
+    'u12pm-lk':{t:'iPhone 12 Pro Max',tp:'lk',r:[['128GB',155,145,90,55,15],['256GB',165,155,100,60,15],['512GB',170,160,100,70,15]]},
+    'u12p-ul':{t:'iPhone 12 Pro',tp:'ul',r:[['128GB',200,185,75,50,10],['256GB',215,200,95,65,10],['512GB',230,215,95,65,10]]},
+    'u12p-lk':{t:'iPhone 12 Pro',tp:'lk',r:[['128GB',135,125,65,35,10],['256GB',145,135,70,45,10],['512GB',150,140,75,50,10]]},
+    'u12-ul':{t:'iPhone 12',tp:'ul',r:[['64GB',140,130,40,30,10],['128GB',155,145,45,30,10],['256GB',165,155,60,40,10]]},
+    'u12-lk':{t:'iPhone 12',tp:'lk',r:[['64GB',100,95,45,30,10],['128GB',110,105,55,40,10],['256GB',120,115,60,45,10]]},
+    'u12m-ul':{t:'iPhone 12 Mini',tp:'ul',r:[['64GB',120,110,25,15,5],['128GB',135,125,25,15,5],['256GB',145,135,25,15,5]]},
+    'u12m-lk':{t:'iPhone 12 Mini',tp:'lk',r:[['64GB',80,80,25,15,5],['128GB',90,90,30,25,5],['256GB',100,100,40,30,5]]},
+    'u11pm-ul':{t:'iPhone 11 Pro Max',tp:'ul',r:[['64GB',185,180,75,45,5],['256GB',205,200,95,50,5],['512GB',225,220,110,50,5]]},
+    'u11pm-lk':{t:'iPhone 11 Pro Max',tp:'lk',r:[['64GB',110,110,50,30,5],['256GB',120,120,60,40,5],['512GB',130,130,65,50,5]]},
+    'u11p-ul':{t:'iPhone 11 Pro',tp:'ul',r:[['64GB',160,155,55,20,5],['256GB',180,175,70,35,5],['512GB',200,195,90,45,5]]},
+    'u11p-lk':{t:'iPhone 11 Pro',tp:'lk',r:[['64GB',90,90,40,25,5],['256GB',100,100,50,30,5],['512GB',110,110,60,40,5]]},
+    'u11-ul':{t:'iPhone 11',tp:'ul',r:[['64GB',125,115,40,10,5],['128GB',140,130,50,25,5],['256GB',150,140,60,30,5]]},
+    'u11-lk':{t:'iPhone 11',tp:'lk',r:[['64GB',95,95,40,25,5],['128GB',100,100,50,30,5],['256GB',105,105,60,40,5]]},
+  },
+  newIpad:{
+    'np13m5w':{t:'iPad Pro 13" — M5 8th Gen (2025)',tp:'wifi',r:[['256GB',1030,930],['512GB',1230,1130],['1TB',1380,1280],['2TB',1480,1380]]},
+    'np13m5c':{t:'iPad Pro 13" — M5 8th Gen (2025)',tp:'cell',r:[['256GB',1030,930],['512GB',1270,1150],['1TB',1420,1320],['2TB',1520,1420]]},
+    'np13m4w':{t:'iPad Pro 13" — M4 7th Gen (2024)',tp:'wifi',r:[['256GB',810,690],['512GB',860,760],['1TB',1120,1000],['2TB',1270,1150]]},
+    'np13m4c':{t:'iPad Pro 13" — M4 7th Gen (2024)',tp:'cell',r:[['256GB',860,710],['512GB',940,800],['1TB',1140,1010],['2TB',1300,1170]]},
+    'np11m5w':{t:'iPad Pro 11" — M5 6th Gen (2025)',tp:'wifi',r:[['256GB',760,660],['512GB',930,830],['1TB',1090,990],['2TB',1200,1100]]},
+    'np11m4w':{t:'iPad Pro 11" — M4 5th Gen (2024)',tp:'wifi',r:[['256GB',610,510],['512GB',750,630],['1TB',890,770],['2TB',1000,880]]},
+    'na13m3w':{t:'iPad Air 13" — M3 (2025)',tp:'wifi',r:[['128GB',540,440],['256GB',670,570],['512GB',840,740]]},
+    'na11m3w':{t:'iPad Air 11" — M3 (2025)',tp:'wifi',r:[['128GB',390,290],['256GB',520,420],['512GB',670,570]]},
+    'n10w':   {t:'iPad 10th Gen (2022)',tp:'wifi',r:[['64GB',220,190],['256GB',310,280]]},
+    'n9':     {t:'iPad 9th Gen (2021)',tp:'wifi',r:[['64GB',130,110],['256GB',200,180]]},
+  },
+  usedIpad:{
+    'up13m4w':{t:'iPad Pro 13" — M4 (2024)',tp:'wifi',r:[['256GB',695,675,640,450,300],['512GB',775,755,720,450,300],['1TB',865,845,810,450,300],['2TB',970,950,915,450,300]]},
+    'up13m4c':{t:'iPad Pro 13" — M4 (2024)',tp:'cell',r:[['256GB',695,675,640,450,300],['512GB',775,755,720,450,300],['1TB',865,845,810,450,300],['2TB',970,950,915,450,300]]},
+    'up11m4w':{t:'iPad Pro 11" — M4 (2024)',tp:'wifi',r:[['256GB',560,540,510,360,220],['512GB',640,620,590,420,250],['1TB',720,700,670,480,280]]},
+    'ua13m2w':{t:'iPad Air 13" — M2 (2024)',tp:'wifi',r:[['128GB',420,400,370,280,160],['256GB',500,480,450,340,190]]},
+    'ua11m2w':{t:'iPad Air 11" — M2 (2024)',tp:'wifi',r:[['128GB',290,275,250,185,110],['256GB',360,345,310,240,140]]},
+  },
+  macbook:{
+    'mba13m4':{t:'MacBook Air 13.6" — M4 (2025)',r:[['256GB / 16GB RAM',710,620],['512GB / 16GB RAM',870,780],['512GB / 24GB RAM',1080,990]]},
+    'mba15m4':{t:'MacBook Air 15.3" — M4 (2025)',r:[['256GB / 16GB RAM',870,780],['512GB / 16GB RAM',1050,960],['512GB / 24GB RAM',1250,1160]]},
+    'mbp16m4':{t:'MacBook Pro 16" — M4 (2024)',r:[['512GB 14C/20G/24GB',1870,1760],['512GB 14C/20G/48GB',2320,2210],['1TB 14C/32G/36GB',2580,2270],['1TB 16C/40G/48GB',3140,2880]]},
+    'mbp14m5':{t:'MacBook Pro 14" — M5 (2025)',r:[['512GB 10C/10G/16GB',1300,1190],['1TB 10C/10G/16GB',1460,1350],['1TB 10C/10G/24GB',1640,1530]]},
+    'mbp14m4':{t:'MacBook Pro 14" — M4 (2024)',r:[['512GB 10C/10G/16GB',1220,1110],['1TB 10C/10G/16GB',1200,1090],['512GB 12C/16G/24GB',1560,1450],['1TB 10C/10G/24GB',1490,1380],['1TB 14C/20G/24GB',1880,1770],['1TB 14C/32G/36GB',2410,2300]]},
+    'mba13m3':{t:'MacBook Air 13" — M3 (2024)',r:[['256GB / 8GB RAM',570,480],['512GB / 8GB RAM',610,520],['512GB / 16GB RAM',730,550]]},
+    'mba15m3':{t:'MacBook Air 15" — M3 (2024)',r:[['256GB / 8GB RAM',640,550],['512GB / 8GB RAM',750,660],['512GB / 16GB RAM',830,740]]},
+  },
+  samsung:{
+    'S25 Series':[
+      ['S25 Ultra','Unlocked',null,610,590],['S25 Ultra','AT&T',445,415,390],['S25 Ultra','Carrier Locked',445,415,390],
+      ['S25 Edge','Unlocked',null,460,420],['S25 Edge','AT&T',250,210,160],['S25 Edge','Carrier Locked',250,210,160],
+      ['S25 Plus','Unlocked',null,360,340],['S25 Plus','AT&T',295,265,235],['S25 Plus','Carrier Locked',295,265,235],
+      ['S25','Unlocked',null,250,240],['S25','AT&T',190,190,175],['S25','Carrier Locked',190,190,175]],
+    'S24 Series':[
+      ['S24 Ultra','Unlocked',550,430,420],['S24 Ultra','AT&T',365,335,305],['S24 Ultra','Carrier Locked',365,335,305],
+      ['S24 Plus','Unlocked',330,260,245],['S24 Plus','AT&T',215,190,180],['S24 Plus','Carrier Locked',215,190,180],
+      ['S24','Unlocked',250,200,195],['S24','AT&T',145,150,130],['S24','Carrier Locked',145,150,130]],
+    'S23 Series':[
+      ['S23 Ultra','Unlocked',240,190,170],['S23 Ultra','AT&T',110,120,110],['S23 Ultra','Carrier Locked',110,120,110],
+      ['S23 Plus','Unlocked',null,205,190],['S23 Plus','AT&T',null,160,145],['S23 Plus','Carrier Locked',null,160,145],
+      ['S23','Unlocked',null,150,130],['S23','AT&T',null,95,75],['S23','Carrier Locked',null,95,75]],
+    'S22 Series':[
+      ['S22 Ultra','Unlocked',null,135,120],['S22 Ultra','AT&T',null,85,65],['S22 Ultra','Carrier Locked',null,85,65],
+      ['S22 Plus','Unlocked',null,160,145],['S22 Plus','AT&T',null,110,95],['S22 Plus','Carrier Locked',null,110,95],
+      ['S22','Unlocked',null,125,110],['S22','AT&T',null,70,50],['S22','Carrier Locked',null,70,50]],
+    'S21 Series':[
+      ['S21 Ultra','Unlocked',null,105,95],['S21 Ultra','AT&T',null,55,35],['S21 Ultra','Carrier Locked',null,55,35],
+      ['S21 Plus','AT&T',null,115,105],['S21 Plus','Carrier Locked',null,115,105],
+      ['S21','AT&T',null,60,50],['S21','Carrier Locked',null,60,50]],
+    'Note Series':[
+      ['Note 20 Ultra','AT&T',null,90,60],['Note 20 Ultra','Carrier Locked',null,90,60],
+      ['Note 20','AT&T',null,70,55],['Note 20','Carrier Locked',null,70,55]],
+    'Galaxy Z Fold':[
+      ['Z Fold 7','Unlocked',850,850,800],['Z Fold 7','AT&T',700,605,605],['Z Fold 7','Carrier Locked',740,645,645],
+      ['Z Fold 6','Unlocked',675,510,495],['Z Fold 6','AT&T',440,400,360],['Z Fold 6','Carrier Locked',440,400,360],
+      ['Z Fold 5','Unlocked',340,310,300],['Z Fold 5','AT&T',325,235,210],['Z Fold 5','Carrier Locked',325,235,210],
+      ['Z Fold 4','Unlocked',null,250,235],['Z Fold 4','AT&T',null,205,180],['Z Fold 4','Carrier Locked',null,205,180],
+      ['Z Fold 3','Unlocked',410,305,280],['Z Fold 3','AT&T',275,275,230],['Z Fold 3','Carrier Locked',275,275,230]],
+    'Galaxy Z Flip':[
+      ['Z Flip 7','AT&T',200,205,160],['Z Flip 7','Carrier Locked',200,205,160],
+      ['Z Flip 6','Unlocked',360,260,255],['Z Flip 6','AT&T',145,145,125],['Z Flip 6','Carrier Locked',145,145,125],
+      ['Z Flip 5','Unlocked',null,235,210],['Z Flip 5','AT&T',100,85,65],['Z Flip 5','Carrier Locked',100,85,65],
+      ['Z Flip 4','Unlocked',null,165,145],['Z Flip 4','AT&T',null,65,45],['Z Flip 4','Carrier Locked',null,65,45],
+      ['Z Flip 3','Unlocked',290,230,220],['Z Flip 3','AT&T',130,130,120],['Z Flip 3','Carrier Locked',130,130,120]],
+  },
+  watch:{
+    'Apple Watch Ultra':[
+      ['Ultra 3 (2025) — Milanese Loop',740,680,395,375],
+      ['Ultra 3 (2025) — 49MM',630,570,395,375],
+      ['Ultra 2 (2024) — Milanese Loop',490,430,null,null],
+      ['Ultra 2 (2024) — 49MM',460,400,275,255],
+      ['Ultra 2 (2023)',440,380,260,235],
+      ['Ultra (Original)',280,220,null,null]],
+    'Apple Watch Series 11':[
+      ['Series 11 — 46MM GPS',310,250,200,180],
+      ['Series 11 — 42MM GPS',285,225,180,160],
+      ['Series 11 — 46MM GPS+4G',315,255,200,180],
+      ['Series 11 — 42MM GPS+4G',290,230,180,160]],
+    'Apple Watch Series 10':[
+      ['Series 10 — 45MM',260,200,150,140],
+      ['Series 10 — 41MM',240,180,140,120]],
+    'Apple Watch Series 9':[
+      ['Series 9 — 45MM',170,100,125,115],
+      ['Series 9 — 41MM',140,70,110,100]],
+    'Apple Watch SE':[
+      ['SE 3 — GPS 44MM',210,150,145,135],
+      ['SE 3 — GPS 40MM',175,115,130,120],
+      ['SE 3 — GPS+4G 44MM',210,150,145,135],
+      ['SE 3 — GPS+4G 40MM',175,115,130,120],
+      ['SE 2nd Gen — 44MM',145,110,80,70],
+      ['SE 2nd Gen — 40MM',115,80,70,60]],
+  },
+  airpods:{
+    'AirPods Pro':[
+      ['AirPods Pro 3rd Gen (2025)',185],
+      ['AirPods Pro 2nd Gen USB-C — MTJV3AM',135],
+      ['AirPods Pro 2nd Gen Lightning — MQD83AM',135],
+      ['AirPods Pro MagSafe 2021 — MLWK3AM',115],
+      ['AirPods Pro Original — MWP22AM',110]],
+    'AirPods Max':[
+      ['AirPods Max (USB-C)',385],
+      ['AirPods Max (Lightning)',345]],
+    'AirPods':[
+      ['AirPods 4 — Active Noise Cancellation',110],
+      ['AirPods 4 — MXP63LL',75],
+      ['AirPods 3 — MagSafe MME73AM',62],
+      ['AirPods 3 — Lightning MPNY3AM',62],
+      ['AirPods 2 — Wireless MRXJ2AM',70],
+      ['AirPods 2 — Wired MV7N2AM',50],
+      ['AirPods 1 — MMEF2AM',45]],
+  },
+};
+
+// ── DEDUCTIONS (OL Global raw amounts per model) ──
+const DEDUCTIONS={
+  // iPhone 17 series + 16 Pro Max — same deduction table
+  'u17pm': [['MDM Locked','-$200'],['Unknown Parts Message','-$80'],['Face ID / Touch ID Failure','-$400'],['Aftermarket Battery / Message','-$50'],['Bad Front Camera (×1)','-$100'],['Two Bad Cameras (×2)','-$200'],['Bad Charging Port','-$200'],['Cracked Camera Lens','-$80'],['Cracked Back (camera must work)','-$190'],['Genuine Display Message','-$40'],['Genuine Battery Message','-$40'],['Genuine Camera Message','-$40']],
+  'u17p':  [['MDM Locked','-$200'],['Unknown Parts Message','-$80'],['Face ID / Touch ID Failure','-$400'],['Aftermarket Battery / Message','-$50'],['Bad Front Camera (×1)','-$100'],['Two Bad Cameras (×2)','-$200'],['Bad Charging Port','-$200'],['Cracked Camera Lens','-$80'],['Cracked Back (camera must work)','-$190'],['Genuine Display Message','-$40'],['Genuine Battery Message','-$40'],['Genuine Camera Message','-$40']],
+  'u17a':  [['MDM Locked','-$200'],['Unknown Parts Message','-$80'],['Face ID / Touch ID Failure','-$400'],['Aftermarket Battery / Message','-$50'],['Bad Front Camera (×1)','-$100'],['Two Bad Cameras (×2)','-$200'],['Bad Charging Port','-$200'],['Cracked Camera Lens','-$80'],['Cracked Back (camera must work)','-$190'],['Genuine Display Message','-$40'],['Genuine Battery Message','-$40'],['Genuine Camera Message','-$40']],
+  'u17':   [['MDM Locked','-$200'],['Unknown Parts Message','-$80'],['Face ID / Touch ID Failure','-$400'],['Aftermarket Battery / Message','-$50'],['Bad Front Camera (×1)','-$100'],['Two Bad Cameras (×2)','-$200'],['Bad Charging Port','-$200'],['Cracked Camera Lens','-$80'],['Cracked Back (camera must work)','-$190'],['Genuine Display Message','-$40'],['Genuine Battery Message','-$40'],['Genuine Camera Message','-$40']],
+  'u16pm': [['MDM Locked','-$200'],['Unknown Parts Message','-$80'],['Face ID / Touch ID Failure','-$400'],['Aftermarket Battery / Message','-$50'],['Bad Front Camera (×1)','-$100'],['Two Bad Cameras (×2)','-$200'],['Bad Charging Port','-$200'],['Cracked Camera Lens','-$80'],['Cracked Back (camera must work)','-$150'],['Genuine Display Message','-$40'],['Genuine Battery Message','-$40'],['Genuine Camera Message','-$40']],
+  // iPhone 16 Pro / 16 Plus / 16
+  'u16p':    [['MDM Locked','-$180'],['Unknown Parts Message','-$60'],['Face ID / Touch ID Failure','-$300'],['Aftermarket Battery / Message','-$40'],['Bad Front Camera (×1)','-$100'],['Two Bad Cameras (×2)','-$160'],['Bad Charging Port','-$150'],['Cracked Camera Lens','-$60'],['Cracked Back (camera must work)','-$120'],['Genuine Display Message','-$30'],['Genuine Battery Message','-$30'],['Genuine Camera Message','-$30']],
+  'u16plus': [['MDM Locked','-$180'],['Unknown Parts Message','-$60'],['Face ID / Touch ID Failure','-$300'],['Aftermarket Battery / Message','-$40'],['Bad Front Camera (×1)','-$100'],['Two Bad Cameras (×2)','-$160'],['Bad Charging Port','-$150'],['Cracked Camera Lens','-$60'],['Cracked Back (camera must work)','-$120'],['Genuine Display Message','-$30'],['Genuine Battery Message','-$30'],['Genuine Camera Message','-$30']],
+  'u16':     [['MDM Locked','-$180'],['Unknown Parts Message','-$60'],['Face ID / Touch ID Failure','-$300'],['Aftermarket Battery / Message','-$40'],['Bad Front Camera (×1)','-$100'],['Two Bad Cameras (×2)','-$160'],['Bad Charging Port','-$150'],['Cracked Camera Lens','-$60'],['Cracked Back (camera must work)','-$120'],['Genuine Display Message','-$30'],['Genuine Battery Message','-$30'],['Genuine Camera Message','-$30']],
+  // iPhone 16e
+  'u16e': [['Cracked Back','-$200'],['Cracked Camera Lens','-$80'],['Face ID Failure (or sell at DOA)','-$500'],['Aftermarket Battery / Message','-$105'],['Bad Camera (×1)','-$150'],['Two Bad Cameras (×2)','-$200'],['WiFi / Switch / Volume / Bluetooth (each)','-$80'],['Bad Charging Port','-$150']],
+  // iPhone 15 Pro Max
+  'u15pm': [['Cracked Back','-$180'],['Cracked Camera Lens','-$80'],['Face ID Failure (or sell at DOA)','-$400'],['Aftermarket Battery / Message','-$85'],['Bad Camera (×1)','-$60'],['Two Bad Cameras (×2)','-$120'],['WiFi / Switch / Volume / Bluetooth (each)','-$80'],['Bad Charging Port','-$150']],
+  // iPhone 15 Pro
+  'u15p':  [['Cracked Back','-$180'],['Cracked Camera Lens','-$60'],['Face ID Failure (or sell at DOA)','-$400'],['Aftermarket Battery / Message','-$85'],['Bad Camera (×1)','-$60'],['Two Bad Cameras (×2)','-$120'],['WiFi / Switch / Volume / Bluetooth (each)','-$80'],['Bad Charging Port','-$150']],
+  // iPhone 15 Plus
+  'u15plus':[['Cracked Back','-$180'],['Cracked Camera Lens','-$60'],['Face ID Failure (or sell at DOA)','-$400'],['Aftermarket Battery / Message','-$85'],['Bad Camera (×1)','-$60'],['Two Bad Cameras (×2)','-$120'],['WiFi / Switch / Volume / Bluetooth (each)','-$80'],['Bad Charging Port','-$150']],
+  // iPhone 15
+  'u15':   [['Cracked Back','-$120'],['Cracked Camera Lens','-$80'],['Face ID Failure (or sell at DOA)','-$260'],['Aftermarket Battery / Message','-$90'],['Bad Camera (×1)','-$120'],['Two Bad Cameras (×2)','-$180'],['WiFi / Switch / Volume / Bluetooth (each)','-$80'],['Bad Charging Port','-$160']],
+  // iPhone 14 Pro Max
+  'u14pm': [['Cracked Back','-$120'],['Cracked Camera Lens','-$60'],['Face ID Failure (or sell at DOA)','-$260'],['Aftermarket Battery / Message','-$90'],['Bad Camera (×1)','-$120'],['Two Bad Cameras (×2)','-$180'],['WiFi / Switch / Volume / Bluetooth (each)','-$80'],['Bad Charging Port','-$160']],
+  // iPhone 14 Pro
+  'u14p':  [['Cracked Back','-$100'],['Cracked Camera Lens','-$50'],['Face ID Failure (or sell at DOA)','-$240'],['Aftermarket Battery / Message','-$80'],['Bad Camera (×1)','-$80'],['Two Bad Cameras (×2)','-$160'],['WiFi / Switch / Volume / Bluetooth (each)','-$80'],['Bad Charging Port','-$160']],
+  // iPhone 14 Plus
+  'u14plus':[['Cracked Back','-$100'],['Cracked Camera Lens','-$50'],['Face ID Failure (or sell at DOA)','-$240'],['Aftermarket Battery / Message','-$80'],['Bad Camera (×1)','-$80'],['Two Bad Cameras (×2)','-$160'],['WiFi / Switch / Volume / Bluetooth (each)','-$80'],['Bad Charging Port','-$160']],
+  // iPhone 14
+  'u14':   [['Cracked Back','-$90'],['Cracked Camera Lens','-$50'],['Face ID Failure (or sell at DOA)','-$250'],['Aftermarket Battery / Message','-$85'],['Bad Camera (×1)','-$100'],['Two Bad Cameras (×2)','-$150'],['WiFi / Switch / Volume / Bluetooth (each)','-$80'],['Bad Charging Port','-$120']],
+  // iPhone 13 Pro Max
+  'u13pm': [['Cracked Back','-$90'],['Cracked Camera Lens','-$50'],['Face ID Failure (or sell at DOA)','-$250'],['Aftermarket Battery / Message','-$85'],['Bad Camera (×1)','-$100'],['Two Bad Cameras (×2)','-$150'],['WiFi / Switch / Volume / Bluetooth (each)','-$80'],['Bad Charging Port','-$120']],
+  // iPhone 13 Pro
+  'u13p':  [['Cracked Back','-$60'],['Cracked Camera Lens','-$40'],['Face ID Failure (or sell at DOA)','-$160'],['Aftermarket Battery / Message','-$80'],['Bad Camera (×1)','-$60'],['Two Bad Cameras (×2)','-$80'],['WiFi / Switch / Volume / Bluetooth (each)','-$80'],['Bad Charging Port','-$100']],
+  // iPhone 13 / 13 Plus
+  'u13':   [['Cracked Back','-$60'],['Cracked Camera Lens','-$40'],['Face ID Failure (or sell at DOA)','-$160'],['Aftermarket Battery / Message','-$80'],['Bad Camera (×1)','-$60'],['Two Bad Cameras (×2)','-$80'],['WiFi / Switch / Volume / Bluetooth (each)','-$80'],['Bad Charging Port','-$100']],
+  // iPhone 13 Mini
+  'u13m':  [['Cracked Back','-$50'],['Cracked Camera Lens','-$20'],['Face ID Failure (or sell at DOA)','-$60'],['Aftermarket Battery / Message','-$40'],['Bad Camera (×1)','-$40'],['Two Bad Cameras (×2)','-$60'],['WiFi / Switch / Volume / Bluetooth (each)','-$30']],
+  // iPhone SE 3rd Gen
+  'use3':  [['Cracked Back','-$60'],['Cracked Camera Lens','-$40'],['Face ID Failure (or sell at DOA)','-$140'],['Aftermarket Battery / Message','-$80'],['Bad Camera (×1)','-$60'],['Two Bad Cameras (×2)','-$80'],['WiFi / Switch / Volume / Bluetooth (each)','-$70']],
+  // iPhone 12 Pro Max
+  'u12pm': [['Cracked Back','-$60'],['Cracked Camera Lens','-$40'],['Face ID Failure (or sell at DOA)','-$140'],['Aftermarket Battery / Message','-$80'],['Bad Camera (×1)','-$60'],['Two Bad Cameras (×2)','-$80'],['WiFi / Switch / Volume / Bluetooth (each)','-$70']],
+  // iPhone 12 Pro
+  'u12p':  [['Cracked Back','-$50'],['Cracked Camera Lens','-$30'],['Face ID Failure (or sell at DOA)','-$130'],['Aftermarket Battery / Message','-$70'],['Bad Camera (×1)','-$40'],['Two Bad Cameras (×2)','-$60'],['WiFi / Switch / Volume / Bluetooth (each)','-$50']],
+  // iPhone 12 / 12 Mini
+  'u12':   [['Cracked Back','-$50'],['Cracked Camera Lens','-$30'],['Face ID Failure (or sell at DOA)','-$130'],['Aftermarket Battery / Message','-$70'],['Bad Camera (×1)','-$40'],['Two Bad Cameras (×2)','-$60'],['WiFi / Switch / Volume / Bluetooth (each)','-$50']],
+  'u12m':  [['Cracked Back','-$40'],['Cracked Camera Lens','-$40'],['Face ID Failure (or sell at DOA)','-$100'],['Aftermarket Battery / Message','-$50'],['Bad Camera (×1)','-$60'],['Two Bad Cameras (×2)','-$120'],['WiFi / Switch / Volume / Bluetooth (each)','-$40']],
+  // iPhone 11 Pro Max
+  'u11pm': [['Cracked Back','-$40'],['Cracked Camera Lens','-$40'],['Face ID Failure (or sell at DOA)','-$100'],['Aftermarket Battery / Message','-$50'],['Bad Camera (×1)','-$60'],['Two Bad Cameras (×2)','-$120'],['WiFi / Switch / Volume / Bluetooth (each)','-$40']],
+  // iPhone 11 Pro
+  'u11p':  [['Cracked Back','-$50'],['Cracked Camera Lens','-$20'],['Face ID Failure (or sell at DOA)','-$130'],['Aftermarket Battery / Message','-$55'],['Bad Camera (×1)','-$40'],['Two Bad Cameras (×2)','-$80'],['WiFi / Switch / Volume / Bluetooth (each)','-$40']],
+  // iPhone 11
+  'u11':   [['Cracked Back','-$50'],['Cracked Camera Lens','-$20'],['Face ID Failure (or sell at DOA)','-$60'],['Aftermarket Battery / Message','-$40'],['Bad Camera (×1)','-$40'],['Two Bad Cameras (×2)','-$60'],['WiFi / Switch / Volume / Bluetooth (each)','-$30']],
+};
+
+function toggleDed(btn){
+  btn.classList.toggle('open');
+  const panel=btn.nextElementSibling;
+  panel.classList.toggle('open');
+  btn.querySelector('.ded-arrow').textContent=panel.classList.contains('open')?'▲':'▼';
+}
+
+function dedSection(key){
+  // Strip -ul or -lk suffix to get base key
+  const base=key.replace(/-(?:ul|lk)$/,'');
+  const items=DEDUCTIONS[base];
+  if(!items) return '';
+  const rows=items.map(([label,amt])=>`<div class="ded-label">${label}</div><div class="ded-amt">${amt}</div>`).join('');
+  return `<button class="ded-btn" onclick="toggleDed(this)"><span>Deductions</span><span class="ded-arrow">▼</span></button><div class="ded-panel"><div class="ded-grid">${rows}</div><div class="ded-note">Heavy scratching or degraded battery % = extra deduction or Grade C.</div></div>`;
+}
+
+const bc=tp=>tp==='wifi'?'b-wifi':tp==='cell'?'b-cell':tp==='ul'?'b-ul':'b-lk';
+const bl=tp=>tp==='wifi'?'WiFi':tp==='cell'?'Cellular':tp==='ul'?'UNLOCKED':'SIM LOCKED';
+
+function toggleSell(btn){
+  window.location.href='tel:+19017131565';
+}
+const sellBtn=()=>`<div class="sell-bar"><button class="sell-btn" onclick="toggleSell(this)">Sell This</button></div>`;
+
+function nPhoneCard(d){
+  const isLk=d.tp==='lk';
+  const hbg=isLk?'rgba(239,68,68,.055)':'rgba(34,197,94,.05)';
+  const rows=d.r.map(([c,s,o])=>`<tr><td class="cap">${c}</td><td>${$p(dp(s))}</td><td>${$p(dp(o),'pr2')}</td></tr>`).join('');
+  return`<div class="card-full"><div class="cfhdr" style="background:${hbg}"><h3>${d.t}</h3><div style="display:flex;align-items:center;gap:6px"><span class="badge ${bc(d.tp)}">${bl(d.tp)}</span>${isLk&&d.nt?`<span style="font-size:.63rem;color:var(--dim2);font-style:italic">${d.nt}</span>`:''}</div></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Storage</th><th>Sealed</th><th>Open</th></tr></thead><tbody>${rows}</tbody></table></div>${sellBtn()}</div>`;
+}
+
+function uPhoneCard(d, key){
+  const isLk=d.tp==='lk';
+  const hbg=isLk?'rgba(239,68,68,.055)':'rgba(34,197,94,.05)';
+  const rows=d.r.map(([c,h,b,cc,dd,doa])=>`<tr><td class="cap">${c}</td><td>${$p(dp(h))}</td><td>${$p(dp(b),'pr2')}</td><td>${$p(dp(cc),'pr2')}</td><td>${$p(dp(dd),'pr2')}</td><td>${$p(dp(doa),'pr2')}</td></tr>`).join('');
+  const ded=dedSection(key||'');
+  return`<div class="card-full"><div class="cfhdr" style="background:${hbg}"><h3>${d.t}</h3><span class="badge ${bc(d.tp)}">${bl(d.tp)}</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Storage</th><th><span class="gp g-hso">HSO</span></th><th><span class="gp g-b">Gr B</span></th><th><span class="gp g-c">Gr C</span></th><th><span class="gp g-d">Gr D</span></th><th><span class="gp g-doa">DOA</span></th></tr></thead><tbody>${rows}</tbody></table></div>${ded}${sellBtn()}</div>`;
+}
+
+
+function renderNI(){
+  document.getElementById('ni-ul-blocks').innerHTML=Object.entries(DATA.newPhone).filter(([k,d])=>d.tp==='ul').map(([k,d])=>nPhoneCard(d)).join('');
+  document.getElementById('ni-lk-blocks').innerHTML=Object.entries(DATA.newPhone).filter(([k,d])=>d.tp==='lk').map(([k,d])=>nPhoneCard(d)).join('');
+}
+function renderUI(){
+  document.getElementById('ui-ul-blocks').innerHTML=Object.entries(DATA.usedPhone).filter(([k,d])=>d.tp==='ul').map(([k,d])=>uPhoneCard(d,k)).join('');
+  document.getElementById('ui-lk-blocks').innerHTML=Object.entries(DATA.usedPhone).filter(([k,d])=>d.tp==='lk').map(([k,d])=>uPhoneCard(d,k)).join('');
+}
+function renderNIpad(){
+  document.getElementById('nipad-cards').innerHTML=Object.entries(DATA.newIpad).map(([k,d])=>`<div class="card-full"><div class="cfhdr"><h3>${d.t}</h3><span class="badge ${bc(d.tp)}">${bl(d.tp)}</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Storage</th><th>Sealed</th><th>Open</th></tr></thead><tbody>${d.r.map(([c,s,o])=>`<tr><td class="cap">${c}</td><td>${$p(dp(s))}</td><td>${$p(dp(o),'pr2')}</td></tr>`).join('')}</tbody></table></div>${sellBtn()}</div>`).join('');
+}
+function renderUIpad(){
+  document.getElementById('uipad-cards').innerHTML=Object.entries(DATA.usedIpad).map(([k,d])=>`<div class="card-full"><div class="cfhdr"><h3>${d.t}</h3><span class="badge ${bc(d.tp)}">${bl(d.tp)}</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Storage</th><th><span class="gp g-a">Gr A</span></th><th><span class="gp g-a">Gr B+</span></th><th><span class="gp g-b">Gr B</span></th><th><span class="gp g-c">Gr C</span></th><th><span class="gp g-d">Gr D</span></th></tr></thead><tbody>${d.r.map(([c,a,bp,b,cc,dd])=>`<tr><td class="cap">${c}</td><td>${$p(dp(a))}</td><td>${$p(dp(bp),'pr2')}</td><td>${$p(dp(b),'pr2')}</td><td>${$p(dp(cc),'pr2')}</td><td>${$p(dp(dd),'pr2')}</td></tr>`).join('')}</tbody></table></div>${sellBtn()}</div>`).join('');
+}
+function renderMac(){
+  document.getElementById('mac-cards').innerHTML=Object.entries(DATA.macbook).map(([k,d])=>`<div class="card-full"><div class="cfhdr"><h3>${d.t}</h3></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Configuration</th><th>Sealed</th><th>Activated</th></tr></thead><tbody>${d.r.map(([c,s,a])=>`<tr><td style="font-size:.82rem">${c}</td><td>${$p(dp(s))}</td><td>${$p(dp(a),'pr2')}</td></tr>`).join('')}</tbody></table></div>${sellBtn()}</div>`).join('');
+}
+// Samsung gets extra -15% on top of the standard -17% → total multiplier = 0.83 × 0.85
+const dps=v=>{const n=parseFloat(v);return(!isNaN(n)&&n>0)?Math.round(n*0.83*0.85/5)*5:null};
+
+function renderSam(){
+  // Split each series into unlocked and locked cards
+  const ulHtml=[], lkHtml=[];
+
+  Object.entries(DATA.samsung).forEach(([title, rows])=>{
+    const ulRows=rows.filter(r=>r[1]==='Unlocked');
+    const lkRows=rows.filter(r=>r[1]!=='Unlocked');
+
+    const makeCard=(filteredRows, isLk)=>{
+      if(!filteredRows.length) return '';
+      const hbg=isLk?'rgba(239,68,68,.055)':'rgba(34,197,94,.05)';
+      const badge=isLk?'<span class="badge b-lk">SIM LOCKED</span>':'<span class="badge b-ul">UNLOCKED</span>';
+      const trs=filteredRows.map(([m,c,nw,ga,gb])=>{
+        const carrier=c==='Unlocked'?'':`<span class="cpill c-att" style="font-size:.65rem">${c}</span>`;
+        return`<tr>
+          <td style="font-weight:600">${m}${carrier?` ${carrier}`:''}</td>
+          <td>${nw?$p(dps(nw)):'<span class="nu">—</span>'}</td>
+          <td>${$p(dps(ga))}</td>
+          <td>${$p(dps(gb),'pr2')}</td>
+        </tr>`;
+      }).join('');
+      return`<div class="card-full"><div class="cfhdr" style="background:${hbg}"><h3>Samsung ${title}</h3>${badge}</div>
+        <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Model</th><th>New</th><th><span class="gp g-hso">Grade A</span></th><th><span class="gp g-b">Grade B</span></th></tr></thead><tbody>${trs}</tbody></table></div>${sellBtn()}
+      </div>`;
+    };
+
+    const ulCard=makeCard(ulRows, false);
+    const lkCard=makeCard(lkRows, true);
+    if(ulCard) ulHtml.push(ulCard);
+    if(lkCard) lkHtml.push(lkCard);
+  });
+
+  document.getElementById('sam-ul-cards').innerHTML=ulHtml.join('');
+  document.getElementById('sam-lk-cards').innerHTML=lkHtml.join('');
+}
+function renderWatch(){
+  document.getElementById('watch-cards').innerHTML=Object.entries(DATA.watch).map(([title,rows])=>{
+    const trs=rows.map(([m,s,o,a,b])=>`<tr>
+      <td style="font-size:.82rem;font-weight:500">${m}</td>
+      <td>${$p(dp(s))}</td>
+      <td>${$p(dp(o),'pr2')}</td>
+      <td>${a?$p(dp(a)):'<span class="nu">—</span>'}</td>
+      <td>${b?$p(dp(b),'pr2'):'<span class="nu">—</span>'}</td>
+    </tr>`).join('');
+    return`<div class="card-full"><div class="cfhdr" style="background:linear-gradient(135deg,rgba(14,165,233,.15),rgba(6,182,212,.08))"><h3>${title}</h3><span class="badge b-wifi" style="font-size:.6rem">APPLE WATCH</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Model</th><th>Sealed</th><th>Open</th><th><span class="gp g-hso">Gr A/HSO</span></th><th><span class="gp g-b">Gr B</span></th></tr></thead><tbody>${trs}</tbody></table></div>${sellBtn()}</div>`;
+  }).join('');
+}
+function renderAir(){
+  document.getElementById('air-cards').innerHTML=Object.entries(DATA.airpods).map(([title,rows])=>{
+    const trs=rows.map(([m,p])=>`<tr><td style="font-size:.82rem;font-weight:500">${m}</td><td>${$p(dp(p))}</td></tr>`).join('');
+    return`<div class="card-full"><div class="cfhdr" style="background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(168,85,247,.08))"><h3>${title}</h3><span class="badge b-cell" style="font-size:.6rem">AIRPODS</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Model</th><th>New / Sealed</th></tr></thead><tbody>${trs}</tbody></table></div>${sellBtn()}</div>`;
+  }).join('');
+}
+function renderAll(){renderNI();renderUI();renderNIpad();renderUIpad();renderMac();renderSam();renderWatch();renderAir();}
+
+// ── AGREEMENT OVERLAY ──
+function acceptAgreement(){
+  document.getElementById('agree-overlay').style.display='none';
+  sessionStorage.setItem('agreed','1');
+}
+(function(){
+  if(sessionStorage.getItem('agreed')==='1'){
+    document.getElementById('agree-overlay').style.display='none';
+  } else {
+    const body=document.getElementById('agree-body');
+    const btn=document.getElementById('agree-btn');
+    const note=document.getElementById('agree-note');
+    const fill=document.getElementById('agree-progress-fill');
+    body.addEventListener('scroll',function(){
+      const pct=body.scrollTop/(body.scrollHeight-body.clientHeight)*100;
+      fill.style.width=Math.min(pct,100)+'%';
+      const atBottom=body.scrollHeight-body.scrollTop-body.clientHeight<30;
+      if(atBottom&&btn.disabled){
+        btn.disabled=false;
+        btn.classList.add('ready');
+        note.textContent='You\'ve read the terms — tap to continue';
+      }
+    });
+  }
+})();
+
+// ── NAV ──
+function showCat(id,el){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  el.classList.add('active');
+}
+function showSub(prefix,id,el){
+  const par=el.closest('.section');
+  par.querySelectorAll('.subsec').forEach(s=>s.classList.remove('active'));
+  par.querySelectorAll('.stab').forEach(t=>{
+    t.classList.remove('active','dimmed');
+    if(t!==el) t.classList.add('dimmed');
+  });
+  document.getElementById(prefix+'-'+id).classList.add('active');
+  el.classList.add('active');
+}
+
+// ── TOAST ──
+function toast(msg,type='ok'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='show '+type;
+  setTimeout(()=>t.className='',5000);
+}
+
+// ── INIT ──
+renderAll();
+
+
+// ── ADMIN PANEL ──
+(function(){
+  const ADMIN_HASH='#admin';
+  const ADMIN_PASS='406993';
+  const STORE_KEY='m901_admin_data';
+
+  // Load saved data from localStorage
+  function loadSavedData(){
+    try{
+      const s=localStorage.getItem(STORE_KEY);
+      if(s){
+        const saved=JSON.parse(s);
+        // Merge saved data into DATA
+        if(saved.newPhone) Object.assign(DATA.newPhone, saved.newPhone);
+        if(saved.usedPhone) Object.assign(DATA.usedPhone, saved.usedPhone);
+        if(saved.newIpad) Object.assign(DATA.newIpad, saved.newIpad);
+        if(saved.usedIpad) Object.assign(DATA.usedIpad, saved.usedIpad);
+        if(saved.macbook) Object.assign(DATA.macbook, saved.macbook);
+        if(saved.samsung) Object.assign(DATA.samsung, saved.samsung);
+        if(saved.watch) Object.assign(DATA.watch, saved.watch);
+        if(saved.airpods) Object.assign(DATA.airpods, saved.airpods);
+        renderAll();
+      }
+    }catch(e){}
+  }
+  loadSavedData();
+
+  function saveData(){
+    try{
+      localStorage.setItem(STORE_KEY, JSON.stringify({
+        newPhone:DATA.newPhone, usedPhone:DATA.usedPhone,
+        newIpad:DATA.newIpad, usedIpad:DATA.usedIpad,
+        macbook:DATA.macbook, samsung:DATA.samsung,
+        watch:DATA.watch, airpods:DATA.airpods
+      }));
+    }catch(e){}
+    renderAll();
+  }
+
+  function checkHash(){
+    if(window.location.hash===ADMIN_HASH){
+      showAdminLogin();
+    }
+  }
+  window.addEventListener('hashchange', checkHash);
+  checkHash();
+
+  function showAdminLogin(){
+    document.getElementById('adm-overlay').style.display='flex';
+    setTimeout(()=>document.getElementById('adm-pass-input').focus(),100);
+  }
+
+  window.adminLogin=function(){
+    const v=document.getElementById('adm-pass-input').value;
+    if(v===ADMIN_PASS){
+      document.getElementById('adm-login').style.display='none';
+      document.getElementById('adm-panel').style.display='flex';
+      admRenderNav();
+      admShowSection('newPhone');
+    } else {
+      const err=document.getElementById('adm-err');
+      err.textContent='Incorrect password';
+      err.style.display='block';
+      document.getElementById('adm-pass-input').value='';
+      document.getElementById('adm-pass-input').focus();
+    }
+  };
+
+  window.adminLogout=function(){
+    document.getElementById('adm-overlay').style.display='none';
+    document.getElementById('adm-login').style.display='flex';
+    document.getElementById('adm-panel').style.display='none';
+    document.getElementById('adm-pass-input').value='';
+    document.getElementById('adm-err').style.display='none';
+    history.replaceState(null,'',window.location.pathname);
+  };
+
+  window.adminClose=function(){
+    adminLogout();
+  };
+
+  // ── NAV SECTIONS ──
+  const SECTIONS=[
+    {id:'newPhone',  label:'New iPhones'},
+    {id:'usedPhone', label:'Used iPhones'},
+    {id:'newIpad',   label:'New iPads'},
+    {id:'usedIpad',  label:'Used iPads'},
+    {id:'macbook',   label:'MacBooks'},
+    {id:'samsung',   label:'Samsung'},
+    {id:'watch',     label:'Apple Watch'},
+    {id:'airpods',   label:'AirPods'},
+  ];
+
+  function admRenderNav(){
+    document.getElementById('adm-nav').innerHTML=SECTIONS.map(s=>
+      `<div class="adm-nav-item" id="adm-nav-${s.id}" onclick="admShowSection('${s.id}')">${s.label}</div>`
+    ).join('');
+  }
+
+  window.admShowSection=function(id){
+    SECTIONS.forEach(s=>{
+      document.getElementById('adm-nav-'+s.id).classList.toggle('active', s.id===id);
+    });
+    const content=document.getElementById('adm-content');
+    content.innerHTML='<div class="adm-loading">Loading…</div>';
+    setTimeout(()=>{ content.innerHTML=admBuildSection(id); },60);
+  };
+
+  function v(x){return x===null||x===undefined||x===''?'':x;}
+
+  function admBuildSection(id){
+    let html=`<div class="adm-section-title">${SECTIONS.find(s=>s.id===id).label}</div>`;
+
+    // ── NEW iPHONE / iPAD / MacBook (have .t and .r) ──
+    if(['newPhone','newIpad','macbook'].includes(id)){
+      const isPhone=id==='newPhone';
+      const isMac=id==='macbook';
+      Object.entries(DATA[id]).forEach(([key,d])=>{
+        html+=`<div class="adm-card">
+          <div class="adm-card-hdr">
+            <div class="adm-card-title">${d.t}</div>
+            <button class="adm-btn-add" onclick="admAddRow('${id}','${key}')">+ Add Row</button>
+          </div>
+          <div class="adm-card-name-row">
+            <label>Card Name</label>
+            <input class="adm-inp" value="${v(d.t)}" onchange="DATA['${id}']['${key}'].t=this.value"/>
+          </div>
+          <table class="adm-tbl">
+            <thead><tr><th>${isMac?'Configuration':'Storage'}</th><th>${isMac?'Sealed':'Sealed'}</th><th>${isMac?'Activated':'Open'}</th><th></th></tr></thead>
+            <tbody id="adm-rows-${id}-${key}">
+              ${d.r.map((row,i)=>`<tr>
+                <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA['${id}']['${key}'].r[${i}][0]=this.value"/></td>
+                <td><input class="adm-inp adm-num" value="${v(row[1])}" onchange="DATA['${id}']['${key}'].r[${i}][1]=parseFloat(this.value)||null"/></td>
+                <td><input class="adm-inp adm-num" value="${v(row[2])}" onchange="DATA['${id}']['${key}'].r[${i}][2]=parseFloat(this.value)||null"/></td>
+                <td><button class="adm-btn-del" onclick="admDelRow('${id}','${key}',${i})">✕</button></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`;
+      });
+      html+=`<button class="adm-btn-new-card" onclick="admAddCard('${id}')">+ Add New Model Card</button>`;
+    }
+
+    // ── USED iPHONE (have .t, .tp, .r with 6 cols) ──
+    if(id==='usedPhone'){
+      Object.entries(DATA.usedPhone).forEach(([key,d])=>{
+        html+=`<div class="adm-card">
+          <div class="adm-card-hdr">
+            <div class="adm-card-title">${d.t} <span style="color:var(--dim);font-size:.7rem">[${d.tp}]</span></div>
+            <button class="adm-btn-add" onclick="admAddRow('usedPhone','${key}')">+ Add Row</button>
+          </div>
+          <table class="adm-tbl">
+            <thead><tr><th>Storage</th><th>HSO</th><th>Gr B</th><th>Gr C</th><th>Gr D</th><th>DOA</th><th></th></tr></thead>
+            <tbody>
+              ${d.r.map((row,i)=>`<tr>
+                <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.usedPhone['${key}'].r[${i}][0]=this.value"/></td>
+                ${[1,2,3,4,5].map(ci=>`<td><input class="adm-inp adm-num" value="${v(row[ci])}" onchange="DATA.usedPhone['${key}'].r[${i}][${ci}]=parseFloat(this.value)||null"/></td>`).join('')}
+                <td><button class="adm-btn-del" onclick="admDelRow('usedPhone','${key}',${i})">✕</button></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`;
+      });
+    }
+
+    // ── USED iPAD ──
+    if(id==='usedIpad'){
+      Object.entries(DATA.usedIpad).forEach(([key,d])=>{
+        html+=`<div class="adm-card">
+          <div class="adm-card-hdr">
+            <div class="adm-card-title">${d.t}</div>
+            <button class="adm-btn-add" onclick="admAddRow('usedIpad','${key}')">+ Add Row</button>
+          </div>
+          <table class="adm-tbl">
+            <thead><tr><th>Storage</th><th>Gr A</th><th>Gr B+</th><th>Gr B</th><th>Gr C</th><th>Gr D</th><th></th></tr></thead>
+            <tbody>
+              ${d.r.map((row,i)=>`<tr>
+                <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.usedIpad['${key}'].r[${i}][0]=this.value"/></td>
+                ${[1,2,3,4,5].map(ci=>`<td><input class="adm-inp adm-num" value="${v(row[ci])}" onchange="DATA.usedIpad['${key}'].r[${i}][${ci}]=parseFloat(this.value)||null"/></td>`).join('')}
+                <td><button class="adm-btn-del" onclick="admDelRow('usedIpad','${key}',${i})">✕</button></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`;
+      });
+    }
+
+    // ── SAMSUNG ──
+    if(id==='samsung'){
+      Object.entries(DATA.samsung).forEach(([grp,rows])=>{
+        html+=`<div class="adm-card">
+          <div class="adm-card-hdr">
+            <div class="adm-card-title">${grp}</div>
+            <button class="adm-btn-add" onclick="admAddSamRow('${grp}')">+ Add Row</button>
+          </div>
+          <table class="adm-tbl">
+            <thead><tr><th>Model</th><th>Carrier</th><th>New</th><th>Grade A</th><th>Grade B</th><th></th></tr></thead>
+            <tbody>
+              ${rows.map((row,i)=>`<tr>
+                <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.samsung['${grp}'][${i}][0]=this.value"/></td>
+                <td><input class="adm-inp" value="${v(row[1])}" onchange="DATA.samsung['${grp}'][${i}][1]=this.value"/></td>
+                <td><input class="adm-inp adm-num" value="${v(row[2])}" onchange="DATA.samsung['${grp}'][${i}][2]=parseFloat(this.value)||null"/></td>
+                <td><input class="adm-inp adm-num" value="${v(row[3])}" onchange="DATA.samsung['${grp}'][${i}][3]=parseFloat(this.value)||null"/></td>
+                <td><input class="adm-inp adm-num" value="${v(row[4])}" onchange="DATA.samsung['${grp}'][${i}][4]=parseFloat(this.value)||null"/></td>
+                <td><button class="adm-btn-del" onclick="admDelSamRow('${grp}',${i})">✕</button></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`;
+      });
+      html+=`<button class="adm-btn-new-card" onclick="admAddSamGroup()">+ Add New Samsung Group</button>`;
+    }
+
+    // ── APPLE WATCH ──
+    if(id==='watch'){
+      Object.entries(DATA.watch).forEach(([grp,rows])=>{
+        html+=`<div class="adm-card">
+          <div class="adm-card-hdr">
+            <div class="adm-card-title">${grp}</div>
+            <button class="adm-btn-add" onclick="admAddWatchRow('${grp}')">+ Add Row</button>
+          </div>
+          <table class="adm-tbl">
+            <thead><tr><th>Model</th><th>Sealed</th><th>Open</th><th>Gr A/HSO</th><th>Gr B</th><th></th></tr></thead>
+            <tbody>
+              ${rows.map((row,i)=>`<tr>
+                <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.watch['${grp}'][${i}][0]=this.value"/></td>
+                ${[1,2,3,4].map(ci=>`<td><input class="adm-inp adm-num" value="${v(row[ci])}" onchange="DATA.watch['${grp}'][${i}][${ci}]=parseFloat(this.value)||null"/></td>`).join('')}
+                <td><button class="adm-btn-del" onclick="admDelWatchRow('${grp}',${i})">✕</button></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`;
+      });
+    }
+
+    // ── AIRPODS ──
+    if(id==='airpods'){
+      Object.entries(DATA.airpods).forEach(([grp,rows])=>{
+        html+=`<div class="adm-card">
+          <div class="adm-card-hdr">
+            <div class="adm-card-title">${grp}</div>
+            <button class="adm-btn-add" onclick="admAddAirRow('${grp}')">+ Add Row</button>
+          </div>
+          <table class="adm-tbl">
+            <thead><tr><th>Model</th><th>Price</th><th></th></tr></thead>
+            <tbody>
+              ${rows.map((row,i)=>`<tr>
+                <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.airpods['${grp}'][${i}][0]=this.value"/></td>
+                <td><input class="adm-inp adm-num" value="${v(row[1])}" onchange="DATA.airpods['${grp}'][${i}][1]=parseFloat(this.value)||null"/></td>
+                <td><button class="adm-btn-del" onclick="admDelAirRow('${grp}',${i})">✕</button></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`;
+      });
+    }
+
+    return html;
+  }
+
+  // ── ROW ACTIONS ──
+  window.admAddRow=function(ds,key){
+    if(['newPhone','newIpad','macbook'].includes(ds)) DATA[ds][key].r.push(['New Entry',null,null]);
+    else if(ds==='usedPhone') DATA.usedPhone[key].r.push(['New Entry',null,null,null,null,null]);
+    else if(ds==='usedIpad') DATA.usedIpad[key].r.push(['New Entry',null,null,null,null,null]);
+    admShowSection(ds);
+  };
+  window.admDelRow=function(ds,key,i){ DATA[ds][key].r.splice(i,1); admShowSection(ds); };
+  window.admAddSamRow=function(grp){ DATA.samsung[grp].push(['New Model','Unlocked',null,null,null]); admShowSection('samsung'); };
+  window.admDelSamRow=function(grp,i){ DATA.samsung[grp].splice(i,1); admShowSection('samsung'); };
+  window.admAddWatchRow=function(grp){ DATA.watch[grp].push(['New Model',null,null,null,null]); admShowSection('watch'); };
+  window.admDelWatchRow=function(grp,i){ DATA.watch[grp].splice(i,1); admShowSection('watch'); };
+  window.admAddAirRow=function(grp){ DATA.airpods[grp].push(['New Model',null]); admShowSection('airpods'); };
+  window.admDelAirRow=function(grp,i){ DATA.airpods[grp].splice(i,1); admShowSection('airpods'); };
+  window.admAddCard=function(ds){
+    const name=prompt('Card name (e.g. iPhone 17 Pro Max UL):');
+    if(!name) return;
+    const key='new_'+Date.now();
+    if(ds==='newPhone') DATA.newPhone[key]={t:name,tp:'ul',r:[]};
+    else if(ds==='newIpad') DATA.newIpad[key]={t:name,tp:'ul',r:[]};
+    else if(ds==='macbook') DATA.macbook[key]={t:name,r:[]};
+    admShowSection(ds);
+  };
+  window.admAddSamGroup=function(){
+    const name=prompt('Group name (e.g. S20 Series):');
+    if(!name) return;
+    DATA.samsung[name]=[];
+    admShowSection('samsung');
+  };
+
+  window.admSave=function(){
+    saveData();
+    const btn=document.getElementById('adm-save-btn');
+    btn.textContent='Saved ✓';btn.style.background='rgba(34,197,94,.2)';btn.style.borderColor='#4ade80';btn.style.color='#4ade80';
+    setTimeout(()=>{btn.textContent='Save All Changes';btn.style.background='';btn.style.borderColor='';btn.style.color='';},2500);
+  };
+
+  window.admResetAll=function(){
+    if(confirm('Reset ALL data to defaults? This cannot be undone.')){
+      try{localStorage.removeItem(STORE_KEY);}catch(e){}
+      location.reload();
+    }
+  };
+
+  // allow Enter key on password
+  document.addEventListener('DOMContentLoaded', function(){
+    const pi = document.getElementById('adm-pass-input');
+    if(pi) pi.addEventListener('keydown',function(e){
+      if(e.key==='Enter') adminLogin();
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
