@@ -263,13 +263,14 @@ html{scroll-behavior:smooth}
 
 /* ── AGREEMENT OVERLAY ── */
 #agree-overlay{position:fixed;inset:0;background:rgba(2,6,14,.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:flex-end;justify-content:center}
-#agree-modal{background:#070d1a;border:1px solid rgba(0,0,0,.2);border-bottom:none;border-radius:24px 24px 0 0;width:100%;max-width:500px;max-height:78vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 -12px 50px rgba(0,0,0,.4);animation:slide-up .35s cubic-bezier(.32,1.2,.64,1)}
+#agree-modal{background:linear-gradient(180deg,#0a1628 0%,#070d1a 15%);border:1px solid rgba(59,130,246,.12);border-bottom:none;border-radius:24px 24px 0 0;width:100%;max-width:500px;max-height:78vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 -12px 50px rgba(0,0,0,.5),0 -4px 30px rgba(59,130,246,.08);animation:slide-up .35s cubic-bezier(.32,1.2,.64,1)}
 @keyframes slide-up{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
-#agree-handle{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:12px 20px 0;background:#070d1a}
-#agree-handle-bar{width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:4px;margin-bottom:12px}
+#agree-handle{flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:12px 20px 0;background:linear-gradient(180deg,#0a1628,#070d1a)}
+#agree-handle-bar{width:36px;height:4px;background:rgba(59,130,246,.25);border-radius:4px;margin-bottom:12px}
 #agree-header{display:flex;align-items:center;gap:10px;width:100%;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.06)}
-#agree-icon{width:36px;height:36px;background:linear-gradient(135deg,#1b5fc7,#2e80f5);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-#agree-icon svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+#agree-icon{width:44px;height:44px;background:linear-gradient(135deg,#1b5fc7,#2e80f5);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 20px rgba(59,130,246,.35),0 0 40px rgba(59,130,246,.15);position:relative}
+#agree-icon::after{content:'';position:absolute;inset:-3px;border-radius:14px;background:linear-gradient(135deg,rgba(59,130,246,.3),rgba(139,92,246,.2));z-index:-1;filter:blur(6px)}
+#agree-icon svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 #agree-header-text{flex:1}
 #agree-header-text h2{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.08em;color:#fff;line-height:1}
 #agree-header-text h2 span{color:#4ade80}
@@ -781,13 +782,39 @@ html{scroll-behavior:smooth}
       <div id="agree-handle-bar"></div>
       <div id="agree-header">
         <div id="agree-icon">
-          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"/><line x1="12" y1="17" x2="12.01" y2="17"/><line x1="10" y1="6" x2="14" y2="6"/><path d="M1 10h3M1 13h2" stroke-width="1.5"/><circle cx="2" cy="11.5" r=".3" fill="#fff"/></svg>
         </div>
         <div id="agree-header-text">
           <h2><span>Memphis 901</span> Buyer — Vendor Terms</h2>
           <p>Scroll to read · Agree to continue</p>
         </div>
       </div>
+    </div>
+
+    <!-- Hero illustration -->
+    <div id="agree-hero" style="padding:18px 20px 10px;text-align:center;position:relative;overflow:hidden">
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:140px;height:140px;background:radial-gradient(circle,rgba(59,130,246,.18) 0%,rgba(59,130,246,.05) 50%,transparent 70%);border-radius:50%;filter:blur(10px);pointer-events:none"></div>
+      <svg width="110" height="80" viewBox="0 0 110 80" fill="none" style="position:relative;z-index:1;filter:drop-shadow(0 0 12px rgba(59,130,246,.25))">
+        <!-- Person silhouette -->
+        <circle cx="28" cy="16" r="8" stroke="rgba(148,163,184,.6)" stroke-width="1.5" fill="none"/>
+        <path d="M16 52V40a12 12 0 0 1 24 0v4" stroke="rgba(148,163,184,.6)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <!-- Hand giving cash -->
+        <path d="M40 38h18" stroke="rgba(74,222,128,.7)" stroke-width="1.5" stroke-linecap="round"/>
+        <rect x="42" y="33" width="14" height="8" rx="1.5" stroke="rgba(74,222,128,.7)" stroke-width="1.2" fill="rgba(74,222,128,.06)"/>
+        <text x="49" y="39" fill="rgba(74,222,128,.6)" font-size="5" font-weight="700" text-anchor="middle">$</text>
+        <!-- Arrow exchange -->
+        <path d="M55 30l3-3 3 3M55 48l3 3 3-3" stroke="rgba(59,130,246,.5)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Phone -->
+        <rect x="68" y="24" width="20" height="32" rx="3.5" stroke="rgba(96,165,250,.8)" stroke-width="1.5" fill="rgba(59,130,246,.06)"/>
+        <line x1="75" y1="28" x2="81" y2="28" stroke="rgba(96,165,250,.5)" stroke-width="1" stroke-linecap="round"/>
+        <circle cx="78" cy="50" r="1.5" stroke="rgba(96,165,250,.5)" stroke-width="1" fill="none"/>
+        <!-- Apple logo hint -->
+        <path d="M78 36c-1-2 .5-3.5 1.5-3.5s1.5.5 1.5 1.5c0 2-3 3-3 5 0-2-3-3-3-5 0-1 .5-1.5 1.5-1.5s2.5 1.5 1.5 3.5" stroke="rgba(96,165,250,.4)" stroke-width=".8" fill="none"/>
+        <!-- Hand receiving phone -->
+        <path d="M88 44h10" stroke="rgba(148,163,184,.5)" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M94 40c3 0 5 2 5 4s-2 4-5 4" stroke="rgba(148,163,184,.4)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div style="font-size:.68rem;color:rgba(96,165,250,.6);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:6px">Sell Your Device · Get Paid Instantly</div>
     </div>
 
     <!-- scroll hint -->
