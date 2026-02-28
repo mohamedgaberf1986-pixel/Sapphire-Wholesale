@@ -998,6 +998,8 @@ html{scroll-behavior:smooth}
 .adm-inp:focus{border-color:var(--blue);background:rgba(59,130,246,.06);box-shadow:0 0 0 2px rgba(59,130,246,.1)}
 .adm-inp:hover{border-color:rgba(255,255,255,.18)}
 .adm-num{max-width:85px;text-align:right;font-variant-numeric:tabular-nums}
+.adm-web{font-size:.62rem;color:#4ade80;font-weight:700;text-align:right;white-space:nowrap;padding-top:1px;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.adm-web-sam{color:#38bdf8}
 
 /* ── ADMIN BUTTONS ── */
 .adm-btn-add{background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.3);color:var(--blue3);padding:5px 14px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:700;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:4px}
@@ -1687,6 +1689,7 @@ renderAll();
   const airIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3v5z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3v5z"/></svg>';
   const syncIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>';
   const SECTIONS=[
+    {id:'mercury-sync', label:'Mercury Sync',              icon:syncIcon,  ds:'_sync'},
     {id:'newPhone-ul',  label:'New iPhone — Unlocked',    icon:phoneIcon, ds:'newPhone', tp:'ul'},
     {id:'newPhone-lk',  label:'New iPhone — Sim Locked',  icon:phoneIcon, ds:'newPhone', tp:'lk'},
     {id:'usedPhone-ul', label:'Used iPhone — Unlocked',   icon:phoneIcon, ds:'usedPhone', tp:'ul'},
@@ -1697,7 +1700,6 @@ renderAll();
     {id:'samsung',      label:'Samsung',                   icon:samIcon,   ds:'samsung'},
     {id:'watch',        label:'Apple Watch',               icon:watchIcon, ds:'watch'},
     {id:'airpods',      label:'AirPods',                   icon:airIcon,   ds:'airpods'},
-    {id:'mercury-sync', label:'Mercury Sync',              icon:syncIcon,  ds:'_sync'},
   ];
 
   function getCount(id){
@@ -1768,6 +1770,11 @@ renderAll();
   };
 
   function v(x){return x===null||x===undefined||x===''?'':x;}
+  // Website price helpers (matches dp/dps on public site)
+  function wp(val){var n=parseFloat(val);return(!isNaN(n)&&n>0)?'$'+Math.round(n*DISC/5)*5:'';}
+  function wps(val){var n=parseFloat(val);return(!isNaN(n)&&n>0)?'$'+Math.round(n*0.83*0.85/5)*5:'';}
+  function wpTag(val){var s=wp(val);return s?'<div class="adm-web">'+s+'</div>':'';}
+  function wpsTag(val){var s=wps(val);return s?'<div class="adm-web adm-web-sam">'+s+'</div>':'';}
 
   function admBuildSection(id){
     const sec=SECTIONS.find(s=>s.id===id);
@@ -1787,12 +1794,14 @@ renderAll();
             <input class="adm-inp" value="${v(d.t)}" onchange="DATA.newPhone['${key}'].t=this.value"/>
           </div>
           <table class="adm-tbl">
-            <thead><tr><th>Storage</th><th>Sealed</th><th>Open</th><th></th></tr></thead>
+            <thead><tr><th>Storage</th><th>Sealed</th><th>Web</th><th>Open</th><th>Web</th><th></th></tr></thead>
             <tbody>
               ${d.r.map((row,i)=>`<tr>
                 <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.newPhone['${key}'].r[${i}][0]=this.value"/></td>
                 <td><input class="adm-inp adm-num" value="${v(row[1])}" onchange="DATA.newPhone['${key}'].r[${i}][1]=parseFloat(this.value)||null"/></td>
+                <td>${wpTag(row[1])}</td>
                 <td><input class="adm-inp adm-num" value="${v(row[2])}" onchange="DATA.newPhone['${key}'].r[${i}][2]=parseFloat(this.value)||null"/></td>
+                <td>${wpTag(row[2])}</td>
                 <td><button class="adm-btn-del" onclick="admDelRow('newPhone','${key}',${i})">✕</button></td>
               </tr>`).join('')}
             </tbody>
@@ -1816,11 +1825,11 @@ renderAll();
             <input class="adm-inp" value="${v(d.t)}" onchange="DATA.usedPhone['${key}'].t=this.value"/>
           </div>
           <table class="adm-tbl">
-            <thead><tr><th>Storage</th><th>HSO</th><th>B</th><th>C</th><th>D</th><th>DOA</th><th></th></tr></thead>
+            <thead><tr><th>Storage</th><th>HSO</th><th>Web</th><th>B</th><th>Web</th><th>C</th><th>Web</th><th>D</th><th>Web</th><th>DOA</th><th>Web</th><th></th></tr></thead>
             <tbody>
               ${d.r.map((row,i)=>`<tr>
                 <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.usedPhone['${key}'].r[${i}][0]=this.value"/></td>
-                ${[1,2,3,4,5].map(ci=>`<td><input class="adm-inp adm-num" value="${v(row[ci])}" onchange="DATA.usedPhone['${key}'].r[${i}][${ci}]=parseFloat(this.value)||null"/></td>`).join('')}
+                ${[1,2,3,4,5].map(ci=>`<td><input class="adm-inp adm-num" value="${v(row[ci])}" onchange="DATA.usedPhone['${key}'].r[${i}][${ci}]=parseFloat(this.value)||null"/></td><td>${wpTag(row[ci])}</td>`).join('')}
                 <td><button class="adm-btn-del" onclick="admDelRow('usedPhone','${key}',${i})">✕</button></td>
               </tr>`).join('')}
             </tbody>
@@ -1843,12 +1852,14 @@ renderAll();
             <input class="adm-inp" value="${v(d.t)}" onchange="DATA.newIpad['${key}'].t=this.value"/>
           </div>
           <table class="adm-tbl">
-            <thead><tr><th>Storage</th><th>Sealed</th><th>Open</th><th></th></tr></thead>
+            <thead><tr><th>Storage</th><th>Sealed</th><th>Web</th><th>Open</th><th>Web</th><th></th></tr></thead>
             <tbody>
               ${d.r.map((row,i)=>`<tr>
                 <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.newIpad['${key}'].r[${i}][0]=this.value"/></td>
                 <td><input class="adm-inp adm-num" value="${v(row[1])}" onchange="DATA.newIpad['${key}'].r[${i}][1]=parseFloat(this.value)||null"/></td>
+                <td>${wpTag(row[1])}</td>
                 <td><input class="adm-inp adm-num" value="${v(row[2])}" onchange="DATA.newIpad['${key}'].r[${i}][2]=parseFloat(this.value)||null"/></td>
+                <td>${wpTag(row[2])}</td>
                 <td><button class="adm-btn-del" onclick="admDelRow('newIpad','${key}',${i})">✕</button></td>
               </tr>`).join('')}
             </tbody>
@@ -1871,11 +1882,11 @@ renderAll();
             <input class="adm-inp" value="${v(d.t)}" onchange="DATA.usedIpad['${key}'].t=this.value"/>
           </div>
           <table class="adm-tbl">
-            <thead><tr><th>Storage</th><th>A</th><th>B+</th><th>B</th><th>C</th><th>D</th><th></th></tr></thead>
+            <thead><tr><th>Storage</th><th>A</th><th>Web</th><th>B+</th><th>Web</th><th>B</th><th>Web</th><th>C</th><th>Web</th><th>D</th><th>Web</th><th></th></tr></thead>
             <tbody>
               ${d.r.map((row,i)=>`<tr>
                 <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.usedIpad['${key}'].r[${i}][0]=this.value"/></td>
-                ${[1,2,3,4,5].map(ci=>`<td><input class="adm-inp adm-num" value="${v(row[ci])}" onchange="DATA.usedIpad['${key}'].r[${i}][${ci}]=parseFloat(this.value)||null"/></td>`).join('')}
+                ${[1,2,3,4,5].map(ci=>`<td><input class="adm-inp adm-num" value="${v(row[ci])}" onchange="DATA.usedIpad['${key}'].r[${i}][${ci}]=parseFloat(this.value)||null"/></td><td>${wpTag(row[ci])}</td>`).join('')}
                 <td><button class="adm-btn-del" onclick="admDelRow('usedIpad','${key}',${i})">✕</button></td>
               </tr>`).join('')}
             </tbody>
@@ -1898,12 +1909,14 @@ renderAll();
             <input class="adm-inp" value="${v(d.t)}" onchange="DATA.macbook['${key}'].t=this.value"/>
           </div>
           <table class="adm-tbl">
-            <thead><tr><th>Configuration</th><th>Sealed</th><th>Activated</th><th></th></tr></thead>
+            <thead><tr><th>Configuration</th><th>Sealed</th><th>Web</th><th>Activated</th><th>Web</th><th></th></tr></thead>
             <tbody>
               ${d.r.map((row,i)=>`<tr>
                 <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.macbook['${key}'].r[${i}][0]=this.value"/></td>
                 <td><input class="adm-inp adm-num" value="${v(row[1])}" onchange="DATA.macbook['${key}'].r[${i}][1]=parseFloat(this.value)||null"/></td>
+                <td>${wpTag(row[1])}</td>
                 <td><input class="adm-inp adm-num" value="${v(row[2])}" onchange="DATA.macbook['${key}'].r[${i}][2]=parseFloat(this.value)||null"/></td>
+                <td>${wpTag(row[2])}</td>
                 <td><button class="adm-btn-del" onclick="admDelRow('macbook','${key}',${i})">✕</button></td>
               </tr>`).join('')}
             </tbody>
@@ -1922,14 +1935,17 @@ renderAll();
             <button class="adm-btn-add" onclick="admAddSamRow('${grp}')">+ Add Row</button>
           </div>
           <table class="adm-tbl">
-            <thead><tr><th>Model</th><th>Carrier</th><th>New</th><th>Grade A</th><th>Grade B</th><th></th></tr></thead>
+            <thead><tr><th>Model</th><th>Carrier</th><th>New</th><th>Web</th><th>Grade A</th><th>Web</th><th>Grade B</th><th>Web</th><th></th></tr></thead>
             <tbody>
               ${rows.map((row,i)=>`<tr>
                 <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.samsung['${grp}'][${i}][0]=this.value"/></td>
                 <td><input class="adm-inp" value="${v(row[1])}" onchange="DATA.samsung['${grp}'][${i}][1]=this.value"/></td>
                 <td><input class="adm-inp adm-num" value="${v(row[2])}" onchange="DATA.samsung['${grp}'][${i}][2]=parseFloat(this.value)||null"/></td>
+                <td>${wpsTag(row[2])}</td>
                 <td><input class="adm-inp adm-num" value="${v(row[3])}" onchange="DATA.samsung['${grp}'][${i}][3]=parseFloat(this.value)||null"/></td>
+                <td>${wpsTag(row[3])}</td>
                 <td><input class="adm-inp adm-num" value="${v(row[4])}" onchange="DATA.samsung['${grp}'][${i}][4]=parseFloat(this.value)||null"/></td>
+                <td>${wpsTag(row[4])}</td>
                 <td><button class="adm-btn-del" onclick="admDelSamRow('${grp}',${i})">✕</button></td>
               </tr>`).join('')}
             </tbody>
@@ -1948,11 +1964,11 @@ renderAll();
             <button class="adm-btn-add" onclick="admAddWatchRow('${grp}')">+ Add Row</button>
           </div>
           <table class="adm-tbl">
-            <thead><tr><th>Model</th><th>Sealed</th><th>Open</th><th>A/HSO</th><th>B</th><th></th></tr></thead>
+            <thead><tr><th>Model</th><th>Sealed</th><th>Web</th><th>Open</th><th>Web</th><th>A/HSO</th><th>Web</th><th>B</th><th>Web</th><th></th></tr></thead>
             <tbody>
               ${rows.map((row,i)=>`<tr>
                 <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.watch['${grp}'][${i}][0]=this.value"/></td>
-                ${[1,2,3,4].map(ci=>`<td><input class="adm-inp adm-num" value="${v(row[ci])}" onchange="DATA.watch['${grp}'][${i}][${ci}]=parseFloat(this.value)||null"/></td>`).join('')}
+                ${[1,2,3,4].map(ci=>`<td><input class="adm-inp adm-num" value="${v(row[ci])}" onchange="DATA.watch['${grp}'][${i}][${ci}]=parseFloat(this.value)||null"/></td><td>${wpTag(row[ci])}</td>`).join('')}
                 <td><button class="adm-btn-del" onclick="admDelWatchRow('${grp}',${i})">✕</button></td>
               </tr>`).join('')}
             </tbody>
@@ -1970,11 +1986,12 @@ renderAll();
             <button class="adm-btn-add" onclick="admAddAirRow('${grp}')">+ Add Row</button>
           </div>
           <table class="adm-tbl">
-            <thead><tr><th>Model</th><th>Price</th><th></th></tr></thead>
+            <thead><tr><th>Model</th><th>Price</th><th>Web</th><th></th></tr></thead>
             <tbody>
               ${rows.map((row,i)=>`<tr>
                 <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.airpods['${grp}'][${i}][0]=this.value"/></td>
                 <td><input class="adm-inp adm-num" value="${v(row[1])}" onchange="DATA.airpods['${grp}'][${i}][1]=parseFloat(this.value)||null"/></td>
+                <td>${wpTag(row[1])}</td>
                 <td><button class="adm-btn-del" onclick="admDelAirRow('${grp}',${i})">✕</button></td>
               </tr>`).join('')}
             </tbody>
