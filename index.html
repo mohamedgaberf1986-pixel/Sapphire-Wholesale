@@ -2099,11 +2099,26 @@ renderAll();
   function mercReadExcel(file,callback){
     var reader=new FileReader();
     reader.onload=function(e){
-      try{
-        var data=new Uint8Array(e.target.result);
-        var wb=XLSX.read(data,{type:'array'});
-        callback(null,wb);
-      }catch(err){callback(err,null);}
+      // Use setTimeout to let the UI show "Reading file..." before heavy parsing
+      setTimeout(function(){
+        try{
+          var data=new Uint8Array(e.target.result);
+          // First pass: get sheet names only (fast, no data parsing)
+          var stub=XLSX.read(data,{type:'array',bookSheets:true});
+          // Find only the 6 sheets we need by partial name match
+          var needed=['iphone','samsung','ipad','macbook','watch','misc'];
+          var matched=[];
+          needed.forEach(function(n){
+            for(var i=0;i<stub.SheetNames.length;i++){
+              if(stub.SheetNames[i].toLowerCase().indexOf(n)>-1){matched.push(stub.SheetNames[i]);break;}
+            }
+          });
+          if(matched.length===0){callback(new Error('No matching sheets found'),null);return;}
+          // Second pass: only parse the matched sheets (skips 17+ unused sheets)
+          var wb=XLSX.read(data,{type:'array',sheets:matched});
+          callback(null,wb);
+        }catch(err){callback(err,null);}
+      },50);
     };
     reader.onerror=function(){callback(new Error('Failed to read file'),null);};
     reader.readAsArrayBuffer(file);
@@ -2115,7 +2130,7 @@ renderAll();
       if(wb.SheetNames[i].toLowerCase().indexOf(sheetName.toLowerCase())>-1){ws=wb.Sheets[wb.SheetNames[i]];break;}
     }
     if(!ws) return null;
-    return XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+    return XLSX.utils.sheet_to_json(ws,{header:1});
   }
 
   function mercPN(v){
@@ -2307,48 +2322,58 @@ renderAll();
       mercReadExcel(file,function(err,wb){
         e.target.value=''; // reset so same file can be re-uploaded
         if(err){toast('Error reading Excel file: '+err.message,'err');if(statusDiv) statusDiv.innerHTML='';return;}
-        var parsed=mercParseAllTabs(wb);
-        var tabNames=Object.keys(parsed);
-        if(tabNames.length===0){toast('No data found in file. Make sure it is the Mercury Price Sheet.','err');if(statusDiv) statusDiv.innerHTML='';return;}
-        var totalEntries=0;tabNames.forEach(function(t){totalEntries+=Object.keys(parsed[t]).length;});
-        if(statusDiv) statusDiv.innerHTML='<span style="color:#4ade80">Parsed '+totalEntries+' entries across '+tabNames.length+' tabs ('+tabNames.join(', ')+')</span>';
+        if(statusDiv) statusDiv.innerHTML='<span style="color:#60a5fa">Parsing tabs...</span>';
+        // Use setTimeout to let UI update before heavy parsing
+        setTimeout(function(){
+          try{
+            var parsed=mercParseAllTabs(wb);
+            var tabNames=Object.keys(parsed);
+            if(tabNames.length===0){toast('No data found in file. Make sure it is the Mercury Price Sheet.','err');if(statusDiv) statusDiv.innerHTML='';return;}
+            var totalEntries=0;tabNames.forEach(function(t){totalEntries+=Object.keys(parsed[t]).length;});
+            if(statusDiv) statusDiv.innerHTML='<span style="color:#4ade80">Parsed '+totalEntries+' entries across '+tabNames.length+' tabs ('+tabNames.join(', ')+')</span>';
 
-        if(_mercUploadMode==='baseline'){
-          localStorage.setItem(MERC_XL_KEY,JSON.stringify(parsed));
-          localStorage.setItem(MERC_XL_TS,Date.now().toString());
-          toast('Baseline saved: '+totalEntries+' entries across '+tabNames.join(', '),'ok');
-          admShowSection('mercury-sync');
-        } else {
-          // Compare mode
-          var bl=null;try{bl=JSON.parse(localStorage.getItem(MERC_XL_KEY));}catch(ex){}
-          if(!bl){toast('No baseline found!','err');return;}
-          var allChanges=[];
-          // Compare each tab
-          if(parsed.iphones&&bl.iphones) mercApplyIphones(parsed.iphones,bl.iphones,allChanges);
-          if(parsed.samsung&&bl.samsung) mercApplySamsung(parsed.samsung,bl.samsung,allChanges);
-          if(parsed.ipad&&bl.ipad) mercApplyIpad(parsed.ipad,bl.ipad,allChanges);
-          if(parsed.macbooks&&bl.macbooks) mercApplyMacbooks(parsed.macbooks,bl.macbooks,allChanges);
-          if(parsed.watch&&bl.watch) mercApplyWatch(parsed.watch,bl.watch,allChanges);
-          if(parsed.airpods&&bl.airpods) mercApplyAirpods(parsed.airpods,bl.airpods,allChanges);
+            if(_mercUploadMode==='baseline'){
+              try{localStorage.setItem(MERC_XL_KEY,JSON.stringify(parsed));}catch(se){toast('Storage error: data too large','err');return;}
+              localStorage.setItem(MERC_XL_TS,Date.now().toString());
+              toast('Baseline saved: '+totalEntries+' entries across '+tabNames.join(', '),'ok');
+              admShowSection('mercury-sync');
+            } else {
+              // Compare mode
+              var bl=null;try{bl=JSON.parse(localStorage.getItem(MERC_XL_KEY));}catch(ex){}
+              if(!bl){toast('No baseline found!','err');return;}
+              var allChanges=[];
+              // Compare each tab
+              if(parsed.iphones&&bl.iphones) mercApplyIphones(parsed.iphones,bl.iphones,allChanges);
+              if(parsed.samsung&&bl.samsung) mercApplySamsung(parsed.samsung,bl.samsung,allChanges);
+              if(parsed.ipad&&bl.ipad) mercApplyIpad(parsed.ipad,bl.ipad,allChanges);
+              if(parsed.macbooks&&bl.macbooks) mercApplyMacbooks(parsed.macbooks,bl.macbooks,allChanges);
+              if(parsed.watch&&bl.watch) mercApplyWatch(parsed.watch,bl.watch,allChanges);
+              if(parsed.airpods&&bl.airpods) mercApplyAirpods(parsed.airpods,bl.airpods,allChanges);
 
-          // Update baseline to new data
-          localStorage.setItem(MERC_XL_KEY,JSON.stringify(parsed));
-          localStorage.setItem(MERC_XL_TS,Date.now().toString());
+              // Update baseline to new data
+              try{localStorage.setItem(MERC_XL_KEY,JSON.stringify(parsed));}catch(se){}
+              localStorage.setItem(MERC_XL_TS,Date.now().toString());
 
-          // Save change log
-          var logArr=[];try{logArr=JSON.parse(localStorage.getItem(MERC_XL_LOG))||[];}catch(ex){}
-          if(allChanges.length>0){
-            logArr.unshift({ts:Date.now(),count:allChanges.length,changes:allChanges});
-            if(logArr.length>20) logArr=logArr.slice(0,20); // keep last 20 comparisons
-            localStorage.setItem(MERC_XL_LOG,JSON.stringify(logArr));
-            if(typeof renderAll==='function') renderAll();
-            if(typeof saveData==='function') saveData();
-            toast(allChanges.length+' price(s) updated!','ok');
-          } else {
-            toast('No price changes detected between baseline and new file.','ok');
+              // Save change log
+              var logArr=[];try{logArr=JSON.parse(localStorage.getItem(MERC_XL_LOG))||[];}catch(ex){}
+              if(allChanges.length>0){
+                logArr.unshift({ts:Date.now(),count:allChanges.length,changes:allChanges});
+                if(logArr.length>20) logArr=logArr.slice(0,20);
+                try{localStorage.setItem(MERC_XL_LOG,JSON.stringify(logArr));}catch(se){}
+                if(typeof renderAll==='function') renderAll();
+                if(typeof saveData==='function') saveData();
+                toast(allChanges.length+' price(s) updated!','ok');
+              } else {
+                toast('No price changes detected between baseline and new file.','ok');
+              }
+              admShowSection('mercury-sync');
+            }
+          }catch(parseErr){
+            toast('Parse error: '+parseErr.message,'err');
+            console.error('Mercury parse error:',parseErr);
+            if(statusDiv) statusDiv.innerHTML='<span style="color:#f87171">Error: '+parseErr.message+'</span>';
           }
-          admShowSection('mercury-sync');
-        }
+        },50);
       });
     });
   });
