@@ -1811,9 +1811,9 @@ renderAll();
   // Show discounted website price in admin inputs
   function dpV(val){var n=parseFloat(val);return(!isNaN(n)&&n>0)?Math.round(n*DISC/5)*5:'';}
   function dpsV(val){var n=parseFloat(val);return(!isNaN(n)&&n>0)?Math.round(n*0.83*0.85/5)*5:'';}
-  // Reverse: convert web price back to raw for storage
-  function undp(wp){var n=parseFloat(wp);if(isNaN(n)||n<=0)return null;return Math.round(n/DISC);}
-  function undps(wp){var n=parseFloat(wp);if(isNaN(n)||n<=0)return null;return Math.round(n/(0.83*0.85));}
+  // Reverse: convert web price back to raw for storage (exposed globally for onchange handlers)
+  window.undp=function(wp){var n=parseFloat(wp);if(isNaN(n)||n<=0)return null;return Math.round(n/DISC);};
+  window.undps=function(wp){var n=parseFloat(wp);if(isNaN(n)||n<=0)return null;return Math.round(n/(0.83*0.85));};
 
   function admBuildSection(id){
     const sec=SECTIONS.find(s=>s.id===id);
