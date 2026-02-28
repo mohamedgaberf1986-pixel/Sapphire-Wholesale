@@ -24,6 +24,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 52'%3E%3Crect x='2' y='2' width='30' height='48' rx='5' stroke='%23c8a84b' stroke-width='2.2' fill='%230f172a'/%3E%3Crect x='11' y='7.5' width='12' height='2.5' rx='1.2' fill='%23c8a84b'/%3E%3Cline x1='17' y1='17' x2='17' y2='37' stroke='%235ba3ff' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M22 20.5C22 18.5 20 17 17 17C14 17 12 18.8 12 21C12 23.2 14 24 17 24.5C20 25 22 26 22 28.5C22 31 20 33 17 33C14 33 12 31.5 12 29.5' stroke='%235ba3ff' stroke-width='2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 :root{--bg:#1e2a3a;--bg2:#0f172a;--bg3:#1e293b;--blue:#3b82f6;--blue2:#60a5fa;--blue3:#93c5fd;--gold:#f59e0b;--gold2:#fbbf24;--white:#f1f5f9;--dim:#64748b;--dim2:#94a3b8;--border:rgba(255,255,255,.08);--hover:rgba(59,130,246,.1);--radius:14px;}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -2014,77 +2015,107 @@ renderAll();
       });
     }
 
-    // ── MERCURY SYNC (paste-based) ──
+    // ── MERCURY SYNC (Excel-based) ──
     if(id==='mercury-sync'){
-      var bl=null;try{bl=JSON.parse(localStorage.getItem('m901_merc_paste'));}catch(e){}
-      var lastTs='';try{lastTs=localStorage.getItem('m901_merc_paste_ts')||'';}catch(e){}
+      var bl=null;try{bl=JSON.parse(localStorage.getItem('m901_merc_xl'));}catch(e){}
+      var lastTs='';try{lastTs=localStorage.getItem('m901_merc_xl_ts')||'';}catch(e){}
+      var changeLog=[];try{changeLog=JSON.parse(localStorage.getItem('m901_merc_xl_log'))||[];}catch(e){}
       html+=`<div class="adm-section-title">Mercury Price Sync</div>`;
       html+=`<div class="adm-card" style="margin-bottom:16px">
         <div class="adm-card-hdr"><div class="adm-card-title">How to use</div></div>
         <div style="padding:12px;color:var(--dim2);font-size:.8rem;line-height:1.6">
-          <b>Step 1:</b> Open the Mercury Google Sheet tab (e.g. iPhones)<br>
-          <b>Step 2:</b> Select all data (Ctrl+A / Cmd+A) and copy (Ctrl+C / Cmd+C)<br>
-          <b>Step 3:</b> Select the matching tab below, paste into the box, click <b>"Save as Baseline"</b><br>
-          <b>Step 4:</b> Next time prices change, paste the updated sheet and click <b>"Compare & Apply"</b><br>
-          The system will find price differences and apply them to your website automatically.
+          <b>Step 1:</b> Download the Mercury Price Sheet as an Excel file (.xlsx)<br>
+          <b>Step 2:</b> Click <b>"Upload Baseline"</b> and select the file — this saves it as your reference point<br>
+          <b>Step 3:</b> When prices change, click <b>"Upload & Compare"</b> with the updated file<br>
+          <b>Step 4:</b> The system will find all price differences across all tabs and apply them automatically<br>
+          A change log will show exactly what changed (e.g. "−$20 iPhone 17 Pro Max Sealed").
         </div>
       </div>`;
-      var tabs=['iphones','samsung','ipad','macbooks','watch','airpods'];
-      var tabLabels=['iPhones','Samsung','iPad','MacBooks','Apple Watch','AirPods'];
-      html+=`<div class="adm-card">
-        <div class="adm-card-hdr"><div class="adm-card-title">Paste Sheet Data</div></div>
-        <div style="padding:12px">
-          <div style="margin-bottom:10px">
-            <label style="color:var(--dim2);font-size:.75rem;margin-bottom:6px;display:block">Select Tab:</label>
-            <select id="merc-tab-select" style="width:100%;padding:8px 12px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;color:var(--white);font-size:.82rem">
-              ${tabs.map((t,i)=>'<option value="'+t+'">'+tabLabels[i]+'</option>').join('')}
-            </select>
+      // Upload buttons
+      html+=`<div class="adm-card" style="margin-bottom:16px">
+        <div class="adm-card-hdr"><div class="adm-card-title">Upload Mercury Excel File</div></div>
+        <div style="padding:16px">
+          <input type="file" id="merc-file-input" accept=".xlsx,.xls" style="display:none"/>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+            <button onclick="mercUploadBaseline()" style="padding:10px 22px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);border-radius:10px;color:#60a5fa;font-size:.82rem;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:6px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload Baseline
+            </button>
+            <button onclick="mercUploadCompare()" style="padding:10px 22px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:10px;color:#4ade80;font-size:.82rem;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:6px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload &amp; Compare
+            </button>
+            <button onclick="mercClearAll()" style="padding:10px 22px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:10px;color:#f87171;font-size:.78rem;cursor:pointer">Clear All Data</button>
           </div>
-          <div style="margin-bottom:10px">
-            <label style="color:var(--dim2);font-size:.75rem;margin-bottom:6px;display:block">Paste data here (copy from Google Sheet and paste):</label>
-            <textarea id="merc-paste-area" style="width:100%;height:200px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:monospace;font-size:.72rem;padding:10px;resize:vertical" placeholder="Select all cells in the Mercury sheet tab, copy, and paste here..."></textarea>
-          </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <button onclick="mercSaveBaseline()" style="padding:8px 18px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);border-radius:8px;color:#60a5fa;font-size:.78rem;cursor:pointer;font-weight:600">Save as Baseline</button>
-            <button onclick="mercCompareApply()" style="padding:8px 18px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:8px;color:#4ade80;font-size:.78rem;cursor:pointer;font-weight:600">Compare & Apply</button>
-            <button onclick="mercClearBaseline()" style="padding:8px 18px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;color:#f87171;font-size:.72rem;cursor:pointer">Clear Baseline</button>
-          </div>
+          <div id="merc-upload-status" style="color:var(--dim2);font-size:.78rem"></div>
         </div>
       </div>`;
-      // Show baseline status
-      html+=`<div class="adm-card" style="margin-top:16px">
+      // Baseline status
+      html+=`<div class="adm-card" style="margin-bottom:16px">
         <div class="adm-card-hdr"><div class="adm-card-title">Baseline Status</div></div>
-        <div id="merc-status" style="padding:12px;color:var(--dim2);font-size:.78rem;line-height:1.6">`;
+        <div style="padding:12px;color:var(--dim2);font-size:.78rem;line-height:1.8">`;
       if(bl){
         var savedTabs=Object.keys(bl);
-        html+=`<span style="color:#4ade80">Baseline saved</span> — Tabs: <b>${savedTabs.join(', ')}</b><br>`;
+        html+=`<span style="color:#4ade80;font-weight:600">✓ Baseline saved</span><br>`;
         if(lastTs) html+=`Last updated: ${new Date(parseInt(lastTs)).toLocaleString()}<br>`;
+        html+=`Tabs: <b>${savedTabs.join(', ')}</b><br>`;
         savedTabs.forEach(function(tn){
           var count=Object.keys(bl[tn]||{}).length;
-          html+=tn+': '+count+' entries &nbsp; ';
+          html+=`<span style="display:inline-block;margin:3px 6px 3px 0;padding:3px 10px;background:rgba(59,130,246,.1);border-radius:6px;font-size:.72rem">${tn}: ${count} entries</span>`;
         });
       } else {
-        html+='<span style="color:#f87171">No baseline saved yet.</span> Paste a sheet tab and click "Save as Baseline" to start.';
+        html+='<span style="color:#f87171">No baseline saved yet.</span> Upload a Mercury Excel file to get started.';
       }
       html+=`</div></div>`;
-      // Show last comparison results
-      html+=`<div class="adm-card" style="margin-top:16px">
-        <div class="adm-card-hdr"><div class="adm-card-title">Last Comparison Results</div></div>
-        <div id="merc-results" style="padding:12px;color:var(--dim2);font-size:.78rem;max-height:300px;overflow-y:auto">
-          No comparison run yet.
-        </div>
-      </div>`;
+      // Change log
+      html+=`<div class="adm-card">
+        <div class="adm-card-hdr"><div class="adm-card-title">Change Log</div></div>
+        <div id="merc-changelog" style="padding:12px;color:var(--dim2);font-size:.78rem;max-height:400px;overflow-y:auto">`;
+      if(changeLog.length>0){
+        changeLog.forEach(function(entry){
+          html+=`<div style="border-bottom:1px solid var(--border);padding:8px 0">
+            <div style="color:var(--dim2);font-size:.68rem;margin-bottom:4px">${new Date(entry.ts).toLocaleString()} — ${entry.count} change(s)</div>`;
+          entry.changes.forEach(function(c){
+            var color=c.indexOf('+')>-1?'#4ade80':'#f87171';
+            html+=`<div style="padding:2px 0;color:${color}">${c}</div>`;
+          });
+          html+=`</div>`;
+        });
+      } else {
+        html+='No changes recorded yet. Upload a baseline, then upload an updated file to see changes.';
+      }
+      html+=`</div></div>`;
     }
 
     return html;
   }
 
-  // ── MERCURY PASTE SYNC LOGIC ──
-  var MERC_BL_KEY='m901_merc_paste';
-  var MERC_TS_KEY='m901_merc_paste_ts';
+  // ── MERCURY EXCEL SYNC LOGIC ──
+  var MERC_XL_KEY='m901_merc_xl';
+  var MERC_XL_TS='m901_merc_xl_ts';
+  var MERC_XL_LOG='m901_merc_xl_log';
+  var _mercUploadMode='baseline'; // 'baseline' or 'compare'
 
-  function mercParseTSV(text){
-    return text.split('\n').map(function(line){return line.split('\t').map(function(c){return c.trim();});}).filter(function(r){return r.length>1||r[0]!=='';});
+  function mercReadExcel(file,callback){
+    var reader=new FileReader();
+    reader.onload=function(e){
+      try{
+        var data=new Uint8Array(e.target.result);
+        var wb=XLSX.read(data,{type:'array'});
+        callback(null,wb);
+      }catch(err){callback(err,null);}
+    };
+    reader.onerror=function(){callback(new Error('Failed to read file'),null);};
+    reader.readAsArrayBuffer(file);
+  }
+
+  function mercSheetToArray(wb,sheetName){
+    var ws=null;
+    for(var i=0;i<wb.SheetNames.length;i++){
+      if(wb.SheetNames[i].toLowerCase().indexOf(sheetName.toLowerCase())>-1){ws=wb.Sheets[wb.SheetNames[i]];break;}
+    }
+    if(!ws) return null;
+    return XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
   }
 
   function mercPN(v){
@@ -2095,7 +2126,7 @@ renderAll();
 
   function mercIsJunk(s){
     if(!s) return false;
-    var u=s.toUpperCase();
+    var u=String(s).toUpperCase();
     return u.indexOf('BLUE')>-1||u.indexOf('BLACKLIST')>-1||u.indexOf('DEDUCTION')>-1||u.indexOf('CLICK')>-1||
       u.indexOf('MERCURY')>-1||u.indexOf('CONTACT')>-1||u.indexOf('LAS VEGAS')>-1||u.indexOf('314-')>-1||
       u.indexOf('NEW OPEN =')>-1||u.indexOf('OFFICIAL REPLACEMENT')>-1||u.indexOf('TRACFONE')>-1||
@@ -2103,12 +2134,16 @@ renderAll();
       u.indexOf('KNOX')>-1||u.indexOf('IMEI')>-1||u==='MODEL';
   }
 
-  // ── iPHONE PARSER (TSV: B=Model, C=Lock, D=Sealed, E=Open, H=A+, J=B, L=C, M=D, N=DOA) ──
-  function mercParseIphones(rows){
+  // ── EXCEL PARSERS ──
+
+  // iPHONES: Col B(1)=Model, C(2)=Lock, D(3)=Sealed, E(4)=Open, H(7)=A+, J(9)=B, L(11)=C, M(12)=D, N(13)=DOA
+  function mercXlParseIphones(wb){
+    var rows=mercSheetToArray(wb,'iphone');
+    if(!rows) return {};
     var result={};var curModel='';var curLock='';
     for(var i=0;i<rows.length;i++){
       var r=rows[i];if(!r||r.length<14) continue;
-      var c1=(r[1]||'').trim(),c2=(r[2]||'').trim();
+      var c1=String(r[1]||'').trim(),c2=String(r[2]||'').trim();
       if(!c1&&!c2) continue;
       if(mercIsJunk(c1)) continue;
       if(c2.toUpperCase()==='UNLOCKED'||c2.toUpperCase()==='CARRIER LOCK'){
@@ -2123,12 +2158,14 @@ renderAll();
     return result;
   }
 
-  // ── SAMSUNG PARSER (TSV: A=Model, B=Lock, C=Sealed, D=A, E=B+, F=B/B-, G=C, H=D, I=DOA) ──
-  function mercParseSamsung(rows){
+  // SAMSUNG: Col A(0)=Model, B(1)=Lock, C(2)=Sealed, D(3)=A, E(4)=B+, F(5)=B/B-, G(6)=C, H(7)=D, I(8)=DOA
+  function mercXlParseSamsung(wb){
+    var rows=mercSheetToArray(wb,'samsung');
+    if(!rows) return {};
     var result={};var curModel='';
     for(var i=0;i<rows.length;i++){
       var r=rows[i];if(!r||r.length<3) continue;
-      var c0=(r[0]||'').trim(),c1=(r[1]||'').trim();
+      var c0=String(r[0]||'').trim(),c1=String(r[1]||'').trim();
       if(!c0&&!c1) continue;
       if(c0&&mercIsJunk(c0)) continue;
       if(c0&&c0.toUpperCase().indexOf('HIGHER GB')>-1) continue;
@@ -2147,12 +2184,14 @@ renderAll();
     return result;
   }
 
-  // ── iPAD PARSER (TSV: A=storage, B=Sealed, C=Open, D=GrA, E=GrB, F=GrC, G=GrD, H=DOA) ──
-  function mercParseIpad(rows){
+  // iPAD: Col A(0)=storage, B(1)=Sealed, C(2)=Open, D(3)=GrA, E(4)=GrB, F(5)=GrC, G(6)=GrD, H(7)=DOA
+  function mercXlParseIpad(wb){
+    var rows=mercSheetToArray(wb,'ipad');
+    if(!rows) return {};
     var result={};var curGroup='';
     for(var i=0;i<rows.length;i++){
       var r=rows[i];if(!r||r.length<2) continue;
-      var c0=(r[0]||'').trim();if(!c0) continue;
+      var c0=String(r[0]||'').trim();if(!c0) continue;
       var cu=c0.toUpperCase();
       if(cu.indexOf('IPAD')>-1){
         if(cu.indexOf('PRICING')>-1||cu.indexOf('MUST BE')>-1||cu.indexOf('VIDEO')>-1||cu.indexOf('ENGRAVING')>-1||cu.indexOf('JOIN')>-1||cu.indexOf('ACTIVATED')>-1||cu.indexOf('B GRADE')>-1) continue;
@@ -2167,12 +2206,14 @@ renderAll();
     return result;
   }
 
-  // ── MACBOOK PARSER (TSV: A=SKU, B=Sealed, C=Open, D=SealedActive) ──
-  function mercParseMacbooks(rows){
+  // MACBOOKS: Col A(0)=SKU, B(1)=Sealed, C(2)=Open, D(3)=SealedActive
+  function mercXlParseMacbooks(wb){
+    var rows=mercSheetToArray(wb,'macbook');
+    if(!rows) return {};
     var result={};var curGroup='';
     for(var i=0;i<rows.length;i++){
       var r=rows[i];if(!r||r.length<2) continue;
-      var c0=(r[0]||'').trim();if(!c0) continue;
+      var c0=String(r[0]||'').trim();if(!c0) continue;
       var cu=c0.toUpperCase();
       if(cu.indexOf('MACBOOK')>-1){
         if(cu.indexOf('PRICING')>-1||cu.indexOf('OPEN BOX')>-1||cu.indexOf('PLASTIC')>-1||cu.indexOf('ACTIVATED')>-1) continue;
@@ -2186,15 +2227,17 @@ renderAll();
     return result;
   }
 
-  // ── WATCH PARSER (TSV: A=model, B=Sealed, C=Open, D=HSO, E=B) ──
-  function mercParseWatch(rows){
+  // WATCH: Col A(0)=model, B(1)=Sealed, C(2)=Open, D(3)=HSO, E(4)=B
+  function mercXlParseWatch(wb){
+    var rows=mercSheetToArray(wb,'watch');
+    if(!rows) return {};
     var result={};var curGroup='';
     for(var i=0;i<rows.length;i++){
       var r=rows[i];if(!r||r.length<2) continue;
-      var c0=(r[0]||'').trim();if(!c0) continue;
+      var c0=String(r[0]||'').trim();if(!c0) continue;
       var cu=c0.toUpperCase();
       if(cu.indexOf('APPLE WATCH')>-1||cu.indexOf('USED -')>-1||cu.indexOf('NO BAND')>-1||cu.indexOf("CAN'T BE")>-1) continue;
-      var c1=(r[1]||'').trim().toUpperCase();
+      var c1=String(r[1]||'').trim().toUpperCase();
       if(c1==='SEALED'){curGroup=c0;continue;}
       var se=mercPN(r[1]),op=mercPN(r[2]),hso=mercPN(r[3]),gB=mercPN(r[4]);
       if(se===null&&op===null&&hso===null&&gB===null) continue;
@@ -2203,12 +2246,14 @@ renderAll();
     return result;
   }
 
-  // ── AIRPODS PARSER (TSV from Misc: A=model, B=sealed, C=opened) ──
-  function mercParseAirpods(rows){
+  // AIRPODS (from Misc tab): Col A(0)=model, B(1)=sealed, C(2)=opened
+  function mercXlParseAirpods(wb){
+    var rows=mercSheetToArray(wb,'misc');
+    if(!rows) return {};
     var result={};var inAirpods=false;
     for(var i=0;i<rows.length;i++){
       var r=rows[i];if(!r||r.length<2) continue;
-      var c0=(r[0]||'').trim();var cu=c0.toUpperCase();
+      var c0=String(r[0]||'').trim();var cu=c0.toUpperCase();
       if(cu==='APPLE AIRPOD'||cu==='APPLE AIRPODS'){inAirpods=true;continue;}
       if(inAirpods&&(cu==='APPLE AIRTAG'||cu==='APPLE HOMEPOD'||cu==='APPLE MOUSE')){inAirpods=false;continue;}
       if(inAirpods&&cu==='') continue;
@@ -2220,86 +2265,93 @@ renderAll();
     return result;
   }
 
-  function mercGetParser(tab){
-    switch(tab){
-      case 'iphones': return mercParseIphones;
-      case 'samsung': return mercParseSamsung;
-      case 'ipad':    return mercParseIpad;
-      case 'macbooks':return mercParseMacbooks;
-      case 'watch':   return mercParseWatch;
-      case 'airpods': return mercParseAirpods;
-    }
-    return null;
+  function mercParseAllTabs(wb){
+    var parsed={};
+    var iphones=mercXlParseIphones(wb);if(Object.keys(iphones).length>0) parsed.iphones=iphones;
+    var samsung=mercXlParseSamsung(wb);if(Object.keys(samsung).length>0) parsed.samsung=samsung;
+    var ipad=mercXlParseIpad(wb);if(Object.keys(ipad).length>0) parsed.ipad=ipad;
+    var macbooks=mercXlParseMacbooks(wb);if(Object.keys(macbooks).length>0) parsed.macbooks=macbooks;
+    var watch=mercXlParseWatch(wb);if(Object.keys(watch).length>0) parsed.watch=watch;
+    var airpods=mercXlParseAirpods(wb);if(Object.keys(airpods).length>0) parsed.airpods=airpods;
+    return parsed;
   }
 
-  // ── SAVE BASELINE ──
-  window.mercSaveBaseline=function(){
-    var tab=document.getElementById('merc-tab-select').value;
-    var text=document.getElementById('merc-paste-area').value.trim();
-    if(!text){toast('Paste sheet data first!','err');return;}
-    var rows=mercParseTSV(text);
-    var parser=mercGetParser(tab);
-    if(!parser){toast('Unknown tab','err');return;}
-    var parsed=parser(rows);
-    var count=Object.keys(parsed).length;
-    if(count===0){toast('No data found. Make sure you copied the right tab.','err');return;}
-    var bl={};try{bl=JSON.parse(localStorage.getItem(MERC_BL_KEY))||{};}catch(e){bl={};}
-    bl[tab]=parsed;
-    localStorage.setItem(MERC_BL_KEY,JSON.stringify(bl));
-    localStorage.setItem(MERC_TS_KEY,Date.now().toString());
-    toast(tab+' baseline saved: '+count+' entries','ok');
+  // ── FILE UPLOAD HANDLERS ──
+  window.mercUploadBaseline=function(){
+    _mercUploadMode='baseline';
+    document.getElementById('merc-file-input').click();
+  };
+  window.mercUploadCompare=function(){
+    var bl=null;try{bl=JSON.parse(localStorage.getItem(MERC_XL_KEY));}catch(e){}
+    if(!bl){toast('Upload a baseline first!','err');return;}
+    _mercUploadMode='compare';
+    document.getElementById('merc-file-input').click();
+  };
+  window.mercClearAll=function(){
+    if(!confirm('Clear all Mercury baseline data and change log?')) return;
+    localStorage.removeItem(MERC_XL_KEY);
+    localStorage.removeItem(MERC_XL_TS);
+    localStorage.removeItem(MERC_XL_LOG);
+    toast('Mercury data cleared','ok');
     admShowSection('mercury-sync');
   };
 
-  // ── CLEAR BASELINE ──
-  window.mercClearBaseline=function(){
-    if(!confirm('Clear all saved baselines?')) return;
-    localStorage.removeItem(MERC_BL_KEY);
-    localStorage.removeItem(MERC_TS_KEY);
-    toast('Baselines cleared','ok');
-    admShowSection('mercury-sync');
-  };
+  // File input handler — attach after DOM ready
+  document.addEventListener('DOMContentLoaded',function(){
+    document.addEventListener('change',function(e){
+      if(e.target.id!=='merc-file-input') return;
+      var file=e.target.files[0];
+      if(!file) return;
+      var statusDiv=document.getElementById('merc-upload-status');
+      if(statusDiv) statusDiv.innerHTML='<span style="color:#60a5fa">Reading file...</span>';
+      mercReadExcel(file,function(err,wb){
+        e.target.value=''; // reset so same file can be re-uploaded
+        if(err){toast('Error reading Excel file: '+err.message,'err');if(statusDiv) statusDiv.innerHTML='';return;}
+        var parsed=mercParseAllTabs(wb);
+        var tabNames=Object.keys(parsed);
+        if(tabNames.length===0){toast('No data found in file. Make sure it is the Mercury Price Sheet.','err');if(statusDiv) statusDiv.innerHTML='';return;}
+        var totalEntries=0;tabNames.forEach(function(t){totalEntries+=Object.keys(parsed[t]).length;});
+        if(statusDiv) statusDiv.innerHTML='<span style="color:#4ade80">Parsed '+totalEntries+' entries across '+tabNames.length+' tabs ('+tabNames.join(', ')+')</span>';
 
-  // ── COMPARE & APPLY ──
-  window.mercCompareApply=function(){
-    var tab=document.getElementById('merc-tab-select').value;
-    var text=document.getElementById('merc-paste-area').value.trim();
-    if(!text){toast('Paste updated sheet data first!','err');return;}
-    var bl={};try{bl=JSON.parse(localStorage.getItem(MERC_BL_KEY))||{};}catch(e){bl={};}
-    if(!bl[tab]){toast('No baseline for '+tab+'. Save a baseline first!','err');return;}
-    var rows=mercParseTSV(text);
-    var parser=mercGetParser(tab);
-    var newData=parser(rows);
-    var baseline=bl[tab];
-    var changes=[];
-    var changed=false;
+        if(_mercUploadMode==='baseline'){
+          localStorage.setItem(MERC_XL_KEY,JSON.stringify(parsed));
+          localStorage.setItem(MERC_XL_TS,Date.now().toString());
+          toast('Baseline saved: '+totalEntries+' entries across '+tabNames.join(', '),'ok');
+          admShowSection('mercury-sync');
+        } else {
+          // Compare mode
+          var bl=null;try{bl=JSON.parse(localStorage.getItem(MERC_XL_KEY));}catch(ex){}
+          if(!bl){toast('No baseline found!','err');return;}
+          var allChanges=[];
+          // Compare each tab
+          if(parsed.iphones&&bl.iphones) mercApplyIphones(parsed.iphones,bl.iphones,allChanges);
+          if(parsed.samsung&&bl.samsung) mercApplySamsung(parsed.samsung,bl.samsung,allChanges);
+          if(parsed.ipad&&bl.ipad) mercApplyIpad(parsed.ipad,bl.ipad,allChanges);
+          if(parsed.macbooks&&bl.macbooks) mercApplyMacbooks(parsed.macbooks,bl.macbooks,allChanges);
+          if(parsed.watch&&bl.watch) mercApplyWatch(parsed.watch,bl.watch,allChanges);
+          if(parsed.airpods&&bl.airpods) mercApplyAirpods(parsed.airpods,bl.airpods,allChanges);
 
-    // Compare and apply diffs per category
-    if(tab==='iphones') changed=mercApplyIphones(newData,baseline,changes);
-    if(tab==='samsung') changed=mercApplySamsung(newData,baseline,changes);
-    if(tab==='ipad')    changed=mercApplyIpad(newData,baseline,changes);
-    if(tab==='macbooks') changed=mercApplyMacbooks(newData,baseline,changes);
-    if(tab==='watch')   changed=mercApplyWatch(newData,baseline,changes);
-    if(tab==='airpods') changed=mercApplyAirpods(newData,baseline,changes);
+          // Update baseline to new data
+          localStorage.setItem(MERC_XL_KEY,JSON.stringify(parsed));
+          localStorage.setItem(MERC_XL_TS,Date.now().toString());
 
-    // Update baseline to new data
-    bl[tab]=newData;
-    localStorage.setItem(MERC_BL_KEY,JSON.stringify(bl));
-    localStorage.setItem(MERC_TS_KEY,Date.now().toString());
-
-    // Show results
-    var resDiv=document.getElementById('merc-results');
-    if(changes.length>0){
-      resDiv.innerHTML='<div style="color:#4ade80;font-weight:600;margin-bottom:8px">'+changes.length+' price change(s) applied:</div>'+
-        changes.map(function(c){return '<div style="padding:3px 0;border-bottom:1px solid var(--border)">'+c+'</div>';}).join('');
-      if(typeof renderAll==='function') renderAll();
-      if(typeof saveData==='function') saveData();
-      toast(changes.length+' prices updated!','ok');
-    } else {
-      resDiv.innerHTML='<span style="color:var(--dim2)">No price changes detected between baseline and new data.</span>';
-      toast('No changes detected','ok');
-    }
-  };
+          // Save change log
+          var logArr=[];try{logArr=JSON.parse(localStorage.getItem(MERC_XL_LOG))||[];}catch(ex){}
+          if(allChanges.length>0){
+            logArr.unshift({ts:Date.now(),count:allChanges.length,changes:allChanges});
+            if(logArr.length>20) logArr=logArr.slice(0,20); // keep last 20 comparisons
+            localStorage.setItem(MERC_XL_LOG,JSON.stringify(logArr));
+            if(typeof renderAll==='function') renderAll();
+            if(typeof saveData==='function') saveData();
+            toast(allChanges.length+' price(s) updated!','ok');
+          } else {
+            toast('No price changes detected between baseline and new file.','ok');
+          }
+          admShowSection('mercury-sync');
+        }
+      });
+    });
+  });
 
   // ── DIFF HELPER ──
   function mercDiff(cur,base){
