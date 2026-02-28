@@ -1643,7 +1643,9 @@ renderAll();
         macbook:DATA.macbook, samsung:DATA.samsung,
         watch:DATA.watch, airpods:DATA.airpods
       }));
-    }catch(e){}
+    }catch(e){
+      toast('Error saving: '+e.message,'err');
+    }
     renderAll();
   }
 
@@ -1724,7 +1726,7 @@ renderAll();
     if(ds==='samsung') return Object.values(DATA.samsung).reduce((s,r)=>s+r.length,0);
     if(ds==='watch') return Object.values(DATA.watch).reduce((s,r)=>s+r.length,0);
     if(ds==='airpods') return Object.values(DATA.airpods).reduce((s,r)=>s+r.length,0);
-    if(ds==='_sync'){try{var bl=localStorage.getItem('m901_merc_paste');return bl?'✓':'—';}catch(e){return '—';}}
+    if(ds==='_sync') return 0;
     return 0;
   }
 
@@ -1794,9 +1796,12 @@ renderAll();
     toast('Data exported successfully!','ok');
   };
 
+  var _admCurrentSection='mercury-sync';
   window.admShowSection=function(id){
+    _admCurrentSection=id;
     SECTIONS.forEach(s=>{
-      document.getElementById('adm-nav-'+s.id).classList.toggle('active', s.id===id);
+      var el=document.getElementById('adm-nav-'+s.id);
+      if(el) el.classList.toggle('active', s.id===id);
     });
     const content=document.getElementById('adm-content');
     content.innerHTML='<div class="adm-loading">Loading...</div>';
@@ -2579,9 +2584,16 @@ renderAll();
   };
 
   window.admSave=function(){
-    saveData();
-    admRenderNav();
-    admRenderStats();
+    try{
+      saveData();
+      admRenderNav();
+      admRenderStats();
+      admShowSection(_admCurrentSection);
+      toast('All prices saved successfully!','ok');
+    }catch(e){
+      toast('Save error: '+e.message,'err');
+      console.error('admSave error:',e);
+    }
     const btn=document.getElementById('adm-save-btn');
     btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Saved!';
     btn.style.background='rgba(34,197,94,.2)';btn.style.borderColor='#4ade80';btn.style.color='#4ade80';
