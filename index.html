@@ -2574,7 +2574,7 @@ renderAll();
         Object.entries(DATA.newPhone).forEach(function(e){
           var d=e[1];if(d.tp!==m.lock) return;
           var dn=normM(d.t);
-          if(dn.indexOf(mn.replace(/\d+[GTB]$/,''))>-1||mn.indexOf(dn.replace(/\d+[GTB]$/,''))>-1){
+          if(dn.indexOf(mn.replace(/\d+[GTB]*$/,''))>-1||mn.indexOf(dn.replace(/\d+[GTB]*$/,''))>-1){
             (d.r||[]).forEach(function(row){
               var rs=(row[0]||'').toUpperCase().replace(/\s/g,'');
               var ms=(m.model||'').match(/(\d+)\s*(?:GB?|TB?)/i);
@@ -2595,7 +2595,7 @@ renderAll();
         Object.entries(DATA.usedPhone).forEach(function(e){
           var d=e[1];if(d.tp!==m.lock) return;
           var dn=normM(d.t);
-          if(dn.indexOf(mn2.replace(/\d+[GTB]$/,''))>-1||mn2.indexOf(dn.replace(/\d+[GTB]$/,''))>-1){
+          if(dn.indexOf(mn2.replace(/\d+[GTB]*$/,''))>-1||mn2.indexOf(dn.replace(/\d+[GTB]*$/,''))>-1){
             (d.r||[]).forEach(function(row){
               var rs=(row[0]||'').toUpperCase().replace(/\s/g,'');
               var ms=m.model.match(/(\d+)\s*(?:GB?|TB?)/i);
