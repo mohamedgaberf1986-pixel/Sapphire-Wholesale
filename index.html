@@ -906,6 +906,20 @@ html{scroll-behavior:smooth}
       </div>
     </div>
 
+    <!-- Error Bar (hidden until an error occurs) -->
+    <div id="adm-err-bar" style="display:none;background:rgba(239,68,68,.1);border-bottom:1px solid rgba(239,68,68,.25);padding:6px 16px;font-size:.7rem;color:#fca5a5;max-height:90px;overflow-y:auto;position:relative">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <div style="display:flex;align-items:center;gap:6px;min-width:0">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div id="adm-err-list" style="min-width:0;overflow:hidden"></div>
+        </div>
+        <div style="display:flex;gap:6px;flex-shrink:0">
+          <button onclick="admCopyErrors()" style="padding:2px 8px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.25);border-radius:5px;color:#fca5a5;font-size:.62rem;cursor:pointer;white-space:nowrap">Copy</button>
+          <button onclick="admClearErrors()" style="padding:2px 8px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.25);border-radius:5px;color:#fca5a5;font-size:.62rem;cursor:pointer">✕</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Stats Bar -->
     <div class="adm-stats-bar" id="adm-stats-bar"></div>
 
@@ -1461,6 +1475,7 @@ function toast(msg,type='ok'){
   const t=document.getElementById('toast');
   t.textContent=msg;t.className='show '+type;
   setTimeout(()=>t.className='',5000);
+  if(type==='err'&&typeof admPushError==='function') admPushError(msg);
 }
 
 // ── INIT ──
@@ -1662,6 +1677,41 @@ renderAll();
     document.getElementById('adm-overlay').style.display='flex';
     setTimeout(()=>document.getElementById('adm-pass-input').focus(),100);
   }
+
+  // ── ADMIN ERROR BAR ──
+  var _admErrors=[];
+  function admPushError(msg){
+    var ts=new Date();var t=ts.getHours().toString().padStart(2,'0')+':'+ts.getMinutes().toString().padStart(2,'0')+':'+ts.getSeconds().toString().padStart(2,'0');
+    _admErrors.push('['+t+'] '+msg);
+    if(_admErrors.length>30) _admErrors.shift();
+    var bar=document.getElementById('adm-err-bar');
+    var list=document.getElementById('adm-err-list');
+    if(!bar||!list) return;
+    // Only show if admin panel is open
+    var panel=document.getElementById('adm-panel');
+    if(!panel||panel.style.display!=='flex') return;
+    bar.style.display='block';
+    list.innerHTML=_admErrors.map(function(e){return '<div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:1px 0">'+e.replace(/</g,'&lt;')+'</div>';}).join('');
+    list.parentElement.parentElement.scrollTop=list.parentElement.parentElement.scrollHeight;
+  }
+  window.onerror=function(msg,src,line,col){
+    var short=String(msg);
+    if(src){var fn=src.split('/').pop().split('?')[0];short+=' ('+fn+':'+line+')';}
+    admPushError(short);
+  };
+  window.addEventListener('unhandledrejection',function(e){
+    admPushError('Promise: '+(e.reason&&e.reason.message?e.reason.message:String(e.reason)));
+  });
+  window.admCopyErrors=function(){
+    var text=_admErrors.join('\n');
+    if(navigator.clipboard){navigator.clipboard.writeText(text).then(function(){toast('Errors copied to clipboard','ok');});}
+    else{var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('Errors copied to clipboard','ok');}
+  };
+  window.admClearErrors=function(){
+    _admErrors=[];
+    var bar=document.getElementById('adm-err-bar');if(bar)bar.style.display='none';
+    var list=document.getElementById('adm-err-list');if(list)list.innerHTML='';
+  };
 
   window.adminLogin=function(){
     const v=document.getElementById('adm-pass-input').value;
@@ -2514,6 +2564,7 @@ renderAll();
   function mercApplyIphones(newD,baseD,log){
     var changed=false;
     var normM=function(m){return(m||'').toUpperCase().replace(/\s+/g,' ').replace('PRO MAX','PM').replace('PRO','P').replace('PLUS','+').replace(/\s/g,'').replace(/G$/,'');};
+    var lockLabel=function(lk){return lk==='ul'?'Unlocked':'Locked';};
     Object.keys(newD).forEach(function(mk){
       var m=newD[mk],b=baseD[mk];if(!b) return;
       // New phone diffs (sealed, open)
@@ -2529,8 +2580,8 @@ renderAll();
               var ms=(m.model||'').match(/(\d+)\s*(?:GB?|TB?)/i);
               if(ms){var sz=ms[0].toUpperCase().replace(/\s/g,'');if(sz.match(/\d+G$/))sz+='B';if(sz.match(/\d+T$/))sz+='B';
                 if(rs.indexOf(sz)>-1){
-                  if(dSealed!==0){row[1]=(row[1]||0)+dSealed;changed=true;log.push(m.model+' '+m.lock+' Sealed: '+(dSealed>0?'+':'')+dSealed);}
-                  if(dOpen!==0){row[2]=(row[2]||0)+dOpen;changed=true;log.push(m.model+' '+m.lock+' Open: '+(dOpen>0?'+':'')+dOpen);}
+                  if(dSealed!==0){row[1]=(row[1]||0)+dSealed;changed=true;log.push(m.model+' '+lockLabel(m.lock)+' Sealed: '+(dSealed>0?'+':'')+dSealed);}
+                  if(dOpen!==0){row[2]=(row[2]||0)+dOpen;changed=true;log.push(m.model+' '+lockLabel(m.lock)+' Open: '+(dOpen>0?'+':'')+dOpen);}
                 }
               }
             });
@@ -2550,11 +2601,11 @@ renderAll();
               var ms=m.model.match(/(\d+)\s*(?:GB?|TB?)/i);
               if(ms){var sz=ms[0].toUpperCase().replace(/\s/g,'');if(sz.match(/\d+G$/))sz+='B';if(sz.match(/\d+T$/))sz+='B';
                 if(rs.indexOf(sz)>-1){
-                  if(dA!==0){row[1]=(row[1]||0)+dA;changed=true;log.push(m.model+' '+m.lock+' HSO: '+(dA>0?'+':'')+dA);}
-                  if(dB!==0){row[2]=(row[2]||0)+dB;changed=true;log.push(m.model+' '+m.lock+' B: '+(dB>0?'+':'')+dB);}
-                  if(dC!==0){row[3]=(row[3]||0)+dC;changed=true;log.push(m.model+' '+m.lock+' C: '+(dC>0?'+':'')+dC);}
-                  if(dD!==0){row[4]=(row[4]||0)+dD;changed=true;log.push(m.model+' '+m.lock+' D: '+(dD>0?'+':'')+dD);}
-                  if(dDOA!==0){row[5]=(row[5]||0)+dDOA;changed=true;log.push(m.model+' '+m.lock+' DOA: '+(dDOA>0?'+':'')+dDOA);}
+                  if(dA!==0){row[1]=(row[1]||0)+dA;changed=true;log.push(m.model+' '+lockLabel(m.lock)+' HSO: '+(dA>0?'+':'')+dA);}
+                  if(dB!==0){row[2]=(row[2]||0)+dB;changed=true;log.push(m.model+' '+lockLabel(m.lock)+' B: '+(dB>0?'+':'')+dB);}
+                  if(dC!==0){row[3]=(row[3]||0)+dC;changed=true;log.push(m.model+' '+lockLabel(m.lock)+' C: '+(dC>0?'+':'')+dC);}
+                  if(dD!==0){row[4]=(row[4]||0)+dD;changed=true;log.push(m.model+' '+lockLabel(m.lock)+' D: '+(dD>0?'+':'')+dD);}
+                  if(dDOA!==0){row[5]=(row[5]||0)+dDOA;changed=true;log.push(m.model+' '+lockLabel(m.lock)+' DOA: '+(dDOA>0?'+':'')+dDOA);}
                 }
               }
             });
