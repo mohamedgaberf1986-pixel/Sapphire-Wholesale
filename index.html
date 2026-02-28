@@ -2560,6 +2560,18 @@ renderAll();
     return 0;
   }
 
+  // Apply Mercury diff so the WEBSITE price changes by exactly that amount.
+  // raw = current raw DATA value, diff = Mercury price change, isSamsung = use dps/undps
+  // Returns the new raw DATA value.
+  function mercAdjust(raw,diff,isSamsung){
+    if(raw===null||raw===undefined) return diff; // no existing price, set diff as raw
+    var oldWeb=isSamsung?dps(raw):dp(raw);
+    if(oldWeb===null) oldWeb=0;
+    var newWeb=oldWeb+diff;
+    if(newWeb<=0) return 0;
+    return isSamsung?undps(newWeb):undp(newWeb);
+  }
+
   // ── APPLY iPHONE DIFFS ──
   function mercApplyIphones(newD,baseD,log){
     var changed=false;
@@ -2580,8 +2592,8 @@ renderAll();
               var ms=(m.model||'').match(/(\d+)\s*(?:GB?|TB?)/i);
               if(ms){var sz=ms[0].toUpperCase().replace(/\s/g,'');if(sz.match(/\d+G$/))sz+='B';if(sz.match(/\d+T$/))sz+='B';
                 if(rs.indexOf(sz)>-1){
-                  if(dSealed!==0){row[1]=(row[1]||0)+dSealed;changed=true;log.push(m.model+' '+lockLabel(m.lock)+' Sealed: '+(dSealed>0?'+':'')+dSealed);}
-                  if(dOpen!==0){row[2]=(row[2]||0)+dOpen;changed=true;log.push(m.model+' '+lockLabel(m.lock)+' Open: '+(dOpen>0?'+':'')+dOpen);}
+                  if(dSealed!==0){row[1]=mercAdjust(row[1],dSealed,false);changed=true;log.push(m.model+' '+lockLabel(m.lock)+' Sealed: '+(dSealed>0?'+':'')+dSealed);}
+                  if(dOpen!==0){row[2]=mercAdjust(row[2],dOpen,false);changed=true;log.push(m.model+' '+lockLabel(m.lock)+' Open: '+(dOpen>0?'+':'')+dOpen);}
                 }
               }
             });
@@ -2601,11 +2613,11 @@ renderAll();
               var ms=m.model.match(/(\d+)\s*(?:GB?|TB?)/i);
               if(ms){var sz=ms[0].toUpperCase().replace(/\s/g,'');if(sz.match(/\d+G$/))sz+='B';if(sz.match(/\d+T$/))sz+='B';
                 if(rs.indexOf(sz)>-1){
-                  if(dA!==0){row[1]=(row[1]||0)+dA;changed=true;log.push(m.model+' '+lockLabel(m.lock)+' HSO: '+(dA>0?'+':'')+dA);}
-                  if(dB!==0){row[2]=(row[2]||0)+dB;changed=true;log.push(m.model+' '+lockLabel(m.lock)+' B: '+(dB>0?'+':'')+dB);}
-                  if(dC!==0){row[3]=(row[3]||0)+dC;changed=true;log.push(m.model+' '+lockLabel(m.lock)+' C: '+(dC>0?'+':'')+dC);}
-                  if(dD!==0){row[4]=(row[4]||0)+dD;changed=true;log.push(m.model+' '+lockLabel(m.lock)+' D: '+(dD>0?'+':'')+dD);}
-                  if(dDOA!==0){row[5]=(row[5]||0)+dDOA;changed=true;log.push(m.model+' '+lockLabel(m.lock)+' DOA: '+(dDOA>0?'+':'')+dDOA);}
+                  if(dA!==0){row[1]=mercAdjust(row[1],dA,false);changed=true;log.push(m.model+' '+lockLabel(m.lock)+' HSO: '+(dA>0?'+':'')+dA);}
+                  if(dB!==0){row[2]=mercAdjust(row[2],dB,false);changed=true;log.push(m.model+' '+lockLabel(m.lock)+' B: '+(dB>0?'+':'')+dB);}
+                  if(dC!==0){row[3]=mercAdjust(row[3],dC,false);changed=true;log.push(m.model+' '+lockLabel(m.lock)+' C: '+(dC>0?'+':'')+dC);}
+                  if(dD!==0){row[4]=mercAdjust(row[4],dD,false);changed=true;log.push(m.model+' '+lockLabel(m.lock)+' D: '+(dD>0?'+':'')+dD);}
+                  if(dDOA!==0){row[5]=mercAdjust(row[5],dDOA,false);changed=true;log.push(m.model+' '+lockLabel(m.lock)+' DOA: '+(dDOA>0?'+':'')+dDOA);}
                 }
               }
             });
@@ -2629,9 +2641,9 @@ renderAll();
           var rName=(row[0]||'').toUpperCase().replace(/\s+/g,' ');
           if(rName.indexOf(mName)>-1||mName.indexOf(rName)>-1){
             if((m.lock==='Unlocked'&&row[1]==='Unlocked')||(m.lock==='AT&T'&&row[1]==='AT&T')||(m.lock==='Carrier Locked'&&row[1]==='Carrier Locked')){
-              if(dSe!==0&&row[2]!==null){row[2]+=dSe;changed=true;log.push(m.model+' '+m.lock+' Sealed: '+(dSe>0?'+':'')+dSe);}
-              if(dA!==0&&row[3]!==null){row[3]+=dA;changed=true;log.push(m.model+' '+m.lock+' A: '+(dA>0?'+':'')+dA);}
-              if(dBp!==0&&row[4]!==null){row[4]+=dBp;changed=true;log.push(m.model+' '+m.lock+' B: '+(dBp>0?'+':'')+dBp);}
+              if(dSe!==0&&row[2]!==null){row[2]=mercAdjust(row[2],dSe,true);changed=true;log.push(m.model+' '+m.lock+' Sealed: '+(dSe>0?'+':'')+dSe);}
+              if(dA!==0&&row[3]!==null){row[3]=mercAdjust(row[3],dA,true);changed=true;log.push(m.model+' '+m.lock+' A: '+(dA>0?'+':'')+dA);}
+              if(dBp!==0&&row[4]!==null){row[4]=mercAdjust(row[4],dBp,true);changed=true;log.push(m.model+' '+m.lock+' B: '+(dBp>0?'+':'')+dBp);}
             }
           }
         });
@@ -2666,8 +2678,8 @@ renderAll();
           if((isCell&&!isVerizon&&dd.tp==='cell')||(isWifi&&dd.tp==='wifi')){
             (dd.r||[]).forEach(function(row){
               if((row[0]||'').toUpperCase().replace(/\s/g,'').indexOf(stor.replace(/\s/g,'').replace(/CELLULAR|WI-FI|WIFI|VERIZON/g,'').replace(/^\s+|\s+$/g,''))>-1){
-                if(dSe!==0){row[1]=(row[1]||0)+dSe;changed=true;log.push('iPad '+m.group+' '+m.storage+' Sealed: '+(dSe>0?'+':'')+dSe);}
-                if(dOp!==0){row[2]=(row[2]||0)+dOp;changed=true;log.push('iPad '+m.group+' '+m.storage+' Open: '+(dOp>0?'+':'')+dOp);}
+                if(dSe!==0){row[1]=mercAdjust(row[1],dSe,false);changed=true;log.push('iPad '+m.group+' '+m.storage+' Sealed: '+(dSe>0?'+':'')+dSe);}
+                if(dOp!==0){row[2]=mercAdjust(row[2],dOp,false);changed=true;log.push('iPad '+m.group+' '+m.storage+' Open: '+(dOp>0?'+':'')+dOp);}
               }
             });
           }
@@ -2690,10 +2702,10 @@ renderAll();
               var rs=(row[0]||'').toUpperCase().replace(/\s/g,'');
               var stClean=stor.replace(/\s/g,'').replace(/CELLULAR|WI-FI|WIFI|VERIZON/g,'');
               if(rs.indexOf(stClean)>-1){
-                if(dA!==0){row[1]=(row[1]||0)+dA;changed=true;log.push('iPad '+m.storage+' HSO: '+(dA>0?'+':'')+dA);}
-                if(dB!==0){row[2]=(row[2]||0)+dB;changed=true;log.push('iPad '+m.storage+' B: '+(dB>0?'+':'')+dB);}
-                if(dC!==0){row[3]=(row[3]||0)+dC;changed=true;log.push('iPad '+m.storage+' C: '+(dC>0?'+':'')+dC);}
-                if(dD!==0){row[4]=(row[4]||0)+dD;changed=true;log.push('iPad '+m.storage+' D: '+(dD>0?'+':'')+dD);}
+                if(dA!==0){row[1]=mercAdjust(row[1],dA,false);changed=true;log.push('iPad '+m.storage+' HSO: '+(dA>0?'+':'')+dA);}
+                if(dB!==0){row[2]=mercAdjust(row[2],dB,false);changed=true;log.push('iPad '+m.storage+' B: '+(dB>0?'+':'')+dB);}
+                if(dC!==0){row[3]=mercAdjust(row[3],dC,false);changed=true;log.push('iPad '+m.storage+' C: '+(dC>0?'+':'')+dC);}
+                if(dD!==0){row[4]=mercAdjust(row[4],dD,false);changed=true;log.push('iPad '+m.storage+' D: '+(dD>0?'+':'')+dD);}
               }
             });
           }
@@ -2729,8 +2741,8 @@ renderAll();
           for(var p=0;p<parts.length;p++){if(parts[p].length>4&&rl.indexOf(parts[p])>-1){skuM=true;break;}}
           if(!skuM){var ms=mSku.match(/(\d+)\s*(?:GB|TB)/i);var rs=rl.match(/(\d+)\s*(?:GB|TB)/i);if(ms&&rs&&ms[0].toUpperCase()===rs[0].toUpperCase()) skuM=true;}
           if(skuM){
-            if(dSe!==0){row[1]=(row[1]||0)+dSe;changed=true;log.push('MacBook '+m.sku+' Sealed: '+(dSe>0?'+':'')+dSe);}
-            if(dOp!==0){row[2]=(row[2]||0)+dOp;changed=true;log.push('MacBook '+m.sku+' Open: '+(dOp>0?'+':'')+dOp);}
+            if(dSe!==0){row[1]=mercAdjust(row[1],dSe,false);changed=true;log.push('MacBook '+m.sku+' Sealed: '+(dSe>0?'+':'')+dSe);}
+            if(dOp!==0){row[2]=mercAdjust(row[2],dOp,false);changed=true;log.push('MacBook '+m.sku+' Open: '+(dOp>0?'+':'')+dOp);}
           }
         });
       });
@@ -2761,10 +2773,10 @@ renderAll();
           if(mN.indexOf('SE (2')>-1&&rN.indexOf('SE 2')>-1) sameSeries=true;
           if(mN.indexOf('SERIES 8')>-1&&rN.indexOf('SERIES 8')>-1) sameSeries=true;
           if(sameSeries&&sameSize){
-            if(dSe!==0){row[1]=(row[1]||0)+dSe;changed=true;log.push('Watch '+m.model+' Sealed: '+(dSe>0?'+':'')+dSe);}
-            if(dOp!==0){row[2]=(row[2]||0)+dOp;changed=true;log.push('Watch '+m.model+' Open: '+(dOp>0?'+':'')+dOp);}
-            if(dH!==0){row[3]=(row[3]||0)+dH;changed=true;log.push('Watch '+m.model+' HSO: '+(dH>0?'+':'')+dH);}
-            if(dB!==0){row[4]=(row[4]||0)+dB;changed=true;log.push('Watch '+m.model+' B: '+(dB>0?'+':'')+dB);}
+            if(dSe!==0){row[1]=mercAdjust(row[1],dSe,false);changed=true;log.push('Watch '+m.model+' Sealed: '+(dSe>0?'+':'')+dSe);}
+            if(dOp!==0){row[2]=mercAdjust(row[2],dOp,false);changed=true;log.push('Watch '+m.model+' Open: '+(dOp>0?'+':'')+dOp);}
+            if(dH!==0){row[3]=mercAdjust(row[3],dH,false);changed=true;log.push('Watch '+m.model+' HSO: '+(dH>0?'+':'')+dH);}
+            if(dB!==0){row[4]=mercAdjust(row[4],dB,false);changed=true;log.push('Watch '+m.model+' B: '+(dB>0?'+':'')+dB);}
           }
         });
       });
@@ -2786,7 +2798,7 @@ renderAll();
           var skuM=mN.match(/[A-Z]{3,5}\d{1,2}[A-Z]{0,2}/);
           var rSkuM=rN.match(/[A-Z]{3,5}\d{1,2}[A-Z]{0,2}/);
           if(skuM&&rSkuM&&skuM[0]===rSkuM[0]){
-            if(dSe!==0){row[1]=(row[1]||0)+dSe;changed=true;log.push('AirPods '+m.model+' Sealed: '+(dSe>0?'+':'')+dSe);}
+            if(dSe!==0){row[1]=mercAdjust(row[1],dSe,false);changed=true;log.push('AirPods '+m.model+' Sealed: '+(dSe>0?'+':'')+dSe);}
           }
         });
       });
