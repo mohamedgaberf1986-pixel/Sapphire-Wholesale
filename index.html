@@ -3,7 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Memphis 901 Buyer</title>
+<title>Memphis 901 Buyer — Wholesale Device Prices</title>
+<meta name="description" content="Memphis 901 Buyer by Sapphire Wholesale LLC — live wholesale buy prices for iPhones, iPads, MacBooks, Samsung, Apple Watch & AirPods. Updated weekly.">
+<meta name="keywords" content="wholesale phones, buy iPhones, sell iPhone Memphis, Sapphire Wholesale, Memphis 901 Buyer, wholesale pricing, used phones Memphis">
+<meta name="author" content="Sapphire Wholesale LLC">
+<meta name="theme-color" content="#0f172a">
+
+<!-- Open Graph for link sharing -->
+<meta property="og:title" content="Memphis 901 Buyer — Wholesale Device Prices">
+<meta property="og:description" content="Live wholesale buy prices for iPhones, iPads, MacBooks, Samsung, Apple Watch & AirPods. Updated weekly by Sapphire Wholesale LLC.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Memphis 901 Buyer — Wholesale Device Prices">
+<meta name="twitter:description" content="Live wholesale buy prices for iPhones, iPads, MacBooks, Samsung & more. Sapphire Wholesale LLC, Memphis TN.">
+
+<!-- Favicon (inline SVG as data URI) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 52'%3E%3Crect x='2' y='2' width='30' height='48' rx='5' stroke='%23c8a84b' stroke-width='2.2' fill='%230f172a'/%3E%3Crect x='11' y='7.5' width='12' height='2.5' rx='1.2' fill='%23c8a84b'/%3E%3Cline x1='17' y1='17' x2='17' y2='37' stroke='%235ba3ff' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M22 20.5C22 18.5 20 17 17 17C14 17 12 18.8 12 21C12 23.2 14 24 17 24.5C20 25 22 26 22 28.5C22 31 20 33 17 33C14 33 12 31.5 12 29.5' stroke='%235ba3ff' stroke-width='2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#1e2a3a;--bg2:#0f172a;--bg3:#1e293b;--blue:#3b82f6;--blue2:#60a5fa;--blue3:#93c5fd;--gold:#f59e0b;--gold2:#fbbf24;--white:#f1f5f9;--dim:#64748b;--dim2:#94a3b8;--border:rgba(255,255,255,.08);--hover:rgba(59,130,246,.1);--radius:14px;}
@@ -37,8 +56,8 @@ header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px soli
 .stab{padding:7px 20px;border-radius:20px;cursor:pointer;font-size:.79rem;font-weight:600;background:rgba(255,255,255,.04);color:var(--dim2);border:1.5px solid rgba(255,255,255,.12);transition:all .25s}
 .stab:hover{border-color:rgba(59,130,246,.5);color:#93c5fd;background:rgba(59,130,246,.08)}.stab.active{background:linear-gradient(135deg,#1d4ed8,#3b82f6);color:#fff;border-color:#3b82f6}
 .stab.dimmed{opacity:.4;border-color:rgba(255,255,255,.08);color:rgba(255,255,255,.35)}
-.iph-filters{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:24px}
-.iph-filters .stab{display:flex;align-items:center;justify-content:center;gap:6px;height:36px;font-size:.72rem;border-radius:20px;padding:0 16px}
+.iph-filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px;max-width:460px;margin-left:auto;margin-right:auto}
+.iph-filters .stab{display:flex;align-items:center;justify-content:center;gap:6px;height:36px;font-size:.72rem;border-radius:20px;padding:0 16px;white-space:nowrap}
 .iph-filters .stab svg{flex-shrink:0;width:13px;height:13px}
 
 
@@ -74,16 +93,16 @@ header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px soli
 .tbl tr:last-child td{border-bottom:none}
 .tbl tr:hover td{background:var(--hover)}
 .cap{font-weight:600;color:var(--blue3);font-size:.81rem}
-.pr{font-weight:800;font-size:.9rem;color:#fbbf24}
+.pr{font-weight:800;font-size:.9rem;color:#ffffff}
 .pr2{font-weight:600;font-size:.87rem;color:#e2e8f0}
 .nu{color:var(--dim);font-size:.77rem;font-style:italic}
 .gp{display:inline-flex;align-items:center;padding:2px 8px;border-radius:7px;font-size:.67rem;font-weight:700;letter-spacing:.03em}
-.g-hso{background:rgba(34,197,94,.18);color:#4ade80;border:1px solid rgba(34,197,94,.2)}
-.g-a{background:rgba(59,130,246,.18);color:#93c5fd;border:1px solid rgba(59,130,246,.2)}
-.g-b{background:rgba(245,158,11,.18);color:#fcd34d;border:1px solid rgba(245,158,11,.2)}
-.g-c{background:rgba(249,115,22,.18);color:#fdba74;border:1px solid rgba(249,115,22,.2)}
-.g-d{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.2)}
-.g-doa{background:rgba(107,114,128,.18);color:#d1d5db;border:1px solid rgba(107,114,128,.2)}
+.g-hso{background:rgba(107,114,128,.06);color:rgba(160,165,170,.45);border:1px solid rgba(107,114,128,.08)}
+.g-a{background:rgba(107,114,128,.06);color:rgba(160,165,170,.45);border:1px solid rgba(107,114,128,.08)}
+.g-b{background:rgba(107,114,128,.06);color:rgba(160,165,170,.45);border:1px solid rgba(107,114,128,.08)}
+.g-c{background:rgba(107,114,128,.06);color:rgba(160,165,170,.45);border:1px solid rgba(107,114,128,.08)}
+.g-d{background:rgba(107,114,128,.06);color:rgba(160,165,170,.45);border:1px solid rgba(107,114,128,.08)}
+.g-doa{background:rgba(107,114,128,.06);color:rgba(160,165,170,.45);border:1px solid rgba(107,114,128,.08)}
 .cpill{display:inline-flex;align-items:center;padding:2px 8px;border-radius:7px;font-size:.68rem;font-weight:600}
 .c-ul{background:rgba(34,197,94,.11);color:#4ade80}
 .c-att{background:rgba(99,102,241,.11);color:#a5b4fc}
@@ -94,11 +113,11 @@ header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px soli
 .tbl-wrap::-webkit-scrollbar{height:4px}
 .tbl-wrap::-webkit-scrollbar-track{background:rgba(255,255,255,.03)}
 .tbl-wrap::-webkit-scrollbar-thumb{background:var(--blue);border-radius:3px}
-.ded-btn{width:100%;background:rgba(200,168,75,.06);border:1px solid rgba(200,168,75,.14);border-radius:0 0 var(--radius) var(--radius);color:var(--gold);font-size:.73rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:8px 16px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;transition:background .18s}
-.ded-btn:hover{background:rgba(200,168,75,.11)}
+.ded-btn{width:100%;background:rgba(107,114,128,.06);border:1px solid rgba(107,114,128,.08);border-radius:0 0 var(--radius) var(--radius);color:rgba(160,165,170,.45);font-size:.73rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:8px 16px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;transition:background .18s}
+.ded-btn:hover{background:rgba(107,114,128,.11)}
 .ded-btn .ded-arrow{transition:transform .22s;font-size:.8rem}
 .ded-btn.open .ded-arrow{transform:rotate(180deg)}
-.ded-panel{display:none;padding:12px 16px 14px;background:rgba(200,168,75,.04);border-top:1px solid rgba(200,168,75,.1)}
+.ded-panel{display:none;padding:12px 16px 14px;background:rgba(107,114,128,.04);border-top:1px solid rgba(107,114,128,.08)}
 .ded-panel.open{display:block}
 .ded-grid{display:grid;grid-template-columns:1fr auto;gap:4px 16px}
 .ded-label{font-size:.74rem;color:var(--dim2);padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04)}
@@ -106,7 +125,140 @@ header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px soli
 .ded-note{font-size:.68rem;color:var(--dim);margin-top:8px;font-style:italic;line-height:1.5}
 
 ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--blue);border-radius:3px}
-@media(max-width:600px){.hdr{padding:12px 14px;height:auto;flex-wrap:wrap}.main{padding:14px 14px 40px}.cattabs{padding:0 14px}}
+
+/* ── GLOBAL SEARCH BAR ── */
+.search-wrap{max-width:1480px;margin:0 auto;padding:14px 28px 0}
+.search-box{position:relative;max-width:500px;margin:0 auto}
+.search-box input{width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:11px 16px 11px 42px;color:#f1f5f9;font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;transition:border-color .2s,box-shadow .2s}
+.search-box input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+.search-box input::placeholder{color:var(--dim)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--dim);pointer-events:none}
+.search-clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:none;border-radius:50%;width:22px;height:22px;display:none;align-items:center;justify-content:center;cursor:pointer;color:var(--dim2);font-size:.75rem;transition:background .15s}
+.search-clear:hover{background:rgba(255,255,255,.2)}
+.search-clear.visible{display:flex}
+.search-count{text-align:center;font-size:.72rem;color:var(--dim);margin-top:8px;min-height:18px}
+.card-full.search-hidden,.card.search-hidden{display:none!important}
+.model-block.search-hidden{display:none!important}
+.search-no-results{text-align:center;padding:40px 20px;color:var(--dim2);font-size:.9rem}
+.search-no-results svg{display:block;margin:0 auto 12px;opacity:.4}
+.search-highlight{background:rgba(251,191,36,.25);color:#fbbf24;border-radius:3px;padding:0 2px}
+
+/* ── BACK TO TOP BUTTON ── */
+#btt{position:fixed;bottom:24px;left:24px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#1b5fc7,#3b82f6);border:1.5px solid rgba(59,130,246,.5);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);transition:all .3s;z-index:500;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+#btt.show{opacity:1;transform:translateY(0)}
+#btt:hover{background:linear-gradient(135deg,#2563eb,#60a5fa);transform:translateY(-2px);box-shadow:0 6px 25px rgba(59,130,246,.3)}
+#btt svg{width:20px;height:20px}
+
+
+/* ── LAST UPDATED BADGE ── */
+.upd-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:8px;padding:4px 10px;font-size:.65rem;color:#4ade80;font-weight:600;letter-spacing:.04em}
+.upd-badge .pulse{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse-dot 2s ease-in-out infinite}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+
+/* ── PRICE ESTIMATOR ── */
+.estimator-tab{display:none}.estimator-tab.active{display:block}
+.est-wrap{max-width:600px;margin:0 auto}
+.est-card{background:linear-gradient(135deg,#0f1e35,#0d1829);border:1.5px solid rgba(59,130,246,.2);border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.4)}
+.est-header{background:linear-gradient(135deg,rgba(59,130,246,.2),rgba(139,92,246,.12));padding:20px 24px;text-align:center;border-bottom:1px solid rgba(59,130,246,.15)}
+.est-header h2{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.1em;color:#fff;margin-bottom:4px}
+.est-header p{font-size:.75rem;color:var(--dim2)}
+.est-body{padding:20px 24px}
+.est-field{margin-bottom:16px}
+.est-field label{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dim2);margin-bottom:6px}
+.est-select,.est-input{width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;padding:11px 14px;color:#f1f5f9;font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none}
+.est-select:focus,.est-input:focus{border-color:var(--blue)}
+.est-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.est-select option{background:#0f172a;color:#f1f5f9}
+.est-result{background:rgba(251,191,36,.06);border:1.5px solid rgba(251,191,36,.2);border-radius:12px;padding:18px;text-align:center;margin-top:8px;display:none}
+.est-result.visible{display:block}
+.est-result-label{font-size:.72rem;color:var(--dim2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.est-result-price{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:#fbbf24;line-height:1}
+.est-result-note{font-size:.7rem;color:var(--dim);margin-top:8px}
+.est-result-range{display:flex;justify-content:center;gap:24px;margin-top:12px}
+.est-range-item{text-align:center}
+.est-range-label{font-size:.62rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+.est-range-val{font-size:1rem;font-weight:800;margin-top:2px}
+
+/* ── PRINT STYLES ── */
+@media print{
+  header,#agree-overlay,#adm-overlay,.cattabs,#btt,#toast,.search-wrap,.sell-bar,.iph-filters,.subtabs,.ded-btn,.ded-panel{display:none!important}
+  body{background:#fff!important;color:#000!important;font-size:80%}
+  .main{padding:10px!important;max-width:100%!important}
+  .section{display:block!important;page-break-inside:avoid}
+  .card-full{border:1px solid #ccc!important;background:#fff!important;box-shadow:none!important;margin-bottom:10px!important;page-break-inside:avoid}
+  .cfhdr{background:#f0f0f0!important;border-bottom:1px solid #ccc!important}
+  .cfhdr h3{color:#000!important}
+  .tbl th{color:#333!important;background:#f5f5f5!important;border-bottom:1px solid #ccc!important}
+  .tbl td{color:#000!important;border-bottom:1px solid #eee!important}
+  .pr,.pr2{color:#000!important}
+  .badge{border:1px solid #999!important;color:#333!important;background:#f0f0f0!important}
+  .gp{border:1px solid #999!important;color:#333!important;background:#f0f0f0!important}
+  .nu{color:#999!important}
+  .cap{color:#000!important}
+  @page{margin:0.5in}
+}
+
+/* ── IMPROVED MOBILE ── */
+@media(max-width:600px){
+  .hdr{padding:12px 14px;height:auto;flex-wrap:wrap}
+  .main{padding:14px 14px 40px}
+  .cattabs{padding:0 14px}
+  .search-wrap{padding:10px 14px 0}
+  .tbl th{font-size:.6rem;padding:6px 8px}
+  .tbl td{font-size:.76rem;padding:8px 8px}
+  #btt{bottom:16px;left:16px;width:40px;height:40px}
+  .est-result-price{font-size:2.2rem}
+  .pair-row{grid-template-columns:1fr}
+  .cfhdr{padding:10px 14px;flex-wrap:wrap;gap:6px}
+  .cfhdr h3{font-size:.84rem}
+  .info-hero{padding:18px 16px}
+  .info-hero-title{font-size:1.5rem}
+}
+@media(max-width:380px){
+  .tbl th{font-size:.55rem;padding:5px 5px;letter-spacing:.04em}
+  .tbl td{font-size:.7rem;padding:6px 5px}
+  .brand h1{font-size:1.3rem}
+}
+
+
+/* ── WELCOME BANNER ── */
+.welcome-banner{background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(139,92,246,.08));border:1px solid rgba(59,130,246,.2);border-radius:14px;padding:18px 24px;margin-bottom:20px;display:flex;align-items:center;gap:16px;animation:cardIn .5s ease-out}
+.welcome-banner-icon{width:48px;height:48px;background:linear-gradient(135deg,#1b5fc7,#3b82f6);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.4rem}
+.welcome-banner-text h3{font-size:.95rem;font-weight:700;color:#f1f5f9;margin-bottom:3px}
+.welcome-banner-text p{font-size:.78rem;color:var(--dim2);line-height:1.5}
+.welcome-banner-close{background:none;border:none;color:var(--dim);cursor:pointer;font-size:1.1rem;padding:4px;margin-left:auto;flex-shrink:0;transition:color .15s}
+.welcome-banner-close:hover{color:var(--white)}
+
+/* ── CATEGORY HEADER ── */
+.cat-header{text-align:center;margin-bottom:20px}
+.cat-header h2{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.1em;color:#f1f5f9}
+.cat-header p{font-size:.75rem;color:var(--dim2);margin-top:2px}
+
+/* ── IMPROVED SELL BUTTON ── */
+.sell-btn{position:relative;overflow:hidden}
+.sell-btn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transition:left .5s}
+.sell-btn:hover::after{left:100%}
+
+/* ── CATEGORY TABS ── */
+.cattabs{position:relative;z-index:190}
+
+/* ── SMOOTH SCROLL ── */
+html{scroll-behavior:smooth}
+
+/* ── TABLE SORT INDICATORS ── */
+.tbl th.sortable{cursor:pointer;user-select:none;transition:color .15s}
+.tbl th.sortable:hover{color:#fbbf24}
+.tbl th.sortable::after{content:'';display:inline-block;margin-left:4px;opacity:.4}
+.tbl th.sort-asc::after{content:'▲';opacity:.8}
+.tbl th.sort-desc::after{content:'▼';opacity:.8}
+
+/* ── SKELETON LOADING ── */
+@keyframes shimmer{0%{background-position:-200px 0}100%{background-position:200px 0}}
+.skeleton{background:linear-gradient(90deg,rgba(255,255,255,.04) 25%,rgba(255,255,255,.08) 50%,rgba(255,255,255,.04) 75%);background-size:200px 100%;animation:shimmer 1.5s infinite;border-radius:6px}
+
+/* ── CARD ENTRANCE ANIMATION ── */
+.card-full{animation:cardIn .35s ease-out both}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── AGREEMENT OVERLAY ── */
 #agree-overlay{position:fixed;inset:0;background:rgba(2,6,14,.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:flex-end;justify-content:center}
@@ -175,6 +327,21 @@ header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px soli
 .sell-bar{display:flex;align-items:center;justify-content:center;padding:9px 16px;border-top:1px solid var(--border)}
 .sell-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(16,185,129,.1));border:1px solid rgba(34,197,94,.4);color:#4ade80;padding:6px 20px;border-radius:20px;font-size:.72rem;font-weight:700;cursor:pointer;transition:all .25s;font-family:'DM Sans',sans-serif;letter-spacing:.04em}
 .sell-btn:hover{background:linear-gradient(135deg,rgba(34,197,94,.3),rgba(16,185,129,.2));border-color:#4ade80}
+/* ── QUOTE POPUP ── */
+#quote-popup-overlay{position:fixed;inset:0;background:rgba(2,6,14,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:10000;display:none;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+#quote-popup-overlay.show{display:flex;opacity:1}
+#quote-popup{background:linear-gradient(165deg,#0c1529,#111d35);border:1px solid rgba(59,130,246,.2);border-radius:20px;padding:32px 28px;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6);animation:slide-up .35s cubic-bezier(.32,1.2,.64,1)}
+#quote-popup h3{color:#e2e8f0;font-size:1.05rem;font-weight:700;margin:0 0 8px}
+#quote-popup p{color:rgba(255,255,255,.55);font-size:.82rem;line-height:1.5;margin:0 0 22px}
+#quote-popup .qp-number{font-size:1.3rem;font-weight:800;color:#fff;letter-spacing:.02em;margin-bottom:20px}
+#quote-popup .qp-actions{display:flex;gap:10px;justify-content:center;margin-bottom:16px}
+#quote-popup .qp-btn{display:inline-flex;align-items:center;gap:7px;padding:10px 22px;border-radius:12px;font-size:.8rem;font-weight:700;text-decoration:none;transition:all .25s;font-family:'DM Sans',sans-serif;border:none;cursor:pointer}
+#quote-popup .qp-call{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff}
+#quote-popup .qp-call:hover{background:linear-gradient(135deg,#15803d,#16a34a)}
+#quote-popup .qp-text{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff}
+#quote-popup .qp-text:hover{background:linear-gradient(135deg,#1d4ed8,#2563eb)}
+#quote-popup .qp-close{background:none;border:none;color:rgba(255,255,255,.35);font-size:.75rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .2s}
+#quote-popup .qp-close:hover{color:rgba(255,255,255,.6)}
 </style>
 </head>
 <body>
@@ -197,6 +364,9 @@ header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px soli
       <div><h1><span class="m901">Memphis</span> <span class="buyer">901 Buyer</span></h1><a href="tel:+19017131565" style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:#f59e0b;letter-spacing:.1em;text-transform:uppercase;margin-top:4px;text-decoration:none;transition:color .18s;font-weight:700" onmouseover="this.style.color='#fbbf24'" onmouseout="this.style.color='#f59e0b'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>(901) 713-1565</a></div>
     </div>
     
+    <div class="hdr-right">
+      <div class="upd-badge"><span class="pulse"></span> Updated <span id="upd-date">Feb 27, 2026</span></div>
+    </div>
   </div>
 </header>
 
@@ -207,11 +377,23 @@ header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px soli
     <div class="ctab" onclick="showCat('macbooks',this)">MacBooks</div>
     <div class="ctab" onclick="showCat('samsung',this)">Samsung</div>
     <div class="ctab" onclick="showCat('watches',this)">Watches &amp; AirPods</div>
+    <div class="ctab" onclick="showCat('estimator',this)">Estimator</div>
     <div class="ctab" onclick="showCat('info',this)">Info</div>
   </div>
 </div>
 
 <main class="main">
+
+  <!-- WELCOME BANNER -->
+  <div class="welcome-banner" id="welcome-banner">
+    <div class="welcome-banner-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+    <div class="welcome-banner-text">
+      <h3>Welcome to Memphis 901 Buyer</h3>
+      <p>Browse our live wholesale buy prices below. Tap any price to copy it. Use the Estimator tab for quick quotes. Prices updated weekly.</p>
+    </div>
+    <button class="welcome-banner-close" onclick="document.getElementById('welcome-banner').style.display='none';sessionStorage.setItem('wb-closed','1')" title="Dismiss">✕</button>
+  </div>
+  <script>if(sessionStorage.getItem('wb-closed')==='1'){document.getElementById('welcome-banner').style.display='none';}</script>
 
   <div class="section active" id="sec-iphones">
     <div class="iph-filters">
@@ -221,14 +403,14 @@ header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px soli
         New — Unlocked
       </div>
 
-      <div class="stab" onclick="showSub('iph','used-ul',this)">
-        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
-        Used — Unlocked
-      </div>
-
       <div class="stab" onclick="showSub('iph','new-lk',this)">
         <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         New — Sim Locked
+      </div>
+
+      <div class="stab" onclick="showSub('iph','used-ul',this)">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+        Used — Unlocked
       </div>
 
       <div class="stab" onclick="showSub('iph','used-lk',this)">
@@ -283,29 +465,150 @@ header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px soli
     <div class="subsec" id="wa-air"><div id="air-cards"></div></div>
   </div>
 
+  <!-- ── PRICE ESTIMATOR TAB ── -->
+  <div class="section" id="sec-estimator">
+    <div class="est-wrap">
+      <div class="est-card">
+        <div class="est-header">
+          <h2>Quick Price Estimator</h2>
+          <p>Get an instant estimate for your device</p>
+        </div>
+        <div class="est-body">
+          <div class="est-field">
+            <label>Device Category</label>
+            <select class="est-select" id="est-category" onchange="estUpdateModels()">
+              <option value="">Select category...</option>
+              <option value="newPhone">New iPhone</option>
+              <option value="usedPhone">Used iPhone</option>
+              <option value="newIpad">New iPad</option>
+              <option value="usedIpad">Used iPad</option>
+              <option value="macbook">MacBook</option>
+            </select>
+          </div>
+          <div class="est-field">
+            <label>Model</label>
+            <select class="est-select" id="est-model" onchange="estUpdateStorage()">
+              <option value="">Select model...</option>
+            </select>
+          </div>
+          <div class="est-field">
+            <label>Storage / Configuration</label>
+            <select class="est-select" id="est-storage" onchange="estUpdatePrice()">
+              <option value="">Select storage...</option>
+            </select>
+          </div>
+          <div class="est-field" id="est-condition-wrap" style="display:none">
+            <label>Condition</label>
+            <select class="est-select" id="est-condition" onchange="estUpdatePrice()">
+              <option value="0">Best Condition</option>
+            </select>
+          </div>
+          <div class="est-result" id="est-result">
+            <div class="est-result-label">Estimated Buy Price</div>
+            <div class="est-result-price" id="est-price">$0</div>
+            <div class="est-result-note">This is an estimate. Final price depends on inspection.</div>
+            <div class="est-result-range" id="est-range"></div>
+            <div style="margin-top:16px">
+              <a href="tel:+19017131565" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(16,185,129,.1));border:1px solid rgba(34,197,94,.4);color:#4ade80;padding:10px 24px;border-radius:20px;font-size:.8rem;font-weight:700;text-decoration:none;transition:all .25s">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                Call to Sell — (901) 713-1565
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ── INFO / AGREEMENT TAB ── -->
   <div class="section" id="sec-info">
     <div class="info-doc">
 
+      <!-- Hero -->
       <div class="info-hero">
-        <div class="info-hero-title">Vendor Agreement</div>
-        <div class="info-hero-sub">Memphis 901 Buyer · Sapphire Wholesale LLC</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:10px">
+          <svg width="32" height="48" viewBox="0 0 34 52" fill="none"><rect x="2" y="2" width="30" height="48" rx="5" stroke="#c8a84b" stroke-width="2.2" fill="none"/><rect x="11" y="7.5" width="12" height="2.5" rx="1.2" fill="#c8a84b"/><line x1="17" y1="17" x2="17" y2="37" stroke="#5ba3ff" stroke-width="2" stroke-linecap="round"/><path d="M22 20.5C22 18.5 20 17 17 17C14 17 12 18.8 12 21C12 23.2 14 24 17 24.5C20 25 22 26 22 28.5C22 31 20 33 17 33C14 33 12 31.5 12 29.5" stroke="#5ba3ff" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+          <div style="text-align:left">
+            <div class="info-hero-title">Vendor Agreement</div>
+            <div class="info-hero-sub">Memphis 901 Buyer &middot; Sapphire Wholesale LLC</div>
+          </div>
+        </div>
         <div class="info-hero-contact">
-          <a href="tel:+19017131565">📞 (901) 713-1565</a>
-          &nbsp;·&nbsp; Memphis, Tennessee
-          &nbsp;·&nbsp; Mon–Sat 8:00 AM – 9:00 PM
+          <a href="tel:+19017131565">(901) 713-1565</a>
+          &nbsp;&middot;&nbsp; Memphis, Tennessee
+          &nbsp;&middot;&nbsp; Mon&ndash;Sat 8:00 AM &ndash; 9:00 PM
         </div>
       </div>
 
+      <!-- Quick Info Cards -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:22px">
+        <div style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--blue3);line-height:1">Mon&ndash;Sat</div>
+          <div style="font-size:.65rem;color:var(--dim);margin-top:3px">8 AM &ndash; 9 PM</div>
+        </div>
+        <div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#4ade80;line-height:1">Same Day</div>
+          <div style="font-size:.65rem;color:var(--dim);margin-top:3px">Inspection &amp; Pay</div>
+        </div>
+        <div style="background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.15);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#fbbf24;line-height:1">Cash</div>
+          <div style="font-size:.65rem;color:var(--dim);margin-top:3px">Zelle &middot; CashApp</div>
+        </div>
+      </div>
+
+      <!-- How It Works -->
+      <div style="background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(139,92,246,.05));border:1px solid rgba(59,130,246,.15);border-radius:12px;padding:20px;margin-bottom:22px">
+        <div style="font-size:.82rem;font-weight:700;color:var(--white);margin-bottom:14px;display:flex;align-items:center;gap:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          How It Works
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+          <div style="text-align:center">
+            <div style="width:32px;height:32px;border-radius:50%;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);color:var(--blue3);font-size:.8rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">1</div>
+            <div style="font-size:.75rem;font-weight:700;color:var(--white);margin-bottom:3px">Contact Us</div>
+            <div style="font-size:.68rem;color:var(--dim2);line-height:1.5">Call or text with your device details</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:32px;height:32px;border-radius:50%;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);color:var(--blue3);font-size:.8rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">2</div>
+            <div style="font-size:.75rem;font-weight:700;color:var(--white);margin-bottom:3px">We Inspect</div>
+            <div style="font-size:.68rem;color:var(--dim2);line-height:1.5">IMEI check, grading, and final offer same day</div>
+          </div>
+          <div style="text-align:center">
+            <div style="width:32px;height:32px;border-radius:50%;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:#4ade80;font-size:.8rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">3</div>
+            <div style="font-size:.75rem;font-weight:700;color:var(--white);margin-bottom:3px">Get Paid</div>
+            <div style="font-size:.68rem;color:var(--dim2);line-height:1.5">Instant payment via Cash, Zelle, or CashApp</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- What We Buy -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:22px">
+        <div style="font-size:.82rem;font-weight:700;color:var(--white);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          What We Buy
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="font-size:.78rem;color:rgba(238,244,255,.7);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">iPhones (all models 11+)</div>
+          <div style="font-size:.78rem;color:rgba(238,244,255,.7);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">iPads (all recent models)</div>
+          <div style="font-size:.78rem;color:rgba(238,244,255,.7);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">MacBooks (Air &amp; Pro)</div>
+          <div style="font-size:.78rem;color:rgba(238,244,255,.7);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">Samsung Galaxy S &amp; Z Series</div>
+          <div style="font-size:.78rem;color:rgba(238,244,255,.7);padding:6px 0">Apple Watch (all series)</div>
+          <div style="font-size:.78rem;color:rgba(238,244,255,.7);padding:6px 0">AirPods (all models)</div>
+        </div>
+      </div>
+
+      <!-- Sections 1-15 -->
+      <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--dim);margin-bottom:14px;padding-left:2px">Vendor Terms &amp; Conditions</div>
+
       <div class="ia-section"><div class="ia-num">1</div><div>
         <div class="ia-title">Business Hours &amp; Contact</div>
-        <p>Open <strong>Monday – Saturday: 8:00 AM – 9:00 PM</strong>. Closed Sundays. All transactions must occur during posted business hours. No exceptions.</p>
-        <p>📍 Memphis, Tennessee &nbsp;|&nbsp; 📞 <a href="tel:+19017131565">(901) 713-1565</a></p>
+        <p>Open <strong>Monday &ndash; Saturday: 8:00 AM &ndash; 9:00 PM</strong>. Closed Sundays. All transactions must occur during posted business hours. No exceptions.</p>
+        <p>Memphis, Tennessee &nbsp;|&nbsp; <a href="tel:+19017131565">(901) 713-1565</a></p>
       </div></div>
 
       <div class="ia-section"><div class="ia-num">2</div><div>
         <div class="ia-title">Lawful Possession Requirement</div>
-        <p class="ia-warn">⚠ WE ONLY PURCHASE FROM SUPPLIERS WHO ARE IN LAWFUL POSSESSION OF THEIR PRODUCTS.</p>
+        <p class="ia-warn">WE ONLY PURCHASE FROM SUPPLIERS WHO ARE IN LAWFUL POSSESSION OF THEIR PRODUCTS.</p>
         <p>You must legally own the device OR have written authorization from the owner to sell it. The device must NOT be stolen, lost, obtained through fraud, subject to any disputed transaction, or subject to any court order or law enforcement investigation. There must be NO liens or claims against this device.</p>
         <p><strong>If you do not meet these requirements, DO NOT PROCEED. We will refuse your transaction.</strong></p>
       </div></div>
@@ -318,7 +621,7 @@ header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px soli
 
       <div class="ia-section"><div class="ia-num">4</div><div>
         <div class="ia-title">Payment Methods &amp; Terms</div>
-        <p><strong>Accepted:</strong> Cash (in-person only) · CashApp · Zelle · Pre-arranged mobile payments.</p>
+        <p><strong>Accepted:</strong> Cash (in-person only) &middot; CashApp &middot; Zelle &middot; Pre-arranged mobile payments.</p>
         <p>Payment is issued <em>after</em> successful inspection and verification. We do NOT hold payments or issue advance payments. Payment is contingent on device passing all inspections.</p>
       </div></div>
 
@@ -335,16 +638,16 @@ header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px soli
             <tr><td><span class="gp g-d">DOA</span></td><td>No power, any combination of problems, no missing parts allowed</td></tr>
             <tr><td><span class="gp g-hso">NEW/SEALED</span></td><td>Non-active, box in good condition, all sealed intact. Never used</td></tr>
             <tr><td><span class="gp g-a">NEW/OPENED</span></td><td>Activation OK (30+ days), box in good condition, plastic on all accessories &amp; screen. Never used</td></tr>
-            <tr><td><span class="gp g-hso">HSO</span></td><td>New device swapped from Apple, no box, no signs of use, NEVER ACTIVATED. Must have plastic. "N" MODEL NUMBER</td></tr>
+            <tr><td><span class="gp g-hso">HSO</span></td><td>New device swapped from Apple, no box, no signs of use, NEVER ACTIVATED. Must have plastic. &quot;N&quot; MODEL NUMBER</td></tr>
           </tbody>
         </table></div>
-        <p>Devices with defects are deducted accordingly. You will be informed of grading results and final offer. You have the right to refuse the final offer and walk away — no fee.</p>
+        <p>Devices with defects are deducted accordingly. You will be informed of grading results and final offer. You have the right to refuse the final offer and walk away &mdash; no fee.</p>
       </div></div>
 
       <div class="ia-section"><div class="ia-num">6</div><div>
         <div class="ia-title">Verification &amp; IMEI Checks</div>
         <p>All devices undergo mandatory verification: SICKW database search, Hitek verification, national carrier blacklists, Apple theft recovery database, iCloud activation lock status, Find My iPhone status, and AT&amp;T / Verizon / T-Mobile / Sprint blacklist checks.</p>
-        <p>If any check fails, the device is <strong>rejected immediately</strong>. No payment will be issued. You may take the device back or leave it — your choice.</p>
+        <p>If any check fails, the device is <strong>rejected immediately</strong>. No payment will be issued. You may take the device back or leave it &mdash; your choice.</p>
       </div></div>
 
       <div class="ia-section"><div class="ia-num">7</div><div>
@@ -352,17 +655,22 @@ header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px soli
         <p>We CAN purchase MDM locked devices, but they receive <strong>significant price deductions</strong>. If your device has an MDM lock, message us <em>before</em> bringing the device so we can provide an estimated deduction. Do NOT assume we will purchase or assume any specific price point for MDM units without prior confirmation.</p>
       </div></div>
 
+      <div class="ia-section"><div class="ia-num">8</div><div>
+        <div class="ia-title">Shipping &amp; Remote Transactions</div>
+        <p>For out-of-area sellers: contact us first to confirm pricing and shipping details. Devices must be shipped with tracking and insurance. Payment is issued <strong>after</strong> the device arrives and passes inspection. Sapphire Wholesale LLC is not responsible for devices lost or damaged in transit.</p>
+      </div></div>
+
       <div class="ia-section ia-section--warn"><div class="ia-num ia-num--warn">9</div><div>
         <div class="ia-title">Legal Responsibility &amp; Indemnification</div>
-        <p class="ia-warn">⚠ IMPORTANT — READ CAREFULLY</p>
-        <p>By accepting payment from Sapphire Wholesale LLC, you provide a <strong>guarantee and warranty</strong> that all goods are acquired legally. You accept ALL legal responsibility for any claims made against Sapphire Wholesale LLC for goods sold — including stolen property claims, fraud, defective goods, or any other legal claim by law enforcement, carriers, original owners, or any third party.</p>
+        <p class="ia-warn">IMPORTANT &mdash; READ CAREFULLY</p>
+        <p>By accepting payment from Sapphire Wholesale LLC, you provide a <strong>guarantee and warranty</strong> that all goods are acquired legally. You accept ALL legal responsibility for any claims made against Sapphire Wholesale LLC for goods sold &mdash; including stolen property claims, fraud, defective goods, or any other legal claim by law enforcement, carriers, original owners, or any third party.</p>
         <p>You agree to <strong>fully indemnify</strong> Sapphire Wholesale LLC and pay ALL legal costs (attorney fees, court costs, investigative expenses) incurred in defending against such claims, regardless of whether the claim is valid.</p>
-        <p>If a device you sold us is later reported stolen — <strong>you are liable</strong>. If we face legal action over a device — <strong>you must pay our legal defense costs</strong>.</p>
+        <p>If a device you sold us is later reported stolen &mdash; <strong>you are liable</strong>. If we face legal action over a device &mdash; <strong>you must pay our legal defense costs</strong>.</p>
       </div></div>
 
       <div class="ia-section ia-section--warn"><div class="ia-num ia-num--warn">10</div><div>
         <div class="ia-title">Stolen &amp; Fraudulent Device Policy</div>
-        <p class="ia-warn">⚠ WE DO NOT BUY STOLEN OR FRAUDULENT PHONES.</p>
+        <p class="ia-warn">WE DO NOT BUY STOLEN OR FRAUDULENT PHONES.</p>
         <p>This includes devices reported stolen, flagged on carrier blacklists, on IMEI theft recovery databases, obtained through theft/robbery/scam/fraud, counterfeit or replica devices, devices with cloned IMEIs, or devices with false condition representations.</p>
         <p>If you attempt to sell stolen devices: we will refuse the transaction, may file a police report with your information, and reserve the right to contact law enforcement. You may face criminal charges independently of our actions.</p>
       </div></div>
@@ -377,21 +685,91 @@ header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px soli
         <p>After purchase, all personal data is removed, all accounts (Apple ID, Google, etc.) are removed, and the device is restored to factory default settings. No personal information from the previous owner remains on any sold device.</p>
       </div></div>
 
+      <div class="ia-section"><div class="ia-num">13</div><div>
+        <div class="ia-title">Pricing &amp; Price Adjustments</div>
+        <p>All prices listed on this site are <strong>buy prices</strong> &mdash; what we pay you. Prices are updated weekly and are subject to change based on market conditions. Prices shown are for the listed condition only. Devices that do not match the expected condition will be re-graded and priced accordingly. The final offer may differ from the listed price based on inspection results.</p>
+      </div></div>
+
+      <div class="ia-section"><div class="ia-num">14</div><div>
+        <div class="ia-title">Dispute Resolution</div>
+        <p>Any disputes arising from transactions must be raised within <strong>48 hours</strong> of the transaction. After 48 hours, all sales are considered final. Disputes will be resolved in accordance with Tennessee law. Both parties agree to attempt good-faith resolution before pursuing legal action.</p>
+      </div></div>
+
       <div class="ia-section"><div class="ia-num">15</div><div>
         <div class="ia-title">Tennessee Law &amp; Jurisdiction</div>
-        <p>This agreement is governed by the laws of the State of Tennessee. Selling stolen property in Tennessee is a crime — penalties include fines and imprisonment. We reserve the right to pursue civil claims for damages, file police reports, and cooperate with law enforcement.</p>
+        <p>This agreement is governed by the laws of the State of Tennessee. Selling stolen property in Tennessee is a crime &mdash; penalties include fines and imprisonment. We reserve the right to pursue civil claims for damages, file police reports, and cooperate with law enforcement.</p>
       </div></div>
 
       <div class="ia-footer">
         <p>By conducting any transaction with Sapphire Wholesale LLC, you acknowledge you have read and agree to all terms above.</p>
-        <p>Effective Date: 2/27/2026 &nbsp;·&nbsp; Memphis, Tennessee &nbsp;·&nbsp; <a href="tel:+19017131565">(901) 713-1565</a></p>
+        <p>Effective Date: 2/27/2026 &nbsp;&middot;&nbsp; Memphis, Tennessee &nbsp;&middot;&nbsp; <a href="tel:+19017131565">(901) 713-1565</a></p>
+        <div style="margin-top:14px">
+          <a href="tel:+19017131565" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(16,185,129,.1));border:1px solid rgba(34,197,94,.4);color:#4ade80;padding:10px 24px;border-radius:20px;font-size:.78rem;font-weight:700;text-decoration:none;transition:all .25s">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Contact Us &mdash; (901) 713-1565
+          </a>
+        </div>
       </div>
 
     </div>
   </div>
 </main>
 
+<!-- FOOTER -->
+<footer style="background:rgba(2,8,23,.6);border-top:1px solid rgba(255,255,255,.06);padding:28px 28px 36px;text-align:center">
+  <div style="max-width:1480px;margin:0 auto">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px">
+      <svg width="20" height="30" viewBox="0 0 34 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="30" height="48" rx="5" stroke="#c8a84b" stroke-width="2.2" fill="none"/>
+        <rect x="11" y="7.5" width="12" height="2.5" rx="1.2" fill="#c8a84b"/>
+        <line x1="17" y1="17" x2="17" y2="37" stroke="#5ba3ff" stroke-width="2" stroke-linecap="round"/>
+        <path d="M22 20.5C22 18.5 20 17 17 17C14 17 12 18.8 12 21C12 23.2 14 24 17 24.5C20 25 22 26 22 28.5C22 31 20 33 17 33C14 33 12 31.5 12 29.5" stroke="#5ba3ff" stroke-width="2" stroke-linecap="round" fill="none"/>
+      </svg>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.08em;color:rgba(255,255,255,.5)">Memphis <span style="color:rgba(74,222,128,.5)">901 Buyer</span></span>
+    </div>
+    <p style="font-size:.72rem;color:rgba(255,255,255,.25);margin-bottom:6px">Sapphire Wholesale LLC &middot; Memphis, Tennessee</p>
+    <p style="font-size:.68rem;color:rgba(255,255,255,.18);margin-bottom:12px">Mon&ndash;Sat 8:00 AM &ndash; 9:00 PM &middot; <a href="tel:+19017131565" style="color:rgba(91,163,255,.4);text-decoration:none">(901) 713-1565</a></p>
+    <div style="display:flex;justify-content:center;gap:16px;margin-bottom:12px">
+      <a href="tel:+19017131565" style="font-size:.7rem;color:rgba(91,163,255,.5);text-decoration:none;display:flex;align-items:center;gap:4px">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call
+      </a>
+      <a href="sms:+19017131565" style="font-size:.7rem;color:rgba(91,163,255,.5);text-decoration:none;display:flex;align-items:center;gap:4px">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Text
+      </a>
+    </div>
+    <p style="font-size:.6rem;color:rgba(255,255,255,.12)">&copy; 2026 Sapphire Wholesale LLC. All rights reserved. Prices subject to change.</p>
+  </div>
+</footer>
+
+<!-- ── QUOTE POPUP ── -->
+<div id="quote-popup-overlay">
+  <div id="quote-popup">
+    <h3>Ready to get a quote?</h3>
+    <p>Text or call us now for a fast quote on your device. We offer same-day payouts!</p>
+    <div class="qp-number">(901) 713-1565</div>
+    <div class="qp-actions">
+      <a href="tel:+19017131565" class="qp-btn qp-call">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call
+      </a>
+      <a href="sms:+19017131565" class="qp-btn qp-text">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Text
+      </a>
+    </div>
+    <button class="qp-close" onclick="closeQuotePopup()">No thanks, just browsing</button>
+  </div>
+</div>
+
 <div id="toast"></div>
+
+<!-- BACK TO TOP -->
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
 
 <!-- ── AGREEMENT OVERLAY ── -->
 <div id="agree-overlay">
@@ -474,17 +852,20 @@ header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px soli
 
 
 <!-- ── ADMIN OVERLAY ── -->
-<div id="adm-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(2,6,14,.97);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)">
+<div id="adm-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(2,6,14,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
 
   <!-- LOGIN -->
   <div id="adm-login" style="display:flex;align-items:center;justify-content:center;height:100%">
-    <div style="background:#0f172a;border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:36px 32px;width:320px;text-align:center">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.1em;color:#fff;margin-bottom:4px">ADMIN ACCESS</div>
+    <div class="adm-login-card">
+      <div class="adm-login-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.1em;color:#fff;margin-bottom:2px">ADMIN ACCESS</div>
       <div style="font-size:.65rem;color:rgba(255,255,255,.3);letter-spacing:.15em;text-transform:uppercase;margin-bottom:28px">Memphis 901 Buyer</div>
-      <input id="adm-pass-input" type="password" placeholder="Enter password" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:12px 16px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;margin-bottom:10px"/>
+      <input id="adm-pass-input" type="password" placeholder="Enter password" class="adm-login-input"/>
       <div id="adm-err" style="display:none;color:#fca5a5;font-size:.75rem;margin-bottom:10px"></div>
-      <button onclick="adminLogin()" style="width:100%;background:var(--blue);border:none;border-radius:10px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:700;padding:12px;cursor:pointer;margin-bottom:12px">Unlock Admin Panel</button>
-      <button onclick="adminClose()" style="width:100%;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:10px;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif;font-size:.8rem;padding:9px;cursor:pointer">Cancel</button>
+      <button onclick="adminLogin()" class="adm-login-btn">Unlock Admin Panel</button>
+      <button onclick="adminClose()" class="adm-login-cancel">Cancel</button>
     </div>
   </div>
 
@@ -492,54 +873,158 @@ header{background:linear-gradient(180deg,#020817,#0f172a);border-bottom:1px soli
   <div id="adm-panel" style="display:none;flex-direction:column;height:100%;overflow:hidden">
 
     <!-- Header -->
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;background:#070d1a">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div style="width:32px;height:32px;background:linear-gradient(135deg,#1b5fc7,#2e80f5);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem">⚙️</div>
+    <div class="adm-header">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="adm-header-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
         <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.08em;color:#fff">Admin Panel <span style="color:#4ade80">· Memphis 901 Buyer</span></div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.08em;color:#fff">Admin Panel <span style="color:#4ade80">· Memphis 901 Buyer</span></div>
           <div style="font-size:.6rem;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase">Edit prices, models & listings</div>
         </div>
       </div>
-      <div style="display:flex;gap:8px">
-        <button id="adm-save-btn" onclick="admSave()" style="background:rgba(27,95,199,.2);border:1.5px solid var(--blue);color:var(--blue3);padding:8px 20px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s">Save All Changes</button>
-        <button onclick="admResetAll()" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#fca5a5;padding:8px 14px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer">Reset</button>
-        <button onclick="adminLogout()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.5);padding:8px 14px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.75rem;cursor:pointer">Exit</button>
+      <div class="adm-header-actions">
+        <div class="adm-search-wrap">
+          <svg class="adm-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" id="adm-search" placeholder="Search models..." class="adm-search-input" oninput="admFilterCards(this.value)"/>
+        </div>
+        <button id="adm-export-btn" onclick="admExport()" class="adm-hdr-btn adm-hdr-btn--export" title="Export Data">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export
+        </button>
+        <button id="adm-save-btn" onclick="admSave()" class="adm-hdr-btn adm-hdr-btn--save">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Save All
+        </button>
+        <button onclick="admResetAll()" class="adm-hdr-btn adm-hdr-btn--reset" title="Reset All">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+        </button>
+        <button onclick="adminLogout()" class="adm-hdr-btn adm-hdr-btn--exit" title="Exit Admin">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
       </div>
     </div>
+
+    <!-- Stats Bar -->
+    <div class="adm-stats-bar" id="adm-stats-bar"></div>
 
     <!-- Body -->
     <div style="display:flex;flex:1;overflow:hidden">
 
       <!-- Sidebar nav -->
-      <div id="adm-nav" style="width:160px;flex-shrink:0;border-right:1px solid rgba(255,255,255,.06);overflow-y:auto;padding:12px 0;background:#070d1a"></div>
+      <div id="adm-nav" class="adm-sidebar"></div>
 
       <!-- Content -->
-      <div id="adm-content" style="flex:1;overflow-y:auto;padding:20px 24px"></div>
+      <div id="adm-content" class="adm-content-area"></div>
 
     </div>
   </div>
 </div>
 
 <style>
-.adm-nav-item{padding:10px 18px;font-size:.78rem;font-weight:600;color:rgba(255,255,255,.4);cursor:pointer;border-left:3px solid transparent;transition:all .18s}
+/* ── ADMIN LOGIN ── */
+.adm-login-card{background:linear-gradient(180deg,#0f172a,#070d1a);border:1px solid rgba(59,130,246,.15);border-radius:20px;padding:40px 36px;width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.adm-login-icon{width:56px;height:56px;background:linear-gradient(135deg,#1b5fc7,#3b82f6);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 30px rgba(59,130,246,.3)}
+.adm-login-input{width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:12px;padding:13px 16px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;margin-bottom:12px;transition:border-color .2s}
+.adm-login-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+.adm-login-btn{width:100%;background:linear-gradient(135deg,#1b5fc7,#3b82f6);border:none;border-radius:12px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:700;padding:13px;cursor:pointer;margin-bottom:10px;transition:all .2s;box-shadow:0 4px 15px rgba(59,130,246,.3)}
+.adm-login-btn:hover{background:linear-gradient(135deg,#2563eb,#60a5fa);transform:translateY(-1px)}
+.adm-login-cancel{width:100%;background:transparent;border:1.5px solid rgba(255,255,255,.1);border-radius:12px;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif;font-size:.8rem;padding:10px;cursor:pointer;transition:all .2s}
+.adm-login-cancel:hover{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.6)}
+
+/* ── ADMIN HEADER ── */
+.adm-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;background:linear-gradient(180deg,#070d1a,#0a1628);gap:12px;flex-wrap:wrap}
+.adm-header-icon{width:36px;height:36px;background:linear-gradient(135deg,#1b5fc7,#2e80f5);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.adm-header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.adm-search-wrap{position:relative;flex-shrink:0}
+.adm-search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none}
+.adm-search-input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:7px 10px 7px 32px;color:#f1f5f9;font-family:'DM Sans',sans-serif;font-size:.75rem;outline:none;width:180px;transition:all .2s}
+.adm-search-input:focus{border-color:var(--blue);width:220px;box-shadow:0 0 0 2px rgba(59,130,246,.1)}
+.adm-hdr-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.73rem;font-weight:700;cursor:pointer;transition:all .2s;border:1.5px solid;flex-shrink:0}
+.adm-hdr-btn--save{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.4);color:#4ade80}
+.adm-hdr-btn--save:hover{background:rgba(34,197,94,.25);border-color:#4ade80}
+.adm-hdr-btn--export{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.3);color:var(--blue3)}
+.adm-hdr-btn--export:hover{background:rgba(59,130,246,.2);border-color:var(--blue)}
+.adm-hdr-btn--reset{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.25);color:#fca5a5;padding:7px 10px}
+.adm-hdr-btn--reset:hover{background:rgba(239,68,68,.18)}
+.adm-hdr-btn--exit{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.5);padding:7px 10px}
+.adm-hdr-btn--exit:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7)}
+
+/* ── ADMIN STATS BAR ── */
+.adm-stats-bar{display:flex;gap:0;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.2);flex-shrink:0;overflow-x:auto;scrollbar-width:none}
+.adm-stats-bar::-webkit-scrollbar{display:none}
+.adm-stat{flex:1;min-width:120px;padding:10px 16px;text-align:center;border-right:1px solid rgba(255,255,255,.04)}
+.adm-stat:last-child{border-right:none}
+.adm-stat-val{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#fbbf24;line-height:1}
+.adm-stat-label{font-size:.6rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+
+/* ── ADMIN SIDEBAR ── */
+.adm-sidebar{width:180px;flex-shrink:0;border-right:1px solid rgba(255,255,255,.06);overflow-y:auto;padding:8px 0;background:#070d1a;scrollbar-width:thin;scrollbar-color:rgba(59,130,246,.3) transparent}
+.adm-nav-item{padding:11px 18px;font-size:.78rem;font-weight:600;color:rgba(255,255,255,.4);cursor:pointer;border-left:3px solid transparent;transition:all .18s;display:flex;align-items:center;gap:9px}
 .adm-nav-item:hover{color:rgba(255,255,255,.75);background:rgba(255,255,255,.04)}
 .adm-nav-item.active{color:#5ba3ff;border-left-color:var(--blue);background:rgba(27,95,199,.1)}
-.adm-section-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--dim);margin-bottom:16px}
-.adm-card{background:#0f172a;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:16px;margin-bottom:14px}
-.adm-card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.adm-card-title{font-size:.82rem;font-weight:700;color:var(--white)}
-.adm-card-name-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.adm-card-name-row label{font-size:.68rem;color:var(--dim);white-space:nowrap}
-.adm-tbl{width:100%;border-collapse:collapse;margin-top:4px}
-.adm-tbl th{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);padding:5px 8px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left}
-.adm-tbl td{padding:4px 4px}
-.adm-inp{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:6px;color:#eef4ff;font-family:'DM Sans',sans-serif;font-size:.76rem;padding:5px 8px;width:100%;outline:none;transition:border-color .15s}
-.adm-inp:focus{border-color:var(--blue)}
-.adm-num{max-width:80px;text-align:right}
-.adm-btn-add{background:rgba(27,95,199,.15);border:1px solid rgba(27,95,199,.3);color:var(--blue3);padding:4px 12px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:700;cursor:pointer}
-.adm-btn-del{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#fca5a5;padding:4px 8px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.68rem;cursor:pointer}
-.adm-btn-new-card{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#4ade80;padding:9px 20px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:700;cursor:pointer;margin-top:4px}
-.adm-loading{color:var(--dim);font-size:.8rem;padding:20px}
+.adm-nav-item svg{width:15px;height:15px;flex-shrink:0;opacity:.6}
+.adm-nav-item.active svg{opacity:1}
+.adm-nav-count{margin-left:auto;background:rgba(255,255,255,.08);padding:1px 7px;border-radius:10px;font-size:.6rem;color:var(--dim2)}
+.adm-nav-item.active .adm-nav-count{background:rgba(59,130,246,.2);color:var(--blue3)}
+
+/* ── ADMIN CONTENT ── */
+.adm-content-area{flex:1;overflow-y:auto;padding:20px 24px;scrollbar-width:thin;scrollbar-color:rgba(59,130,246,.3) transparent}
+.adm-section-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.adm-section-title::before{content:'';width:3px;height:14px;background:var(--blue);border-radius:2px}
+
+/* ── ADMIN CARDS ── */
+.adm-card{background:linear-gradient(180deg,#0f172a,#0c1322);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:0;margin-bottom:16px;overflow:hidden;transition:border-color .2s}
+.adm-card:hover{border-color:rgba(59,130,246,.15)}
+.adm-card.search-hidden{display:none}
+.adm-card-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:rgba(255,255,255,.02);border-bottom:1px solid rgba(255,255,255,.05);cursor:pointer}
+.adm-card-hdr:hover{background:rgba(255,255,255,.04)}
+.adm-card-title{font-size:.85rem;font-weight:700;color:var(--white);display:flex;align-items:center;gap:8px}
+.adm-card-title .adm-card-badge{font-size:.6rem;padding:2px 8px;border-radius:6px;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.adm-card-body{padding:14px 18px}
+.adm-card-name-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.adm-card-name-row label{font-size:.68rem;color:var(--dim);white-space:nowrap;font-weight:600}
+.adm-card-actions{display:flex;gap:6px}
+
+/* ── ADMIN TABLE ── */
+.adm-tbl{width:100%;border-collapse:collapse}
+.adm-tbl th{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left;background:rgba(0,0,0,.15)}
+.adm-tbl td{padding:5px 4px}
+.adm-tbl tr{transition:background .1s}
+.adm-tbl tr:hover{background:rgba(59,130,246,.04)}
+
+/* ── ADMIN INPUTS ── */
+.adm-inp{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.09);border-radius:8px;color:#eef4ff;font-family:'DM Sans',sans-serif;font-size:.78rem;padding:7px 10px;width:100%;outline:none;transition:all .15s}
+.adm-inp:focus{border-color:var(--blue);background:rgba(59,130,246,.06);box-shadow:0 0 0 2px rgba(59,130,246,.1)}
+.adm-inp:hover{border-color:rgba(255,255,255,.18)}
+.adm-num{max-width:85px;text-align:right;font-variant-numeric:tabular-nums}
+
+/* ── ADMIN BUTTONS ── */
+.adm-btn-add{background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.3);color:var(--blue3);padding:5px 14px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:700;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:4px}
+.adm-btn-add:hover{background:rgba(59,130,246,.22);border-color:var(--blue)}
+.adm-btn-del{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#fca5a5;padding:5px 8px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.7rem;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center}
+.adm-btn-del:hover{background:rgba(239,68,68,.2);border-color:rgba(239,68,68,.4)}
+.adm-btn-new-card{background:rgba(34,197,94,.08);border:1.5px solid rgba(34,197,94,.25);color:#4ade80;padding:10px 22px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;margin-top:6px;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.adm-btn-new-card:hover{background:rgba(34,197,94,.18);border-color:#4ade80}
+.adm-loading{color:var(--dim);font-size:.8rem;padding:30px;text-align:center}
+
+/* ── ADMIN RESPONSIVE ── */
+@media(max-width:768px){
+  .adm-header{flex-direction:column;align-items:flex-start;gap:10px}
+  .adm-header-actions{width:100%;overflow-x:auto}
+  .adm-sidebar{width:140px}
+  .adm-search-input{width:140px}
+  .adm-search-input:focus{width:160px}
+  .adm-stats-bar{flex-wrap:wrap}
+  .adm-stat{min-width:80px;padding:8px 10px}
+}
+@media(max-width:500px){
+  .adm-sidebar{width:50px;padding:8px 0}
+  .adm-nav-item{padding:10px 0;justify-content:center;font-size:0;gap:0}
+  .adm-nav-item svg{width:18px;height:18px;opacity:.7}
+  .adm-nav-count{display:none}
+  .adm-content-area{padding:14px 12px}
+}
 </style>
 
 <script>
@@ -821,13 +1306,13 @@ const bl=tp=>tp==='wifi'?'WiFi':tp==='cell'?'Cellular':tp==='ul'?'UNLOCKED':'SIM
 function toggleSell(btn){
   window.location.href='tel:+19017131565';
 }
-const sellBtn=()=>`<div class="sell-bar"><button class="sell-btn" onclick="toggleSell(this)">Sell This</button></div>`;
+const sellBtn=(name)=>'';
 
 function nPhoneCard(d){
   const isLk=d.tp==='lk';
   const hbg=isLk?'rgba(239,68,68,.055)':'rgba(34,197,94,.05)';
   const rows=d.r.map(([c,s,o])=>`<tr><td class="cap">${c}</td><td>${$p(dp(s))}</td><td>${$p(dp(o),'pr2')}</td></tr>`).join('');
-  return`<div class="card-full"><div class="cfhdr" style="background:${hbg}"><h3>${d.t}</h3><div style="display:flex;align-items:center;gap:6px"><span class="badge ${bc(d.tp)}">${bl(d.tp)}</span>${isLk&&d.nt?`<span style="font-size:.63rem;color:var(--dim2);font-style:italic">${d.nt}</span>`:''}</div></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Storage</th><th>Sealed</th><th>Open</th></tr></thead><tbody>${rows}</tbody></table></div>${sellBtn()}</div>`;
+  return`<div class="card-full"><div class="cfhdr" style="background:${hbg}"><h3>${d.t}</h3><div style="display:flex;align-items:center;gap:6px"><span class="badge ${bc(d.tp)}">${bl(d.tp)}</span>${isLk&&d.nt?`<span style="font-size:.63rem;color:var(--dim2);font-style:italic">${d.nt}</span>`:''}</div></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Storage</th><th>Sealed</th><th>Open</th></tr></thead><tbody>${rows}</tbody></table></div>${sellBtn(d.t)}</div>`;
 }
 
 function uPhoneCard(d, key){
@@ -835,7 +1320,7 @@ function uPhoneCard(d, key){
   const hbg=isLk?'rgba(239,68,68,.055)':'rgba(34,197,94,.05)';
   const rows=d.r.map(([c,h,b,cc,dd,doa])=>`<tr><td class="cap">${c}</td><td>${$p(dp(h))}</td><td>${$p(dp(b),'pr2')}</td><td>${$p(dp(cc),'pr2')}</td><td>${$p(dp(dd),'pr2')}</td><td>${$p(dp(doa),'pr2')}</td></tr>`).join('');
   const ded=dedSection(key||'');
-  return`<div class="card-full"><div class="cfhdr" style="background:${hbg}"><h3>${d.t}</h3><span class="badge ${bc(d.tp)}">${bl(d.tp)}</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Storage</th><th><span class="gp g-hso">HSO</span></th><th><span class="gp g-b">Gr B</span></th><th><span class="gp g-c">Gr C</span></th><th><span class="gp g-d">Gr D</span></th><th><span class="gp g-doa">DOA</span></th></tr></thead><tbody>${rows}</tbody></table></div>${ded}${sellBtn()}</div>`;
+  return`<div class="card-full"><div class="cfhdr" style="background:${hbg}"><h3>${d.t}</h3><span class="badge ${bc(d.tp)}">${bl(d.tp)}</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Storage</th><th><span class="gp g-hso">HSO</span></th><th><span class="gp g-b">B</span></th><th><span class="gp g-c">C</span></th><th><span class="gp g-d">D</span></th><th><span class="gp g-doa">DOA</span></th></tr></thead><tbody>${rows}</tbody></table></div>${ded}${sellBtn(d.t)}</div>`;
 }
 
 
@@ -848,13 +1333,13 @@ function renderUI(){
   document.getElementById('ui-lk-blocks').innerHTML=Object.entries(DATA.usedPhone).filter(([k,d])=>d.tp==='lk').map(([k,d])=>uPhoneCard(d,k)).join('');
 }
 function renderNIpad(){
-  document.getElementById('nipad-cards').innerHTML=Object.entries(DATA.newIpad).map(([k,d])=>`<div class="card-full"><div class="cfhdr"><h3>${d.t}</h3><span class="badge ${bc(d.tp)}">${bl(d.tp)}</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Storage</th><th>Sealed</th><th>Open</th></tr></thead><tbody>${d.r.map(([c,s,o])=>`<tr><td class="cap">${c}</td><td>${$p(dp(s))}</td><td>${$p(dp(o),'pr2')}</td></tr>`).join('')}</tbody></table></div>${sellBtn()}</div>`).join('');
+  document.getElementById('nipad-cards').innerHTML=Object.entries(DATA.newIpad).map(([k,d])=>`<div class="card-full"><div class="cfhdr"><h3>${d.t}</h3><span class="badge ${bc(d.tp)}">${bl(d.tp)}</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Storage</th><th>Sealed</th><th>Open</th></tr></thead><tbody>${d.r.map(([c,s,o])=>`<tr><td class="cap">${c}</td><td>${$p(dp(s))}</td><td>${$p(dp(o),'pr2')}</td></tr>`).join('')}</tbody></table></div>${sellBtn(d.t)}</div>`).join('');
 }
 function renderUIpad(){
-  document.getElementById('uipad-cards').innerHTML=Object.entries(DATA.usedIpad).map(([k,d])=>`<div class="card-full"><div class="cfhdr"><h3>${d.t}</h3><span class="badge ${bc(d.tp)}">${bl(d.tp)}</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Storage</th><th><span class="gp g-a">Gr A</span></th><th><span class="gp g-a">Gr B+</span></th><th><span class="gp g-b">Gr B</span></th><th><span class="gp g-c">Gr C</span></th><th><span class="gp g-d">Gr D</span></th></tr></thead><tbody>${d.r.map(([c,a,bp,b,cc,dd])=>`<tr><td class="cap">${c}</td><td>${$p(dp(a))}</td><td>${$p(dp(bp),'pr2')}</td><td>${$p(dp(b),'pr2')}</td><td>${$p(dp(cc),'pr2')}</td><td>${$p(dp(dd),'pr2')}</td></tr>`).join('')}</tbody></table></div>${sellBtn()}</div>`).join('');
+  document.getElementById('uipad-cards').innerHTML=Object.entries(DATA.usedIpad).map(([k,d])=>`<div class="card-full"><div class="cfhdr"><h3>${d.t}</h3><span class="badge ${bc(d.tp)}">${bl(d.tp)}</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Storage</th><th><span class="gp g-a">A</span></th><th><span class="gp g-a">B+</span></th><th><span class="gp g-b">B</span></th><th><span class="gp g-c">C</span></th><th><span class="gp g-d">D</span></th></tr></thead><tbody>${d.r.map(([c,a,bp,b,cc,dd])=>`<tr><td class="cap">${c}</td><td>${$p(dp(a))}</td><td>${$p(dp(bp),'pr2')}</td><td>${$p(dp(b),'pr2')}</td><td>${$p(dp(cc),'pr2')}</td><td>${$p(dp(dd),'pr2')}</td></tr>`).join('')}</tbody></table></div>${sellBtn(d.t)}</div>`).join('');
 }
 function renderMac(){
-  document.getElementById('mac-cards').innerHTML=Object.entries(DATA.macbook).map(([k,d])=>`<div class="card-full"><div class="cfhdr"><h3>${d.t}</h3></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Configuration</th><th>Sealed</th><th>Activated</th></tr></thead><tbody>${d.r.map(([c,s,a])=>`<tr><td style="font-size:.82rem">${c}</td><td>${$p(dp(s))}</td><td>${$p(dp(a),'pr2')}</td></tr>`).join('')}</tbody></table></div>${sellBtn()}</div>`).join('');
+  document.getElementById('mac-cards').innerHTML=Object.entries(DATA.macbook).map(([k,d])=>`<div class="card-full"><div class="cfhdr"><h3>${d.t}</h3></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Configuration</th><th>Sealed</th><th>Activated</th></tr></thead><tbody>${d.r.map(([c,s,a])=>`<tr><td style="font-size:.82rem">${c}</td><td>${$p(dp(s))}</td><td>${$p(dp(a),'pr2')}</td></tr>`).join('')}</tbody></table></div>${sellBtn(d.t)}</div>`).join('');
 }
 // Samsung gets extra -15% on top of the standard -17% → total multiplier = 0.83 × 0.85
 const dps=v=>{const n=parseFloat(v);return(!isNaN(n)&&n>0)?Math.round(n*0.83*0.85/5)*5:null};
@@ -881,7 +1366,7 @@ function renderSam(){
         </tr>`;
       }).join('');
       return`<div class="card-full"><div class="cfhdr" style="background:${hbg}"><h3>Samsung ${title}</h3>${badge}</div>
-        <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Model</th><th>New</th><th><span class="gp g-hso">Grade A</span></th><th><span class="gp g-b">Grade B</span></th></tr></thead><tbody>${trs}</tbody></table></div>${sellBtn()}
+        <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Model</th><th>New</th><th><span class="gp g-hso">Grade A</span></th><th><span class="gp g-b">Grade B</span></th></tr></thead><tbody>${trs}</tbody></table></div>${sellBtn('Samsung '+title)}
       </div>`;
     };
 
@@ -903,13 +1388,13 @@ function renderWatch(){
       <td>${a?$p(dp(a)):'<span class="nu">—</span>'}</td>
       <td>${b?$p(dp(b),'pr2'):'<span class="nu">—</span>'}</td>
     </tr>`).join('');
-    return`<div class="card-full"><div class="cfhdr" style="background:linear-gradient(135deg,rgba(14,165,233,.15),rgba(6,182,212,.08))"><h3>${title}</h3><span class="badge b-wifi" style="font-size:.6rem">APPLE WATCH</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Model</th><th>Sealed</th><th>Open</th><th><span class="gp g-hso">Gr A/HSO</span></th><th><span class="gp g-b">Gr B</span></th></tr></thead><tbody>${trs}</tbody></table></div>${sellBtn()}</div>`;
+    return`<div class="card-full"><div class="cfhdr" style="background:linear-gradient(135deg,rgba(14,165,233,.15),rgba(6,182,212,.08))"><h3>${title}</h3><span class="badge b-wifi" style="font-size:.6rem">APPLE WATCH</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Model</th><th>Sealed</th><th>Open</th><th><span class="gp g-hso">A/HSO</span></th><th><span class="gp g-b">B</span></th></tr></thead><tbody>${trs}</tbody></table></div>${sellBtn(title)}</div>`;
   }).join('');
 }
 function renderAir(){
   document.getElementById('air-cards').innerHTML=Object.entries(DATA.airpods).map(([title,rows])=>{
     const trs=rows.map(([m,p])=>`<tr><td style="font-size:.82rem;font-weight:500">${m}</td><td>${$p(dp(p))}</td></tr>`).join('');
-    return`<div class="card-full"><div class="cfhdr" style="background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(168,85,247,.08))"><h3>${title}</h3><span class="badge b-cell" style="font-size:.6rem">AIRPODS</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Model</th><th>New / Sealed</th></tr></thead><tbody>${trs}</tbody></table></div>${sellBtn()}</div>`;
+    return`<div class="card-full"><div class="cfhdr" style="background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(168,85,247,.08))"><h3>${title}</h3><span class="badge b-cell" style="font-size:.6rem">AIRPODS</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Model</th><th>New / Sealed</th></tr></thead><tbody>${trs}</tbody></table></div>${sellBtn(title)}</div>`;
   }).join('');
 }
 function renderAll(){renderNI();renderUI();renderNIpad();renderUIpad();renderMac();renderSam();renderWatch();renderAir();}
@@ -967,6 +1452,148 @@ function toast(msg,type='ok'){
 
 // ── INIT ──
 renderAll();
+
+
+// ── BACK TO TOP BUTTON ──
+(function(){
+  const btt=document.getElementById('btt');
+  let ticking=false;
+  window.addEventListener('scroll',function(){
+    if(!ticking){
+      requestAnimationFrame(()=>{
+        btt.classList.toggle('show',window.scrollY>400);
+        ticking=false;
+      });
+      ticking=true;
+    }
+  });
+})();
+
+// ── PRICE ESTIMATOR ──
+(function(){
+  window.estUpdateModels=function(){
+    const cat=document.getElementById('est-category').value;
+    const modelSel=document.getElementById('est-model');
+    const storageSel=document.getElementById('est-storage');
+    const condWrap=document.getElementById('est-condition-wrap');
+    const result=document.getElementById('est-result');
+
+    modelSel.innerHTML='<option value="">Select model...</option>';
+    storageSel.innerHTML='<option value="">Select storage...</option>';
+    condWrap.style.display='none';
+    result.classList.remove('visible');
+
+    if(!cat||!DATA[cat]) return;
+
+    Object.entries(DATA[cat]).forEach(([key,d])=>{
+      const label=d.t+(d.tp?' ('+bl(d.tp)+')':'');
+      modelSel.innerHTML+=`<option value="${key}">${label}</option>`;
+    });
+  };
+
+  window.estUpdateStorage=function(){
+    const cat=document.getElementById('est-category').value;
+    const key=document.getElementById('est-model').value;
+    const storageSel=document.getElementById('est-storage');
+    const condWrap=document.getElementById('est-condition-wrap');
+    const condSel=document.getElementById('est-condition');
+    const result=document.getElementById('est-result');
+
+    storageSel.innerHTML='<option value="">Select storage...</option>';
+    result.classList.remove('visible');
+
+    if(!cat||!key||!DATA[cat][key]) return;
+
+    const d=DATA[cat][key];
+    d.r.forEach((row,i)=>{
+      storageSel.innerHTML+=`<option value="${i}">${row[0]}</option>`;
+    });
+
+    // Setup condition options based on category
+    if(cat==='usedPhone'){
+      condWrap.style.display='block';
+      condSel.innerHTML=`
+        <option value="1">HSO / A+ Grade</option>
+        <option value="2">Grade B</option>
+        <option value="3">Grade C</option>
+        <option value="4">Grade D</option>
+        <option value="5">DOA</option>
+      `;
+    } else if(cat==='usedIpad'){
+      condWrap.style.display='block';
+      condSel.innerHTML=`
+        <option value="1">Grade A</option>
+        <option value="2">Grade B+</option>
+        <option value="3">Grade B</option>
+        <option value="4">Grade C</option>
+        <option value="5">Grade D</option>
+      `;
+    } else if(cat==='newPhone'||cat==='newIpad'){
+      condWrap.style.display='block';
+      condSel.innerHTML=`
+        <option value="1">Sealed</option>
+        <option value="2">Opened / Activated</option>
+      `;
+    } else if(cat==='macbook'){
+      condWrap.style.display='block';
+      condSel.innerHTML=`
+        <option value="1">Sealed</option>
+        <option value="2">Activated</option>
+      `;
+    } else {
+      condWrap.style.display='none';
+    }
+  };
+
+  window.estUpdatePrice=function(){
+    const cat=document.getElementById('est-category').value;
+    const key=document.getElementById('est-model').value;
+    const storageIdx=document.getElementById('est-storage').value;
+    const condIdx=document.getElementById('est-condition').value;
+    const result=document.getElementById('est-result');
+    const priceEl=document.getElementById('est-price');
+    const rangeEl=document.getElementById('est-range');
+
+    if(!cat||!key||storageIdx==='') { result.classList.remove('visible'); return; }
+
+    const row=DATA[cat][key].r[parseInt(storageIdx)];
+    if(!row){ result.classList.remove('visible'); return; }
+
+    let rawPrice=null;
+    const ci=parseInt(condIdx)||1;
+
+    if(row[ci]!==undefined&&row[ci]!==null){
+      rawPrice=row[ci];
+    } else if(row[1]!==undefined){
+      rawPrice=row[1];
+    }
+
+    if(rawPrice===null){ result.classList.remove('visible'); return; }
+
+    // Apply discount
+    let finalPrice;
+    if(cat==='samsung'){
+      finalPrice=Math.round(rawPrice*0.83*0.85/5)*5;
+    } else {
+      finalPrice=Math.round(rawPrice*0.83/5)*5;
+    }
+
+    priceEl.textContent='$'+finalPrice.toLocaleString();
+    result.classList.add('visible');
+
+    // Show range if used phone
+    if(cat==='usedPhone'||cat==='usedIpad'){
+      const best=dp(row[1]);
+      const worst=dp(row[row.length-1]);
+      rangeEl.innerHTML=`
+        <div class="est-range-item"><div class="est-range-label">Best Condition</div><div class="est-range-val" style="color:#4ade80">${best?'$'+best:'—'}</div></div>
+        <div class="est-range-item"><div class="est-range-label">Lowest (DOA)</div><div class="est-range-val" style="color:#fca5a5">${worst?'$'+worst:'—'}</div></div>
+      `;
+    } else {
+      rangeEl.innerHTML='';
+    }
+  };
+})();
 
 
 // ── ADMIN PANEL ──
@@ -1027,6 +1654,7 @@ renderAll();
       document.getElementById('adm-login').style.display='none';
       document.getElementById('adm-panel').style.display='flex';
       admRenderNav();
+      admRenderStats();
       admShowSection('newPhone');
     } else {
       const err=document.getElementById('adm-err');
@@ -1052,28 +1680,76 @@ renderAll();
 
   // ── NAV SECTIONS ──
   const SECTIONS=[
-    {id:'newPhone',  label:'New iPhones'},
-    {id:'usedPhone', label:'Used iPhones'},
-    {id:'newIpad',   label:'New iPads'},
-    {id:'usedIpad',  label:'Used iPads'},
-    {id:'macbook',   label:'MacBooks'},
-    {id:'samsung',   label:'Samsung'},
-    {id:'watch',     label:'Apple Watch'},
-    {id:'airpods',   label:'AirPods'},
+    {id:'newPhone',  label:'New iPhones',  icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>'},
+    {id:'usedPhone', label:'Used iPhones', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>'},
+    {id:'newIpad',   label:'New iPads',    icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>'},
+    {id:'usedIpad',  label:'Used iPads',   icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>'},
+    {id:'macbook',   label:'MacBooks',     icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>'},
+    {id:'samsung',   label:'Samsung',      icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>'},
+    {id:'watch',     label:'Apple Watch',  icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83M7.49 6.65l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/></svg>'},
+    {id:'airpods',   label:'AirPods',      icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3v5z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3v5z"/></svg>'},
   ];
+
+  function getCount(id){
+    if(id==='newPhone') return Object.keys(DATA.newPhone).length;
+    if(id==='usedPhone') return Object.keys(DATA.usedPhone).length;
+    if(id==='newIpad') return Object.keys(DATA.newIpad).length;
+    if(id==='usedIpad') return Object.keys(DATA.usedIpad).length;
+    if(id==='macbook') return Object.keys(DATA.macbook).length;
+    if(id==='samsung') return Object.values(DATA.samsung).reduce((s,r)=>s+r.length,0);
+    if(id==='watch') return Object.values(DATA.watch).reduce((s,r)=>s+r.length,0);
+    if(id==='airpods') return Object.values(DATA.airpods).reduce((s,r)=>s+r.length,0);
+    return 0;
+  }
 
   function admRenderNav(){
     document.getElementById('adm-nav').innerHTML=SECTIONS.map(s=>
-      `<div class="adm-nav-item" id="adm-nav-${s.id}" onclick="admShowSection('${s.id}')">${s.label}</div>`
+      `<div class="adm-nav-item" id="adm-nav-${s.id}" onclick="admShowSection('${s.id}')">${s.icon}<span>${s.label}</span><span class="adm-nav-count">${getCount(s.id)}</span></div>`
     ).join('');
   }
+
+  function admRenderStats(){
+    const totalModels=SECTIONS.reduce((s,sec)=>s+getCount(sec.id),0);
+    document.getElementById('adm-stats-bar').innerHTML=`
+      <div class="adm-stat"><div class="adm-stat-val">${totalModels}</div><div class="adm-stat-label">Total Listings</div></div>
+      <div class="adm-stat"><div class="adm-stat-val">${Object.keys(DATA.newPhone).length+Object.keys(DATA.usedPhone).length}</div><div class="adm-stat-label">iPhones</div></div>
+      <div class="adm-stat"><div class="adm-stat-val">${Object.keys(DATA.newIpad).length+Object.keys(DATA.usedIpad).length}</div><div class="adm-stat-label">iPads</div></div>
+      <div class="adm-stat"><div class="adm-stat-val">${Object.keys(DATA.macbook).length}</div><div class="adm-stat-label">MacBooks</div></div>
+      <div class="adm-stat"><div class="adm-stat-val">${Object.values(DATA.samsung).reduce((s,r)=>s+r.length,0)}</div><div class="adm-stat-label">Samsung</div></div>
+      <div class="adm-stat"><div class="adm-stat-val">${Object.values(DATA.watch).reduce((s,r)=>s+r.length,0)+Object.values(DATA.airpods).reduce((s,r)=>s+r.length,0)}</div><div class="adm-stat-label">Watch/Pods</div></div>
+    `;
+  }
+
+  // ── ADMIN SEARCH ──
+  window.admFilterCards=function(q){
+    const cards=document.querySelectorAll('#adm-content .adm-card');
+    if(!q){cards.forEach(c=>c.classList.remove('search-hidden'));return;}
+    const terms=q.toLowerCase().split(/\s+/);
+    cards.forEach(c=>{
+      const text=c.textContent.toLowerCase();
+      c.classList.toggle('search-hidden',!terms.every(t=>text.includes(t)));
+    });
+  };
+
+  // ── ADMIN EXPORT ──
+  window.admExport=function(){
+    const blob=new Blob([JSON.stringify(DATA,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download='memphis901-prices-'+new Date().toISOString().slice(0,10)+'.json';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+    toast('Data exported successfully!','ok');
+  };
 
   window.admShowSection=function(id){
     SECTIONS.forEach(s=>{
       document.getElementById('adm-nav-'+s.id).classList.toggle('active', s.id===id);
     });
     const content=document.getElementById('adm-content');
-    content.innerHTML='<div class="adm-loading">Loading…</div>';
+    content.innerHTML='<div class="adm-loading">Loading...</div>';
+    // Clear search
+    const searchInp=document.getElementById('adm-search');
+    if(searchInp) searchInp.value='';
     setTimeout(()=>{ content.innerHTML=admBuildSection(id); },60);
   };
 
@@ -1121,7 +1797,7 @@ renderAll();
             <button class="adm-btn-add" onclick="admAddRow('usedPhone','${key}')">+ Add Row</button>
           </div>
           <table class="adm-tbl">
-            <thead><tr><th>Storage</th><th>HSO</th><th>Gr B</th><th>Gr C</th><th>Gr D</th><th>DOA</th><th></th></tr></thead>
+            <thead><tr><th>Storage</th><th>HSO</th><th>B</th><th>C</th><th>D</th><th>DOA</th><th></th></tr></thead>
             <tbody>
               ${d.r.map((row,i)=>`<tr>
                 <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.usedPhone['${key}'].r[${i}][0]=this.value"/></td>
@@ -1143,7 +1819,7 @@ renderAll();
             <button class="adm-btn-add" onclick="admAddRow('usedIpad','${key}')">+ Add Row</button>
           </div>
           <table class="adm-tbl">
-            <thead><tr><th>Storage</th><th>Gr A</th><th>Gr B+</th><th>Gr B</th><th>Gr C</th><th>Gr D</th><th></th></tr></thead>
+            <thead><tr><th>Storage</th><th>A</th><th>B+</th><th>B</th><th>C</th><th>D</th><th></th></tr></thead>
             <tbody>
               ${d.r.map((row,i)=>`<tr>
                 <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.usedIpad['${key}'].r[${i}][0]=this.value"/></td>
@@ -1191,7 +1867,7 @@ renderAll();
             <button class="adm-btn-add" onclick="admAddWatchRow('${grp}')">+ Add Row</button>
           </div>
           <table class="adm-tbl">
-            <thead><tr><th>Model</th><th>Sealed</th><th>Open</th><th>Gr A/HSO</th><th>Gr B</th><th></th></tr></thead>
+            <thead><tr><th>Model</th><th>Sealed</th><th>Open</th><th>A/HSO</th><th>B</th><th></th></tr></thead>
             <tbody>
               ${rows.map((row,i)=>`<tr>
                 <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.watch['${grp}'][${i}][0]=this.value"/></td>
@@ -1261,9 +1937,12 @@ renderAll();
 
   window.admSave=function(){
     saveData();
+    admRenderNav();
+    admRenderStats();
     const btn=document.getElementById('adm-save-btn');
-    btn.textContent='Saved ✓';btn.style.background='rgba(34,197,94,.2)';btn.style.borderColor='#4ade80';btn.style.color='#4ade80';
-    setTimeout(()=>{btn.textContent='Save All Changes';btn.style.background='';btn.style.borderColor='';btn.style.color='';},2500);
+    btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Saved!';
+    btn.style.background='rgba(34,197,94,.2)';btn.style.borderColor='#4ade80';btn.style.color='#4ade80';
+    setTimeout(()=>{btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save All';btn.style.background='';btn.style.borderColor='';btn.style.color='';},2500);
   };
 
   window.admResetAll=function(){
@@ -1281,7 +1960,120 @@ renderAll();
     });
   });
 
+  // ── ADMIN KEYBOARD SHORTCUTS ──
+  document.addEventListener('keydown',function(e){
+    // Ctrl+S / Cmd+S to save in admin
+    if((e.ctrlKey||e.metaKey)&&e.key==='s'){
+      const panel=document.getElementById('adm-panel');
+      if(panel&&panel.style.display==='flex'){
+        e.preventDefault();
+        admSave();
+      }
+    }
+    // Escape to close admin
+    if(e.key==='Escape'){
+      const overlay=document.getElementById('adm-overlay');
+      if(overlay&&overlay.style.display!=='none'){
+        adminLogout();
+      }
+    }
+    // Ctrl+/ to focus search
+    if((e.ctrlKey||e.metaKey)&&e.key==='/'){
+      e.preventDefault();
+      const searchInput=document.getElementById('global-search');
+      if(searchInput){searchInput.focus();searchInput.select();}
+    }
+  });
+
 })();
+
+// ── COPY PRICE ON CLICK ──
+(function(){
+  document.addEventListener('click',function(e){
+    const prEl=e.target.closest('.pr,.pr2');
+    if(!prEl) return;
+    const text=prEl.textContent.trim();
+    if(!text||text==='—') return;
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(text).then(()=>toast('Copied '+text,'ok')).catch(()=>{});
+    }
+  });
+})();
+
+// ── GRADE TOOLTIPS ──
+(function(){
+  const gradeInfo={
+    'HSO':'Hospital Stock Overrun — New, never activated, swapped from Apple. Must have plastic & N model number.',
+    'A':'Grade A — Fully functional, perfect condition. No dents, scratches, or marks.',
+    'B+':'Grade B+ — Fully functional with very minor cosmetic wear.',
+    'B':'Grade B — Fully functional, minor dents or light scratches present.',
+    'C':'Grade C — Fully functional, heavy dents/scratches, cracked glass OK if LCD is good.',
+    'D':'Grade D — Fully functional, heavy wear, LCD lines/spots allowed (no blackout).',
+    'DOA':'Dead On Arrival — No power or major issues. No missing parts allowed.',
+    'Grade A':'Grade A — Like new condition, fully functional, minimal wear.',
+    'Grade B':'Grade B — Fully functional with moderate cosmetic wear.',
+  };
+
+  // Create tooltip element
+  const tip=document.createElement('div');
+  tip.id='grade-tip';
+  tip.style.cssText='position:fixed;background:#1e293b;border:1px solid rgba(59,130,246,.3);border-radius:10px;padding:10px 14px;font-size:.75rem;color:#e2e8f0;max-width:280px;line-height:1.5;box-shadow:0 8px 30px rgba(0,0,0,.5);z-index:9000;pointer-events:none;opacity:0;transition:opacity .15s;';
+  document.body.appendChild(tip);
+
+  document.addEventListener('mouseover',function(e){
+    const gp=e.target.closest('.gp');
+    if(!gp) return;
+    const label=gp.textContent.trim();
+    const info=gradeInfo[label];
+    if(!info) return;
+    tip.textContent=info;
+    tip.style.opacity='1';
+    const rect=gp.getBoundingClientRect();
+    tip.style.left=Math.min(rect.left,window.innerWidth-290)+'px';
+    tip.style.top=(rect.bottom+8)+'px';
+  });
+  document.addEventListener('mouseout',function(e){
+    if(e.target.closest('.gp')){tip.style.opacity='0';}
+  });
+})();
+
+
+// ── DEVICE COUNT STATS (show counts in tabs) ──
+(function(){
+  function updateCounts(){
+    const counts={
+      iphones:Object.keys(DATA.newPhone).length+Object.keys(DATA.usedPhone).length,
+      ipads:Object.keys(DATA.newIpad).length+Object.keys(DATA.usedIpad).length,
+      macbooks:Object.keys(DATA.macbook).length,
+      samsung:Object.values(DATA.samsung).reduce((s,r)=>s+r.length,0),
+      watches:Object.values(DATA.watch).reduce((s,r)=>s+r.length,0)+Object.values(DATA.airpods).reduce((s,r)=>s+r.length,0),
+    };
+    // Don't add counts to tabs to keep them clean — but use them in search
+    window._deviceCounts=counts;
+  }
+  updateCounts();
+})();
+
+// ── QUOTE POPUP (shows after 60 seconds) ──
+(function(){
+  var QUOTE_DELAY=60000;
+  var shown=sessionStorage.getItem('m901_quote_shown');
+  if(shown) return;
+  setTimeout(function(){
+    var ov=document.getElementById('quote-popup-overlay');
+    if(!ov) return;
+    ov.style.display='flex';
+    requestAnimationFrame(function(){ov.classList.add('show');});
+    sessionStorage.setItem('m901_quote_shown','1');
+  },QUOTE_DELAY);
+})();
+window.closeQuotePopup=function(){
+  var ov=document.getElementById('quote-popup-overlay');
+  if(ov){ov.classList.remove('show');setTimeout(function(){ov.style.display='none';},300);}
+};
+document.addEventListener('click',function(e){
+  if(e.target&&e.target.id==='quote-popup-overlay') closeQuotePopup();
+});
 </script>
 </body>
 </html>
