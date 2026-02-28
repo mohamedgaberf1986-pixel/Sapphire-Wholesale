@@ -2017,9 +2017,9 @@ renderAll();
 
     // ── MERCURY SYNC (Excel-based) ──
     if(id==='mercury-sync'){
-      var bl=null;try{bl=JSON.parse(localStorage.getItem('m901_merc_xl'));}catch(e){}
-      var lastTs='';try{lastTs=localStorage.getItem('m901_merc_xl_ts')||'';}catch(e){}
-      var changeLog=[];try{changeLog=JSON.parse(localStorage.getItem('m901_merc_xl_log'))||[];}catch(e){}
+      var bl=_mercBaseline;
+      var lastTs=_mercBaseline_ts||'';
+      var changeLog=_mercLog||[];
       html+=`<div class="adm-section-title">Mercury Price Sync</div>`;
       html+=`<div class="adm-card" style="margin-bottom:16px">
         <div class="adm-card-hdr"><div class="adm-card-title">How to use</div></div>
@@ -2076,7 +2076,7 @@ renderAll();
           html+=`<div style="border-bottom:1px solid var(--border);padding:8px 0">
             <div style="color:var(--dim2);font-size:.68rem;margin-bottom:4px">${new Date(entry.ts).toLocaleString()} — ${entry.count} change(s)</div>`;
           entry.changes.forEach(function(c){
-            var color=c.indexOf('+')>-1?'#4ade80':'#f87171';
+            var color=/: \+/.test(c)?'#4ade80':'#f87171';
             html+=`<div style="padding:2px 0;color:${color}">${c}</div>`;
           });
           html+=`</div>`;
@@ -2091,35 +2091,88 @@ renderAll();
   }
 
   // ── MERCURY EXCEL SYNC LOGIC ──
-  var MERC_XL_KEY='m901_merc_xl';
-  var MERC_XL_TS='m901_merc_xl_ts';
-  var MERC_XL_LOG='m901_merc_xl_log';
-  var _mercUploadMode='baseline'; // 'baseline' or 'compare'
+  // Uses IndexedDB for storage (no 5MB localStorage limit, async = no UI freeze)
+  var _mercUploadMode='baseline';
+  var _mercDB=null; // IndexedDB handle
+  var _mercBaseline=null; // in-memory cache of baseline
+  var _mercLog=[]; // in-memory cache of change log
+
+  // ── IndexedDB wrapper ──
+  function mercOpenDB(cb){
+    if(_mercDB){cb(null,_mercDB);return;}
+    var req=indexedDB.open('m901_mercury',1);
+    req.onupgradeneeded=function(e){
+      var db=e.target.result;
+      if(!db.objectStoreNames.contains('data')) db.createObjectStore('data');
+    };
+    req.onsuccess=function(e){_mercDB=e.target.result;cb(null,_mercDB);};
+    req.onerror=function(e){cb(e.target.error,null);};
+  }
+  function mercDBPut(key,val,cb){
+    mercOpenDB(function(err,db){
+      if(err){if(cb)cb(err);return;}
+      try{
+        var tx=db.transaction('data','readwrite');
+        tx.objectStore('data').put(val,key);
+        tx.oncomplete=function(){if(cb)cb(null);};
+        tx.onerror=function(e){if(cb)cb(e.target.error);};
+      }catch(ex){if(cb)cb(ex);}
+    });
+  }
+  function mercDBGet(key,cb){
+    mercOpenDB(function(err,db){
+      if(err){cb(err,null);return;}
+      try{
+        var tx=db.transaction('data','readonly');
+        var req=tx.objectStore('data').get(key);
+        req.onsuccess=function(){cb(null,req.result||null);};
+        req.onerror=function(e){cb(e.target.error,null);};
+      }catch(ex){cb(ex,null);}
+    });
+  }
+  function mercDBClear(cb){
+    mercOpenDB(function(err,db){
+      if(err){if(cb)cb(err);return;}
+      try{
+        var tx=db.transaction('data','readwrite');
+        tx.objectStore('data').clear();
+        tx.oncomplete=function(){if(cb)cb(null);};
+        tx.onerror=function(e){if(cb)cb(e.target.error);};
+      }catch(ex){if(cb)cb(ex);}
+    });
+  }
+
+  // Load cached baseline + log from IndexedDB on startup
+  function mercLoadCache(cb){
+    mercDBGet('baseline',function(e1,bl){
+      _mercBaseline=bl||null;
+      mercDBGet('log',function(e2,log){
+        _mercLog=log||[];
+        mercDBGet('ts',function(e3,ts){
+          _mercBaseline_ts=ts||'';
+          if(cb)cb();
+        });
+      });
+    });
+  }
+  var _mercBaseline_ts='';
 
   function mercReadExcel(file,callback){
     var reader=new FileReader();
     reader.onload=function(e){
-      // setTimeout lets the UI show "Reading file..." before heavy parsing
       setTimeout(function(){
         try{
           var data=new Uint8Array(e.target.result);
-          // Parse ONLY the 6 Mercury sheets we need (skips 17 unused sheets + images)
-          // This reduces parsing from 8.7MB XML down to ~1.5MB
           var opts={type:'array',cellStyles:false,cellHTML:false,cellNF:false};
           var wb;
           try{
             wb=XLSX.read(data,Object.assign({},opts,{sheets:['iPhones','Samsung','iPad','Macbooks','Apple Watch','Misc']}));
           }catch(e2){
-            // Fallback: if sheets option fails, parse all (slower but works)
             wb=XLSX.read(data,opts);
           }
-          // Verify we got at least some sheet data
           var gotData=false;
           for(var si=0;si<wb.SheetNames.length;si++){if(wb.Sheets[wb.SheetNames[si]]){gotData=true;break;}}
-          if(!gotData){
-            // sheets option may have failed silently — retry without it
-            wb=XLSX.read(data,opts);
-          }
+          if(!gotData) wb=XLSX.read(data,opts);
           callback(null,wb);
         }catch(err){callback(err,null);}
       },50);
@@ -2295,87 +2348,156 @@ renderAll();
     return parsed;
   }
 
+  // ── LOADING OVERLAY ──
+  function mercShowLoading(msg){
+    var ov=document.getElementById('merc-loading');
+    if(!ov){
+      ov=document.createElement('div');ov.id='merc-loading';
+      ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:99999;';
+      ov.innerHTML='<div style="background:#1e293b;border:1px solid rgba(59,130,246,.3);border-radius:14px;padding:28px 40px;text-align:center;min-width:260px"><div id="merc-load-spin" style="width:36px;height:36px;border:3px solid rgba(96,165,250,.2);border-top:3px solid #60a5fa;border-radius:50%;margin:0 auto 14px;animation:mercSpin 1s linear infinite"></div><div id="merc-load-msg" style="color:#e2e8f0;font-size:.88rem;font-weight:500"></div></div>';
+      var st=document.createElement('style');st.textContent='@keyframes mercSpin{to{transform:rotate(360deg)}}';
+      document.head.appendChild(st);
+      document.body.appendChild(ov);
+    }
+    ov.style.display='flex';
+    document.getElementById('merc-load-msg').textContent=msg||'Processing...';
+  }
+  function mercHideLoading(){var ov=document.getElementById('merc-loading');if(ov)ov.style.display='none';}
+  function mercSetLoading(msg){var el=document.getElementById('merc-load-msg');if(el)el.textContent=msg;}
+
   // ── FILE UPLOAD HANDLERS ──
   window.mercUploadBaseline=function(){
     _mercUploadMode='baseline';
     document.getElementById('merc-file-input').click();
   };
   window.mercUploadCompare=function(){
-    var bl=null;try{bl=JSON.parse(localStorage.getItem(MERC_XL_KEY));}catch(e){}
-    if(!bl){toast('Upload a baseline first!','err');return;}
+    if(!_mercBaseline){toast('Upload a baseline first!','err');return;}
     _mercUploadMode='compare';
     document.getElementById('merc-file-input').click();
   };
   window.mercClearAll=function(){
     if(!confirm('Clear all Mercury baseline data and change log?')) return;
-    localStorage.removeItem(MERC_XL_KEY);
-    localStorage.removeItem(MERC_XL_TS);
-    localStorage.removeItem(MERC_XL_LOG);
-    toast('Mercury data cleared','ok');
-    admShowSection('mercury-sync');
+    _mercBaseline=null;_mercLog=[];_mercBaseline_ts='';
+    mercDBClear(function(){
+      toast('Mercury data cleared','ok');
+      admShowSection('mercury-sync');
+    });
   };
 
   // File input handler — attach after DOM ready
   document.addEventListener('DOMContentLoaded',function(){
+    // Load cached data from IndexedDB
+    mercLoadCache(function(){
+      // If mercury-sync is the current section, refresh it
+      if(_admCurrentSection==='mercury-sync') admShowSection('mercury-sync');
+    });
+
     document.addEventListener('change',function(e){
       if(e.target.id!=='merc-file-input') return;
       var file=e.target.files[0];
       if(!file) return;
-      var statusDiv=document.getElementById('merc-upload-status');
-      if(statusDiv) statusDiv.innerHTML='<span style="color:#60a5fa">Reading file...</span>';
+      e.target.value='';
+      mercShowLoading('Reading Excel file...');
+
       mercReadExcel(file,function(err,wb){
-        e.target.value=''; // reset so same file can be re-uploaded
-        if(err){toast('Error reading Excel file: '+err.message,'err');if(statusDiv) statusDiv.innerHTML='';return;}
-        if(statusDiv) statusDiv.innerHTML='<span style="color:#60a5fa">Parsing tabs...</span>';
-        // Use setTimeout to let UI update before heavy parsing
+        if(err){mercHideLoading();toast('Error reading file: '+err.message,'err');return;}
+        mercSetLoading('Parsing all tabs...');
+
         setTimeout(function(){
           try{
             var parsed=mercParseAllTabs(wb);
+            wb=null; // free memory
             var tabNames=Object.keys(parsed);
-            if(tabNames.length===0){toast('No data found in file. Make sure it is the Mercury Price Sheet.','err');if(statusDiv) statusDiv.innerHTML='';return;}
+            if(tabNames.length===0){mercHideLoading();toast('No data found — make sure this is the Mercury Price Sheet.','err');return;}
             var totalEntries=0;tabNames.forEach(function(t){totalEntries+=Object.keys(parsed[t]).length;});
-            if(statusDiv) statusDiv.innerHTML='<span style="color:#4ade80">Parsed '+totalEntries+' entries across '+tabNames.length+' tabs ('+tabNames.join(', ')+')</span>';
 
             if(_mercUploadMode==='baseline'){
-              try{localStorage.setItem(MERC_XL_KEY,JSON.stringify(parsed));}catch(se){toast('Storage error: data too large','err');return;}
-              localStorage.setItem(MERC_XL_TS,Date.now().toString());
-              toast('Baseline saved: '+totalEntries+' entries across '+tabNames.join(', '),'ok');
-              admShowSection('mercury-sync');
+              mercSetLoading('Saving baseline...');
+              _mercBaseline=parsed;
+              _mercBaseline_ts=Date.now().toString();
+              // Store to IndexedDB (async, won't block UI)
+              mercDBPut('baseline',parsed,function(){
+                mercDBPut('ts',_mercBaseline_ts,function(){
+                  mercHideLoading();
+                  toast('Baseline saved: '+totalEntries+' entries across '+tabNames.join(', '),'ok');
+                  admShowSection('mercury-sync');
+                });
+              });
+
             } else {
-              // Compare mode
-              var bl=null;try{bl=JSON.parse(localStorage.getItem(MERC_XL_KEY));}catch(ex){}
-              if(!bl){toast('No baseline found!','err');return;}
-              var allChanges=[];
-              // Compare each tab
-              if(parsed.iphones&&bl.iphones) mercApplyIphones(parsed.iphones,bl.iphones,allChanges);
-              if(parsed.samsung&&bl.samsung) mercApplySamsung(parsed.samsung,bl.samsung,allChanges);
-              if(parsed.ipad&&bl.ipad) mercApplyIpad(parsed.ipad,bl.ipad,allChanges);
-              if(parsed.macbooks&&bl.macbooks) mercApplyMacbooks(parsed.macbooks,bl.macbooks,allChanges);
-              if(parsed.watch&&bl.watch) mercApplyWatch(parsed.watch,bl.watch,allChanges);
-              if(parsed.airpods&&bl.airpods) mercApplyAirpods(parsed.airpods,bl.airpods,allChanges);
+              // ── Compare mode ──
+              mercSetLoading('Comparing prices...');
+              var bl=_mercBaseline;
+              if(!bl){mercHideLoading();toast('No baseline found!','err');return;}
 
-              // Update baseline to new data
-              try{localStorage.setItem(MERC_XL_KEY,JSON.stringify(parsed));}catch(se){}
-              localStorage.setItem(MERC_XL_TS,Date.now().toString());
+              setTimeout(function(){
+                try{
+                  var allChanges=[];
+                  if(parsed.iphones&&bl.iphones) mercApplyIphones(parsed.iphones,bl.iphones,allChanges);
+                  if(parsed.samsung&&bl.samsung) mercApplySamsung(parsed.samsung,bl.samsung,allChanges);
+                  if(parsed.ipad&&bl.ipad) mercApplyIpad(parsed.ipad,bl.ipad,allChanges);
+                  if(parsed.macbooks&&bl.macbooks) mercApplyMacbooks(parsed.macbooks,bl.macbooks,allChanges);
+                  if(parsed.watch&&bl.watch) mercApplyWatch(parsed.watch,bl.watch,allChanges);
+                  if(parsed.airpods&&bl.airpods) mercApplyAirpods(parsed.airpods,bl.airpods,allChanges);
 
-              // Save change log
-              var logArr=[];try{logArr=JSON.parse(localStorage.getItem(MERC_XL_LOG))||[];}catch(ex){}
-              if(allChanges.length>0){
-                logArr.unshift({ts:Date.now(),count:allChanges.length,changes:allChanges});
-                if(logArr.length>20) logArr=logArr.slice(0,20);
-                try{localStorage.setItem(MERC_XL_LOG,JSON.stringify(logArr));}catch(se){}
-                if(typeof renderAll==='function') renderAll();
-                if(typeof saveData==='function') saveData();
-                toast(allChanges.length+' price(s) updated!','ok');
-              } else {
-                toast('No price changes detected between baseline and new file.','ok');
-              }
-              admShowSection('mercury-sync');
+                  // Update baseline to new file
+                  _mercBaseline=parsed;
+                  _mercBaseline_ts=Date.now().toString();
+
+                  // Save log
+                  if(allChanges.length>0){
+                    _mercLog.unshift({ts:Date.now(),count:allChanges.length,changes:allChanges});
+                    if(_mercLog.length>20) _mercLog=_mercLog.slice(0,20);
+                  }
+
+                  mercSetLoading('Saving...');
+                  // Store everything to IndexedDB
+                  mercDBPut('baseline',parsed,function(){
+                    mercDBPut('ts',_mercBaseline_ts,function(){
+                      mercDBPut('log',_mercLog,function(){
+                        if(allChanges.length>0){
+                          // Apply changes to website — save first, then render
+                          mercSetLoading('Saving prices...');
+                          setTimeout(function(){
+                            try{
+                              // Save DATA to localStorage (do NOT call saveData — it calls renderAll inside)
+                              try{
+                                localStorage.setItem(STORE_KEY, JSON.stringify({
+                                  newPhone:DATA.newPhone, usedPhone:DATA.usedPhone,
+                                  newIpad:DATA.newIpad, usedIpad:DATA.usedIpad,
+                                  macbook:DATA.macbook, samsung:DATA.samsung,
+                                  watch:DATA.watch, airpods:DATA.airpods
+                                }));
+                              }catch(se){console.error('localStorage save error:',se);}
+                            }catch(re){console.error('Save error:',re);}
+                            // Render website in a separate tick so UI can breathe
+                            mercSetLoading('Updating website...');
+                            setTimeout(function(){
+                              try{if(typeof renderAll==='function') renderAll();}catch(re){console.error('Render error:',re);}
+                              mercHideLoading();
+                              toast(allChanges.length+' price(s) updated!','ok');
+                              admShowSection('mercury-sync');
+                            },30);
+                          },30);
+                        } else {
+                          mercHideLoading();
+                          toast('No price changes detected between baseline and new file.','ok');
+                          admShowSection('mercury-sync');
+                        }
+                      });
+                    });
+                  });
+                }catch(cmpErr){
+                  mercHideLoading();
+                  toast('Compare error: '+cmpErr.message,'err');
+                  console.error('Mercury compare error:',cmpErr);
+                }
+              },30);
             }
           }catch(parseErr){
+            mercHideLoading();
             toast('Parse error: '+parseErr.message,'err');
             console.error('Mercury parse error:',parseErr);
-            if(statusDiv) statusDiv.innerHTML='<span style="color:#f87171">Error: '+parseErr.message+'</span>';
           }
         },50);
       });
@@ -2391,7 +2513,7 @@ renderAll();
   // ── APPLY iPHONE DIFFS ──
   function mercApplyIphones(newD,baseD,log){
     var changed=false;
-    var normM=function(m){return m.toUpperCase().replace(/\s+/g,' ').replace('PRO MAX','PM').replace('PRO','P').replace('PLUS','+').replace(/\s/g,'').replace(/G$/,'');};
+    var normM=function(m){return(m||'').toUpperCase().replace(/\s+/g,' ').replace('PRO MAX','PM').replace('PRO','P').replace('PLUS','+').replace(/\s/g,'').replace(/G$/,'');};
     Object.keys(newD).forEach(function(mk){
       var m=newD[mk],b=baseD[mk];if(!b) return;
       // New phone diffs (sealed, open)
@@ -2402,9 +2524,9 @@ renderAll();
           var d=e[1];if(d.tp!==m.lock) return;
           var dn=normM(d.t);
           if(dn.indexOf(mn.replace(/\d+[GTB]$/,''))>-1||mn.indexOf(dn.replace(/\d+[GTB]$/,''))>-1){
-            d.r.forEach(function(row){
+            (d.r||[]).forEach(function(row){
               var rs=(row[0]||'').toUpperCase().replace(/\s/g,'');
-              var ms=m.model.match(/(\d+)\s*(?:GB?|TB?)/i);
+              var ms=(m.model||'').match(/(\d+)\s*(?:GB?|TB?)/i);
               if(ms){var sz=ms[0].toUpperCase().replace(/\s/g,'');if(sz.match(/\d+G$/))sz+='B';if(sz.match(/\d+T$/))sz+='B';
                 if(rs.indexOf(sz)>-1){
                   if(dSealed!==0){row[1]=(row[1]||0)+dSealed;changed=true;log.push(m.model+' '+m.lock+' Sealed: '+(dSealed>0?'+':'')+dSealed);}
@@ -2423,7 +2545,7 @@ renderAll();
           var d=e[1];if(d.tp!==m.lock) return;
           var dn=normM(d.t);
           if(dn.indexOf(mn2.replace(/\d+[GTB]$/,''))>-1||mn2.indexOf(dn.replace(/\d+[GTB]$/,''))>-1){
-            d.r.forEach(function(row){
+            (d.r||[]).forEach(function(row){
               var rs=(row[0]||'').toUpperCase().replace(/\s/g,'');
               var ms=m.model.match(/(\d+)\s*(?:GB?|TB?)/i);
               if(ms){var sz=ms[0].toUpperCase().replace(/\s/g,'');if(sz.match(/\d+G$/))sz+='B';if(sz.match(/\d+T$/))sz+='B';
@@ -2450,10 +2572,10 @@ renderAll();
       var m=newD[mk],b=baseD[mk];if(!b) return;
       var dSe=mercDiff(m.sealed,b.sealed),dA=mercDiff(m.grA,b.grA),dBp=mercDiff(m.grBp,b.grBp);
       if(dSe===0&&dA===0&&dBp===0) return;
-      var mName=m.model.toUpperCase().replace(/\s+/g,' ');
+      var mName=(m.model||'').toUpperCase().replace(/\s+/g,' ');
       Object.keys(DATA.samsung).forEach(function(grp){
         DATA.samsung[grp].forEach(function(row){
-          var rName=row[0].toUpperCase().replace(/\s+/g,' ');
+          var rName=(row[0]||'').toUpperCase().replace(/\s+/g,' ');
           if(rName.indexOf(mName)>-1||mName.indexOf(rName)>-1){
             if((m.lock==='Unlocked'&&row[1]==='Unlocked')||(m.lock==='AT&T'&&row[1]==='AT&T')||(m.lock==='Carrier Locked'&&row[1]==='Carrier Locked')){
               if(dSe!==0&&row[2]!==null){row[2]+=dSe;changed=true;log.push(m.model+' '+m.lock+' Sealed: '+(dSe>0?'+':'')+dSe);}
@@ -2475,12 +2597,12 @@ renderAll();
       var dSe=mercDiff(m.sealed,b.sealed),dOp=mercDiff(m.open,b.open);
       var dA=mercDiff(m.grA,b.grA),dB=mercDiff(m.grB,b.grB),dC=mercDiff(m.grC,b.grC),dD=mercDiff(m.grD,b.grD);
       if(dSe===0&&dOp===0&&dA===0&&dB===0&&dC===0&&dD===0) return;
-      var grp=m.group.toUpperCase();var stor=m.storage.toUpperCase();
+      var grp=(m.group||'').toUpperCase();var stor=(m.storage||'').toUpperCase();
       var isCell=stor.indexOf('CELLULAR')>-1,isWifi=stor.indexOf('WI-FI')>-1||stor.indexOf('WIFI')>-1,isVerizon=stor.indexOf('VERIZON')>-1;
       // New iPad
       if(dSe!==0||dOp!==0){
         Object.entries(DATA.newIpad).forEach(function(e){
-          var dd=e[1];var dt=dd.t.toUpperCase();
+          var dd=e[1];var dt=(dd.t||'').toUpperCase();
           var match=false;
           if(grp.indexOf('PRO 13')>-1&&dt.indexOf('PRO 13')>-1) match=true;
           if(grp.indexOf('PRO 11')>-1&&dt.indexOf('PRO 11')>-1) match=true;
@@ -2491,7 +2613,7 @@ renderAll();
           if(grp.indexOf('M4')>-1&&dt.indexOf('M4')<0) return;
           if(grp.indexOf('M3')>-1&&dt.indexOf('M3')<0) return;
           if((isCell&&!isVerizon&&dd.tp==='cell')||(isWifi&&dd.tp==='wifi')){
-            dd.r.forEach(function(row){
+            (dd.r||[]).forEach(function(row){
               if((row[0]||'').toUpperCase().replace(/\s/g,'').indexOf(stor.replace(/\s/g,'').replace(/CELLULAR|WI-FI|WIFI|VERIZON/g,'').replace(/^\s+|\s+$/g,''))>-1){
                 if(dSe!==0){row[1]=(row[1]||0)+dSe;changed=true;log.push('iPad '+m.group+' '+m.storage+' Sealed: '+(dSe>0?'+':'')+dSe);}
                 if(dOp!==0){row[2]=(row[2]||0)+dOp;changed=true;log.push('iPad '+m.group+' '+m.storage+' Open: '+(dOp>0?'+':'')+dOp);}
@@ -2503,7 +2625,7 @@ renderAll();
       // Used iPad
       if(dA!==0||dB!==0||dC!==0||dD!==0){
         Object.entries(DATA.usedIpad).forEach(function(e){
-          var dd=e[1];var dt=dd.t.toUpperCase();
+          var dd=e[1];var dt=(dd.t||'').toUpperCase();
           var match=false;
           if(grp.indexOf('PRO 13')>-1&&dt.indexOf('PRO 13')>-1) match=true;
           if(grp.indexOf('PRO 11')>-1&&dt.indexOf('PRO 11')>-1) match=true;
@@ -2513,7 +2635,7 @@ renderAll();
           if(grp.indexOf('M4')>-1&&dt.indexOf('M4')<0) return;
           if(grp.indexOf('M3')>-1&&dt.indexOf('M3')<0) return;
           if((isCell&&!isVerizon&&dd.tp==='cell')||(isWifi&&dd.tp==='wifi')){
-            dd.r.forEach(function(row){
+            (dd.r||[]).forEach(function(row){
               var rs=(row[0]||'').toUpperCase().replace(/\s/g,'');
               var stClean=stor.replace(/\s/g,'').replace(/CELLULAR|WI-FI|WIFI|VERIZON/g,'');
               if(rs.indexOf(stClean)>-1){
@@ -2537,9 +2659,9 @@ renderAll();
       var m=newD[mk],b=baseD[mk];if(!b) return;
       var dSe=mercDiff(m.sealed,b.sealed),dOp=mercDiff(m.open,b.open);
       if(dSe===0&&dOp===0) return;
-      var mGrp=m.group.toUpperCase();var mSku=m.sku.toUpperCase();
+      var mGrp=(m.group||'').toUpperCase();var mSku=(m.sku||'').toUpperCase();
       Object.entries(DATA.macbook).forEach(function(e){
-        var dd=e[1];var dt=dd.t.toUpperCase();
+        var dd=e[1];var dt=(dd.t||'').toUpperCase();
         var gm=false;
         if(mGrp.indexOf('PRO 14')>-1&&mGrp.indexOf('M5')>-1&&dt.indexOf('PRO 14')>-1&&dt.indexOf('M5')>-1) gm=true;
         if(mGrp.indexOf('PRO 14')>-1&&mGrp.indexOf('M4')>-1&&dt.indexOf('PRO 14')>-1&&dt.indexOf('M4')>-1) gm=true;
@@ -2549,8 +2671,8 @@ renderAll();
         if(mGrp.indexOf('AIR 13')>-1&&mGrp.indexOf('M3')>-1&&dt.indexOf('AIR 13')>-1&&dt.indexOf('M3')>-1) gm=true;
         if(mGrp.indexOf('AIR 15')>-1&&mGrp.indexOf('M3')>-1&&dt.indexOf('AIR 15')>-1&&dt.indexOf('M3')>-1) gm=true;
         if(!gm) return;
-        dd.r.forEach(function(row){
-          var rl=row[0].toUpperCase();
+        (dd.r||[]).forEach(function(row){
+          var rl=(row[0]||'').toUpperCase();
           var parts=mSku.split(/\s+/);
           var skuM=false;
           for(var p=0;p<parts.length;p++){if(parts[p].length>4&&rl.indexOf(parts[p])>-1){skuM=true;break;}}
@@ -2572,10 +2694,10 @@ renderAll();
       var m=newD[mk],b=baseD[mk];if(!b) return;
       var dSe=mercDiff(m.sealed,b.sealed),dOp=mercDiff(m.open,b.open),dH=mercDiff(m.hso,b.hso),dB=mercDiff(m.grB,b.grB);
       if(dSe===0&&dOp===0&&dH===0&&dB===0) return;
-      var mN=m.model.toUpperCase();
+      var mN=(m.model||'').toUpperCase();
       Object.keys(DATA.watch).forEach(function(grp){
         DATA.watch[grp].forEach(function(row){
-          var rN=row[0].toUpperCase();
+          var rN=(row[0]||'').toUpperCase();
           var mmM=mN.match(/(\d+)\s*MM/i),rmM=rN.match(/(\d+)\s*MM/i);
           var sameSize=mmM&&rmM&&mmM[1]===rmM[1];
           var sameSeries=false;
@@ -2606,10 +2728,10 @@ renderAll();
       var m=newD[mk],b=baseD[mk];if(!b) return;
       var dSe=mercDiff(m.sealed,b.sealed);
       if(dSe===0) return;
-      var mN=m.model.toUpperCase();
+      var mN=(m.model||'').toUpperCase();
       Object.keys(DATA.airpods).forEach(function(grp){
         DATA.airpods[grp].forEach(function(row){
-          var rN=row[0].toUpperCase();
+          var rN=(row[0]||'').toUpperCase();
           var skuM=mN.match(/[A-Z]{3,5}\d{1,2}[A-Z]{0,2}/);
           var rSkuM=rN.match(/[A-Z]{3,5}\d{1,2}[A-Z]{0,2}/);
           if(skuM&&rSkuM&&skuM[0]===rSkuM[0]){
