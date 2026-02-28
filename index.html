@@ -1655,7 +1655,7 @@ renderAll();
       document.getElementById('adm-panel').style.display='flex';
       admRenderNav();
       admRenderStats();
-      admShowSection('newPhone');
+      admShowSection('newPhone-ul');
     } else {
       const err=document.getElementById('adm-err');
       err.textContent='Incorrect password';
@@ -1679,26 +1679,37 @@ renderAll();
   };
 
   // ── NAV SECTIONS ──
+  const phoneIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>';
+  const padIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>';
+  const macIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>';
+  const samIcon=phoneIcon;
+  const watchIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83M7.49 6.65l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/></svg>';
+  const airIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3v5z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3v5z"/></svg>';
   const SECTIONS=[
-    {id:'newPhone',  label:'New iPhones',  icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>'},
-    {id:'usedPhone', label:'Used iPhones', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>'},
-    {id:'newIpad',   label:'New iPads',    icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>'},
-    {id:'usedIpad',  label:'Used iPads',   icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>'},
-    {id:'macbook',   label:'MacBooks',     icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>'},
-    {id:'samsung',   label:'Samsung',      icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>'},
-    {id:'watch',     label:'Apple Watch',  icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83M7.49 6.65l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/></svg>'},
-    {id:'airpods',   label:'AirPods',      icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3v5z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3v5z"/></svg>'},
+    {id:'newPhone-ul',  label:'New iPhone — Unlocked',    icon:phoneIcon, ds:'newPhone', tp:'ul'},
+    {id:'newPhone-lk',  label:'New iPhone — Sim Locked',  icon:phoneIcon, ds:'newPhone', tp:'lk'},
+    {id:'usedPhone-ul', label:'Used iPhone — Unlocked',   icon:phoneIcon, ds:'usedPhone', tp:'ul'},
+    {id:'usedPhone-lk', label:'Used iPhone — Sim Locked', icon:phoneIcon, ds:'usedPhone', tp:'lk'},
+    {id:'newIpad',      label:'New iPads',                 icon:padIcon,   ds:'newIpad'},
+    {id:'usedIpad',     label:'Used iPads',                icon:padIcon,   ds:'usedIpad'},
+    {id:'macbook',      label:'MacBooks',                  icon:macIcon,   ds:'macbook'},
+    {id:'samsung',      label:'Samsung',                   icon:samIcon,   ds:'samsung'},
+    {id:'watch',        label:'Apple Watch',               icon:watchIcon, ds:'watch'},
+    {id:'airpods',      label:'AirPods',                   icon:airIcon,   ds:'airpods'},
   ];
 
   function getCount(id){
-    if(id==='newPhone') return Object.keys(DATA.newPhone).length;
-    if(id==='usedPhone') return Object.keys(DATA.usedPhone).length;
-    if(id==='newIpad') return Object.keys(DATA.newIpad).length;
-    if(id==='usedIpad') return Object.keys(DATA.usedIpad).length;
-    if(id==='macbook') return Object.keys(DATA.macbook).length;
-    if(id==='samsung') return Object.values(DATA.samsung).reduce((s,r)=>s+r.length,0);
-    if(id==='watch') return Object.values(DATA.watch).reduce((s,r)=>s+r.length,0);
-    if(id==='airpods') return Object.values(DATA.airpods).reduce((s,r)=>s+r.length,0);
+    const sec=SECTIONS.find(s=>s.id===id);
+    if(!sec) return 0;
+    const ds=sec.ds;
+    const tp=sec.tp;
+    if(ds==='newPhone'||ds==='usedPhone') return Object.values(DATA[ds]).filter(d=>d.tp===tp).length;
+    if(ds==='newIpad') return Object.keys(DATA.newIpad).length;
+    if(ds==='usedIpad') return Object.keys(DATA.usedIpad).length;
+    if(ds==='macbook') return Object.keys(DATA.macbook).length;
+    if(ds==='samsung') return Object.values(DATA.samsung).reduce((s,r)=>s+r.length,0);
+    if(ds==='watch') return Object.values(DATA.watch).reduce((s,r)=>s+r.length,0);
+    if(ds==='airpods') return Object.values(DATA.airpods).reduce((s,r)=>s+r.length,0);
     return 0;
   }
 
@@ -1756,45 +1767,50 @@ renderAll();
   function v(x){return x===null||x===undefined||x===''?'':x;}
 
   function admBuildSection(id){
-    let html=`<div class="adm-section-title">${SECTIONS.find(s=>s.id===id).label}</div>`;
+    const sec=SECTIONS.find(s=>s.id===id);
+    let html=`<div class="adm-section-title">${sec.label}</div>`;
 
-    // ── NEW iPHONE / iPAD / MacBook (have .t and .r) ──
-    if(['newPhone','newIpad','macbook'].includes(id)){
-      const isPhone=id==='newPhone';
-      const isMac=id==='macbook';
-      Object.entries(DATA[id]).forEach(([key,d])=>{
+    // ── NEW iPHONE (filtered by ul/lk) — columns: Storage, Sealed, Open ──
+    if(id==='newPhone-ul'||id==='newPhone-lk'){
+      const tp=sec.tp;
+      Object.entries(DATA.newPhone).filter(([k,d])=>d.tp===tp).forEach(([key,d])=>{
         html+=`<div class="adm-card">
           <div class="adm-card-hdr">
             <div class="adm-card-title">${d.t}</div>
-            <button class="adm-btn-add" onclick="admAddRow('${id}','${key}')">+ Add Row</button>
+            <button class="adm-btn-add" onclick="admAddRow('newPhone','${key}')">+ Add Row</button>
           </div>
           <div class="adm-card-name-row">
             <label>Card Name</label>
-            <input class="adm-inp" value="${v(d.t)}" onchange="DATA['${id}']['${key}'].t=this.value"/>
+            <input class="adm-inp" value="${v(d.t)}" onchange="DATA.newPhone['${key}'].t=this.value"/>
           </div>
           <table class="adm-tbl">
-            <thead><tr><th>${isMac?'Configuration':'Storage'}</th><th>${isMac?'Sealed':'Sealed'}</th><th>${isMac?'Activated':'Open'}</th><th></th></tr></thead>
-            <tbody id="adm-rows-${id}-${key}">
+            <thead><tr><th>Storage</th><th>Sealed</th><th>Open</th><th></th></tr></thead>
+            <tbody>
               ${d.r.map((row,i)=>`<tr>
-                <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA['${id}']['${key}'].r[${i}][0]=this.value"/></td>
-                <td><input class="adm-inp adm-num" value="${v(row[1])}" onchange="DATA['${id}']['${key}'].r[${i}][1]=parseFloat(this.value)||null"/></td>
-                <td><input class="adm-inp adm-num" value="${v(row[2])}" onchange="DATA['${id}']['${key}'].r[${i}][2]=parseFloat(this.value)||null"/></td>
-                <td><button class="adm-btn-del" onclick="admDelRow('${id}','${key}',${i})">✕</button></td>
+                <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.newPhone['${key}'].r[${i}][0]=this.value"/></td>
+                <td><input class="adm-inp adm-num" value="${v(row[1])}" onchange="DATA.newPhone['${key}'].r[${i}][1]=parseFloat(this.value)||null"/></td>
+                <td><input class="adm-inp adm-num" value="${v(row[2])}" onchange="DATA.newPhone['${key}'].r[${i}][2]=parseFloat(this.value)||null"/></td>
+                <td><button class="adm-btn-del" onclick="admDelRow('newPhone','${key}',${i})">✕</button></td>
               </tr>`).join('')}
             </tbody>
           </table>
         </div>`;
       });
-      html+=`<button class="adm-btn-new-card" onclick="admAddCard('${id}')">+ Add New Model Card</button>`;
+      html+=`<button class="adm-btn-new-card" onclick="admAddCard('newPhone','${tp}')">+ Add New Model Card</button>`;
     }
 
-    // ── USED iPHONE (have .t, .tp, .r with 6 cols) ──
-    if(id==='usedPhone'){
-      Object.entries(DATA.usedPhone).forEach(([key,d])=>{
+    // ── USED iPHONE (filtered by ul/lk) — columns: Storage, HSO, B, C, D, DOA ──
+    if(id==='usedPhone-ul'||id==='usedPhone-lk'){
+      const tp=sec.tp;
+      Object.entries(DATA.usedPhone).filter(([k,d])=>d.tp===tp).forEach(([key,d])=>{
         html+=`<div class="adm-card">
           <div class="adm-card-hdr">
-            <div class="adm-card-title">${d.t} <span style="color:var(--dim);font-size:.7rem">[${d.tp}]</span></div>
+            <div class="adm-card-title">${d.t}</div>
             <button class="adm-btn-add" onclick="admAddRow('usedPhone','${key}')">+ Add Row</button>
+          </div>
+          <div class="adm-card-name-row">
+            <label>Card Name</label>
+            <input class="adm-inp" value="${v(d.t)}" onchange="DATA.usedPhone['${key}'].t=this.value"/>
           </div>
           <table class="adm-tbl">
             <thead><tr><th>Storage</th><th>HSO</th><th>B</th><th>C</th><th>D</th><th>DOA</th><th></th></tr></thead>
@@ -1808,15 +1824,48 @@ renderAll();
           </table>
         </div>`;
       });
+      html+=`<button class="adm-btn-new-card" onclick="admAddCard('usedPhone','${tp}')">+ Add New Model Card</button>`;
     }
 
-    // ── USED iPAD ──
+    // ── NEW iPAD — columns: Storage, Sealed, Open ──
+    if(id==='newIpad'){
+      Object.entries(DATA.newIpad).forEach(([key,d])=>{
+        html+=`<div class="adm-card">
+          <div class="adm-card-hdr">
+            <div class="adm-card-title">${d.t}</div>
+            <button class="adm-btn-add" onclick="admAddRow('newIpad','${key}')">+ Add Row</button>
+          </div>
+          <div class="adm-card-name-row">
+            <label>Card Name</label>
+            <input class="adm-inp" value="${v(d.t)}" onchange="DATA.newIpad['${key}'].t=this.value"/>
+          </div>
+          <table class="adm-tbl">
+            <thead><tr><th>Storage</th><th>Sealed</th><th>Open</th><th></th></tr></thead>
+            <tbody>
+              ${d.r.map((row,i)=>`<tr>
+                <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.newIpad['${key}'].r[${i}][0]=this.value"/></td>
+                <td><input class="adm-inp adm-num" value="${v(row[1])}" onchange="DATA.newIpad['${key}'].r[${i}][1]=parseFloat(this.value)||null"/></td>
+                <td><input class="adm-inp adm-num" value="${v(row[2])}" onchange="DATA.newIpad['${key}'].r[${i}][2]=parseFloat(this.value)||null"/></td>
+                <td><button class="adm-btn-del" onclick="admDelRow('newIpad','${key}',${i})">✕</button></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`;
+      });
+      html+=`<button class="adm-btn-new-card" onclick="admAddCard('newIpad')">+ Add New Model Card</button>`;
+    }
+
+    // ── USED iPAD — columns: Storage, A, B+, B, C, D ──
     if(id==='usedIpad'){
       Object.entries(DATA.usedIpad).forEach(([key,d])=>{
         html+=`<div class="adm-card">
           <div class="adm-card-hdr">
             <div class="adm-card-title">${d.t}</div>
             <button class="adm-btn-add" onclick="admAddRow('usedIpad','${key}')">+ Add Row</button>
+          </div>
+          <div class="adm-card-name-row">
+            <label>Card Name</label>
+            <input class="adm-inp" value="${v(d.t)}" onchange="DATA.usedIpad['${key}'].t=this.value"/>
           </div>
           <table class="adm-tbl">
             <thead><tr><th>Storage</th><th>A</th><th>B+</th><th>B</th><th>C</th><th>D</th><th></th></tr></thead>
@@ -1830,9 +1879,38 @@ renderAll();
           </table>
         </div>`;
       });
+      html+=`<button class="adm-btn-new-card" onclick="admAddCard('usedIpad')">+ Add New Model Card</button>`;
     }
 
-    // ── SAMSUNG ──
+    // ── MacBook — columns: Configuration, Sealed, Activated ──
+    if(id==='macbook'){
+      Object.entries(DATA.macbook).forEach(([key,d])=>{
+        html+=`<div class="adm-card">
+          <div class="adm-card-hdr">
+            <div class="adm-card-title">${d.t}</div>
+            <button class="adm-btn-add" onclick="admAddRow('macbook','${key}')">+ Add Row</button>
+          </div>
+          <div class="adm-card-name-row">
+            <label>Card Name</label>
+            <input class="adm-inp" value="${v(d.t)}" onchange="DATA.macbook['${key}'].t=this.value"/>
+          </div>
+          <table class="adm-tbl">
+            <thead><tr><th>Configuration</th><th>Sealed</th><th>Activated</th><th></th></tr></thead>
+            <tbody>
+              ${d.r.map((row,i)=>`<tr>
+                <td><input class="adm-inp" value="${v(row[0])}" onchange="DATA.macbook['${key}'].r[${i}][0]=this.value"/></td>
+                <td><input class="adm-inp adm-num" value="${v(row[1])}" onchange="DATA.macbook['${key}'].r[${i}][1]=parseFloat(this.value)||null"/></td>
+                <td><input class="adm-inp adm-num" value="${v(row[2])}" onchange="DATA.macbook['${key}'].r[${i}][2]=parseFloat(this.value)||null"/></td>
+                <td><button class="adm-btn-del" onclick="admDelRow('macbook','${key}',${i})">✕</button></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`;
+      });
+      html+=`<button class="adm-btn-new-card" onclick="admAddCard('macbook')">+ Add New Model Card</button>`;
+    }
+
+    // ── SAMSUNG — columns: Model, Carrier, New, Grade A, Grade B ──
     if(id==='samsung'){
       Object.entries(DATA.samsung).forEach(([grp,rows])=>{
         html+=`<div class="adm-card">
@@ -1858,7 +1936,7 @@ renderAll();
       html+=`<button class="adm-btn-new-card" onclick="admAddSamGroup()">+ Add New Samsung Group</button>`;
     }
 
-    // ── APPLE WATCH ──
+    // ── APPLE WATCH — columns: Model, Sealed, Open, A/HSO, B ──
     if(id==='watch'){
       Object.entries(DATA.watch).forEach(([grp,rows])=>{
         html+=`<div class="adm-card">
@@ -1880,7 +1958,7 @@ renderAll();
       });
     }
 
-    // ── AIRPODS ──
+    // ── AIRPODS — columns: Model, Price ──
     if(id==='airpods'){
       Object.entries(DATA.airpods).forEach(([grp,rows])=>{
         html+=`<div class="adm-card">
@@ -1906,27 +1984,40 @@ renderAll();
   }
 
   // ── ROW ACTIONS ──
+  // Helper to find the current active section id
+  function currentSectionFor(ds,tp){
+    if(tp) return ds+'-'+tp;
+    return ds;
+  }
+
   window.admAddRow=function(ds,key){
+    const tp=DATA[ds][key].tp||null;
     if(['newPhone','newIpad','macbook'].includes(ds)) DATA[ds][key].r.push(['New Entry',null,null]);
     else if(ds==='usedPhone') DATA.usedPhone[key].r.push(['New Entry',null,null,null,null,null]);
     else if(ds==='usedIpad') DATA.usedIpad[key].r.push(['New Entry',null,null,null,null,null]);
-    admShowSection(ds);
+    admShowSection(currentSectionFor(ds,tp));
   };
-  window.admDelRow=function(ds,key,i){ DATA[ds][key].r.splice(i,1); admShowSection(ds); };
+  window.admDelRow=function(ds,key,i){
+    const tp=DATA[ds][key].tp||null;
+    DATA[ds][key].r.splice(i,1);
+    admShowSection(currentSectionFor(ds,tp));
+  };
   window.admAddSamRow=function(grp){ DATA.samsung[grp].push(['New Model','Unlocked',null,null,null]); admShowSection('samsung'); };
   window.admDelSamRow=function(grp,i){ DATA.samsung[grp].splice(i,1); admShowSection('samsung'); };
   window.admAddWatchRow=function(grp){ DATA.watch[grp].push(['New Model',null,null,null,null]); admShowSection('watch'); };
   window.admDelWatchRow=function(grp,i){ DATA.watch[grp].splice(i,1); admShowSection('watch'); };
   window.admAddAirRow=function(grp){ DATA.airpods[grp].push(['New Model',null]); admShowSection('airpods'); };
   window.admDelAirRow=function(grp,i){ DATA.airpods[grp].splice(i,1); admShowSection('airpods'); };
-  window.admAddCard=function(ds){
-    const name=prompt('Card name (e.g. iPhone 17 Pro Max UL):');
+  window.admAddCard=function(ds,tp){
+    const name=prompt('Card name (e.g. iPhone 17 Pro Max):');
     if(!name) return;
     const key='new_'+Date.now();
-    if(ds==='newPhone') DATA.newPhone[key]={t:name,tp:'ul',r:[]};
+    if(ds==='newPhone') DATA.newPhone[key]={t:name,tp:tp||'ul',r:[]};
+    else if(ds==='usedPhone') DATA.usedPhone[key]={t:name,tp:tp||'ul',r:[]};
     else if(ds==='newIpad') DATA.newIpad[key]={t:name,tp:'ul',r:[]};
+    else if(ds==='usedIpad') DATA.usedIpad[key]={t:name,tp:'ul',r:[]};
     else if(ds==='macbook') DATA.macbook[key]={t:name,r:[]};
-    admShowSection(ds);
+    admShowSection(currentSectionFor(ds,tp));
   };
   window.admAddSamGroup=function(){
     const name=prompt('Group name (e.g. S20 Series):');
@@ -2074,6 +2165,555 @@ window.closeQuotePopup=function(){
 document.addEventListener('click',function(e){
   if(e.target&&e.target.id==='quote-popup-overlay') closeQuotePopup();
 });
+
+// ── MERCURY PRICE SHEET AUTO-SYNC (CSV mode — all categories) ──
+(function(){
+  var BASE='https://docs.google.com/spreadsheets/d/e/2PACX-1vQiUIGCgSLxhdQSpxcL6wq-1YmlpVDlN0F0416aLmo2ERPxb9P6zsU0kkn2-U5GqOiORKcP6TmQomXq/pub?single=true&output=csv&gid=';
+  var CSV_TABS={
+    iphones:  BASE+'1639993943',
+    samsung:  BASE+'1465971133',
+    ipad:     BASE+'151262386',
+    macbooks: BASE+'1920892506',
+    watch:    BASE+'1463223391',
+    airpods:  BASE+'1387971375'
+  };
+  var PROXIES=[
+    function(u){return 'https://api.allorigins.win/raw?url='+encodeURIComponent(u);},
+    function(u){return 'https://corsproxy.io/?'+encodeURIComponent(u);},
+    function(u){return 'https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(u);}
+  ];
+  var SYNC_INTERVAL=60000; // 1 minute
+  var SYNC_KEY='m901_merc_bl_v2';
+  var SYNC_TS_KEY='m901_merc_ts_v2';
+
+  function pn(v){
+    if(!v||v==='ASK'||v==='NOT BUYING'||v==='-'||v==='') return null;
+    var n=parseFloat(String(v).replace(/[,$\s]/g,''));
+    return isNaN(n)?null:n;
+  }
+
+  function parseCSV(text){
+    var rows=[];var lines=text.split('\n');
+    for(var i=0;i<lines.length;i++){
+      var line=lines[i].trim();if(!line) continue;
+      var row=[];var inQ=false;var cell='';
+      for(var j=0;j<line.length;j++){
+        var ch=line[j];
+        if(inQ){if(ch==='"'&&line[j+1]==='"'){cell+='"';j++;}else if(ch==='"'){inQ=false;}else{cell+=ch;}}
+        else{if(ch==='"'){inQ=true;}else if(ch===','){row.push(cell.trim());cell='';}else{cell+=ch;}}
+      }
+      row.push(cell.trim());rows.push(row);
+    }
+    return rows;
+  }
+
+  function fetchP(url,pi){
+    pi=pi||0;
+    if(pi>=PROXIES.length) return Promise.reject(new Error('All CORS proxies failed'));
+    return fetch(PROXIES[pi](url)).then(function(r){if(!r.ok) throw new Error('HTTP '+r.status);return r.text();})
+    .catch(function(e){console.warn('[Sync] Proxy '+(pi+1)+' fail:',e.message);return fetchP(url,pi+1);});
+  }
+
+  function fetchTab(name){
+    return fetchP(CSV_TABS[name]).then(function(t){return parseCSV(t);});
+  }
+
+  function isJunk(s){
+    if(!s) return true;
+    var u=s.toUpperCase();
+    return u.indexOf('BLUE')>-1||u.indexOf('BLACKLIST')>-1||u.indexOf('DEDUCTION')>-1||u.indexOf('CLICK')>-1||
+      u.indexOf('MERCURY')>-1||u.indexOf('CONTACT')>-1||u.indexOf('LAS VEGAS')>-1||u.indexOf('314-')>-1||
+      u.indexOf('NEW OPEN =')>-1||u.indexOf('OFFICIAL REPLACEMENT')>-1||u.indexOf('TRACFONE')>-1||
+      u.indexOf('CRACK')>-1||u.indexOf('VIDEO')>-1||u.indexOf('JOIN')>-1||u.indexOf('MISSING')>-1||
+      u.indexOf('KNOX')>-1||u.indexOf('IMEI')>-1||u.indexOf('VERIZON UNLOCKED')>-1||
+      u==='MODEL'||u==='NEW / SEALED'||u==='SEALED'||u==='';
+  }
+
+  // ── iPHONE PARSER ──
+  function parseIPhones(rows){
+    var result={};var curModel='';var curLock='';
+    for(var i=0;i<rows.length;i++){
+      var r=rows[i];if(!r||r.length<14) continue;
+      var c1=(r[1]||'').trim(),c2=(r[2]||'').trim();
+      if(!c1&&!c2) continue;
+      if(isJunk(c1)) continue;
+      if(c2.toUpperCase()==='UNLOCKED'||c2.toUpperCase()==='CARRIER LOCK'){
+        curLock=c2.toUpperCase()==='UNLOCKED'?'ul':'lk';curModel=c1;
+      } else if(c1&&pn(r[3])!==null){curModel=c1;}
+      var se=pn(r[3]),op=pn(r[4]),gA=pn(r[7]),gB=pn(r[9]),gC=pn(r[11]),gD=pn(r[12]),doa=pn(r[13]);
+      if(se===null&&op===null&&gA===null&&gB===null) continue;
+      var model=curModel.replace(/\s*\(T-mobile.*?\)/i,'').trim();
+      if(!model) continue;
+      result[model+'|'+curLock]={model:model,lock:curLock,sealed:se,open:op,grA:gA,grB:gB,grC:gC,grD:gD,doa:doa};
+    }
+    return result;
+  }
+
+  // ── SAMSUNG PARSER ──
+  // CSV cols: A(0)=model, B(1)=lock, C(2)=NEW/SEALED, D(3)=A, E(4)=B+, F(5)=B/B-, G(6)=C, H(7)=D, I(8)=DOA
+  function parseSamsung(rows){
+    var result={};var curModel='';
+    for(var i=0;i<rows.length;i++){
+      var r=rows[i];if(!r||r.length<3) continue;
+      var c0=(r[0]||'').trim(),c1=(r[1]||'').trim();
+      if(!c0&&!c1) continue;
+      if(c0&&isJunk(c0)) continue;
+      if(c0&&c0.toUpperCase().indexOf('HIGHER GB')>-1) continue;
+      if(c0&&c0.toUpperCase().indexOf('SAMSUNG')>-1) continue;
+      if(c0&&c0.toUpperCase().indexOf('GOOGLE LOCKED')>-1) continue;
+      if(c0&&c0.toUpperCase().indexOf('IF ')===0) continue;
+      // Header row for a model group
+      var lockU=c1.toUpperCase();
+      if(lockU==='UNLOCKED'||lockU==='AT&T'||lockU==='CARRIER LOCKED'||lockU==='LOCK CARRIER'){
+        if(c0) curModel=c0;
+        var lock=lockU==='UNLOCKED'?'Unlocked':(lockU==='AT&T'?'AT&T':'Carrier Locked');
+        var se=pn(r[2]),gA=pn(r[3]),gBp=pn(r[4]),gBm=pn(r[5]),gC=pn(r[6]),gD=pn(r[7]),doa=pn(r[8]);
+        if(se===null&&gA===null&&gBp===null&&gC===null) continue;
+        var key=curModel.toUpperCase().replace(/\s+/g,' ')+'|'+lock;
+        result[key]={model:curModel,lock:lock,sealed:se,grA:gA,grBp:gBp,grBm:gBm,grC:gC,grD:gD,doa:doa};
+      } else if(c0&&!c1){
+        curModel=c0;
+      }
+    }
+    return result;
+  }
+
+  // ── iPAD PARSER ──
+  // CSV cols: A(0)=storage/model, B(1)=Sealed, C(2)=Open, D(3)=GrA, E(4)=GrB, F(5)=GrC, G(6)=GrD, H(7)=DOA
+  function parseIPad(rows){
+    var result={};var curGroup='';
+    for(var i=0;i<rows.length;i++){
+      var r=rows[i];if(!r||r.length<2) continue;
+      var c0=(r[0]||'').trim();
+      if(!c0) continue;
+      var cu=c0.toUpperCase();
+      if(cu.indexOf('IPAD')>-1){
+        // This is a model group header (e.g., "IPAD PRO 13 INCH / M5")
+        if(cu.indexOf('PRICING')>-1||cu.indexOf('MUST BE')>-1||cu.indexOf('VIDEO')>-1||cu.indexOf('ENGRAVING')>-1||cu.indexOf('JOIN')>-1||cu.indexOf('ACTIVATED')>-1||cu.indexOf('B GRADE')>-1) continue;
+        curGroup=c0;continue;
+      }
+      // Check if it's a storage row with prices
+      if(cu.indexOf('GB')>-1||cu.indexOf('TB')>-1){
+        var se=pn(r[1]),op=pn(r[2]),gA=pn(r[3]),gB=pn(r[4]),gC=pn(r[5]),gD=pn(r[6]),doa=pn(r[7]);
+        if(se===null&&op===null&&gA===null) continue;
+        var key=curGroup+'|'+c0;
+        result[key]={group:curGroup,storage:c0,sealed:se,open:op,grA:gA,grB:gB,grC:gC,grD:gD,doa:doa};
+      }
+    }
+    return result;
+  }
+
+  // ── MACBOOK PARSER ──
+  // CSV cols: A(0)=model/SKU, B(1)=Sealed/NotActive, C(2)=Open/Active, D(3)=Sealed/Active
+  function parseMacbooks(rows){
+    var result={};var curGroup='';
+    for(var i=0;i<rows.length;i++){
+      var r=rows[i];if(!r||r.length<2) continue;
+      var c0=(r[0]||'').trim();
+      if(!c0) continue;
+      var cu=c0.toUpperCase();
+      if(cu.indexOf('MACBOOK')>-1){
+        if(cu.indexOf('PRICING')>-1||cu.indexOf('OPEN BOX')>-1||cu.indexOf('PLASTIC')>-1||cu.indexOf('ACTIVATED')>-1) continue;
+        curGroup=c0;continue;
+      }
+      var se=pn(r[1]),op=pn(r[2]),seAct=pn(r[3]);
+      if(se===null&&op===null) continue;
+      if(cu.indexOf('SEALED')>-1||cu==='OPEN / ACTIVE') continue;
+      var key=curGroup+'|'+c0;
+      result[key]={group:curGroup,sku:c0,sealed:se,open:op,sealedActive:seAct};
+    }
+    return result;
+  }
+
+  // ── APPLE WATCH PARSER ──
+  // CSV cols: A(0)=model, B(1)=Sealed, C(2)=Open, D(3)=A/HSO, E(4)=B, F(5)=Cracked, G(6)=BadLCD
+  function parseWatch(rows){
+    var result={};var curGroup='';
+    for(var i=0;i<rows.length;i++){
+      var r=rows[i];if(!r||r.length<2) continue;
+      var c0=(r[0]||'').trim();
+      if(!c0) continue;
+      var cu=c0.toUpperCase();
+      if(cu.indexOf('APPLE WATCH')>-1||cu.indexOf('USED -')>-1||cu.indexOf('NO BAND')>-1||cu.indexOf("CAN'T BE")>-1) continue;
+      // Series/group headers have "Sealed" in col 1
+      var c1=(r[1]||'').trim().toUpperCase();
+      if(c1==='SEALED'){curGroup=c0;continue;}
+      var se=pn(r[1]),op=pn(r[2]),hso=pn(r[3]),gB=pn(r[4]);
+      if(se===null&&op===null&&hso===null&&gB===null) continue;
+      var key=c0;
+      result[key]={model:c0,group:curGroup,sealed:se,open:op,hso:hso,grB:gB};
+    }
+    return result;
+  }
+
+  // ── AIRPODS PARSER (from Misc tab) ──
+  // CSV cols: A(0)=model, B(1)=sealed, C(2)=opened
+  function parseAirpods(rows){
+    var result={};var inAirpods=false;
+    for(var i=0;i<rows.length;i++){
+      var r=rows[i];if(!r||r.length<2) continue;
+      var c0=(r[0]||'').trim();
+      var cu=c0.toUpperCase();
+      if(cu==='APPLE AIRPOD'||cu==='APPLE AIRPODS'){inAirpods=true;continue;}
+      if(inAirpods&&(cu==='APPLE AIRTAG'||cu==='APPLE HOMEPOD'||cu==='APPLE MOUSE'||cu==='')){
+        if(cu!=='') inAirpods=false;
+        continue;
+      }
+      if(!inAirpods) continue;
+      var se=pn(r[1]),op=pn(r[2]);
+      if(se===null&&op===null) continue;
+      result[c0]={model:c0,sealed:se,open:op};
+    }
+    return result;
+  }
+
+  // ── MODEL MATCHING HELPERS ──
+  function normPhone(m){
+    return m.toUpperCase().replace(/\s+/g,' ')
+      .replace('PRO MAX','PM').replace('PRO','P')
+      .replace('PLUS','+').replace(/\s*AIR/,'A')
+      .replace(/(\d+)(PM|P|A|\+|E)?/,function(_,n,s){return n+(s||'');})
+      .replace(/\s/g,'').replace(/G$/,'');
+  }
+
+  function findPhoneMatch(mercModel,lock,dataSet){
+    var mn=normPhone(mercModel);
+    var entries=Object.entries(dataSet);
+    for(var i=0;i<entries.length;i++){
+      var k=entries[i][0],d=entries[i][1];
+      if(d.tp!==lock) continue;
+      var dn=normPhone(d.t);
+      if(dn.indexOf(mn.replace(/\d+[GTB]$/,''))>-1||mn.indexOf(dn.replace(/\d+[GTB]$/,''))>-1) return {key:k,data:d};
+    }
+    return null;
+  }
+
+  function findStorageRow(dataRows,mercModel){
+    var sm=mercModel.match(/(\d+)\s*(?:GB?|TB?)/i);
+    if(!sm) return -1;
+    var sz=sm[0].toUpperCase().replace(/\s/g,'');
+    if(sz.match(/\d+G$/)) sz+='B';if(sz.match(/\d+T$/)) sz+='B';
+    for(var i=0;i<dataRows.length;i++){
+      var rs=(dataRows[i][0]||'').toUpperCase().replace(/\s/g,'');
+      if(rs.indexOf(sz)>-1) return i;
+    }
+    return -1;
+  }
+
+  // ── DIFF HELPER ──
+  function applyDiff(cur,base,arr,idx){
+    if(cur!==null&&base!==null){var d=cur-base;if(d!==0){arr[idx]=(arr[idx]||0)+d;return true;}}
+    return false;
+  }
+
+  // ── APPLY iPhone CHANGES ──
+  function applyIPhoneChanges(merc,baseline){
+    var changed=false;
+    Object.keys(merc).forEach(function(mk){
+      var m=merc[mk],b=baseline[mk];if(!b) return;
+      if(m.sealed!==null||m.open!==null){
+        var match=findPhoneMatch(m.model,m.lock,DATA.newPhone);
+        if(match){var ri=findStorageRow(match.data.r,m.model);if(ri>-1){
+          if(applyDiff(m.sealed,b.sealed,match.data.r[ri],1)) changed=true;
+          if(applyDiff(m.open,b.open,match.data.r[ri],2)) changed=true;
+        }}
+      }
+      if(m.grA!==null||m.grB!==null||m.grC!==null){
+        var um=findPhoneMatch(m.model,m.lock,DATA.usedPhone);
+        if(um){var ui=findStorageRow(um.data.r,m.model);if(ui>-1){
+          [[m.grA,b.grA,1],[m.grB,b.grB,2],[m.grC,b.grC,3],[m.grD,b.grD,4],[m.doa,b.doa,5]].forEach(function(p){
+            if(applyDiff(p[0],p[1],um.data.r[ui],p[2])) changed=true;
+          });
+        }}
+      }
+    });
+    return changed;
+  }
+
+  // ── APPLY SAMSUNG CHANGES ──
+  function applySamsungChanges(merc,baseline){
+    var changed=false;
+    Object.keys(merc).forEach(function(mk){
+      var m=merc[mk],b=baseline[mk];if(!b) return;
+      // Find matching entry in DATA.samsung
+      var mName=m.model.toUpperCase().replace(/\s+/g,' ');
+      var series=Object.keys(DATA.samsung);
+      for(var si=0;si<series.length;si++){
+        var arr=DATA.samsung[series[si]];
+        for(var ai=0;ai<arr.length;ai++){
+          var row=arr[ai];
+          var rName=row[0].toUpperCase().replace(/\s+/g,' ');
+          var rLock=row[1];
+          if(rName.indexOf(mName)>-1||mName.indexOf(rName)>-1){
+            if((m.lock==='Unlocked'&&rLock==='Unlocked')||(m.lock==='AT&T'&&rLock==='AT&T')||
+               (m.lock==='Carrier Locked'&&(rLock==='Carrier Locked'))){
+              // Samsung website columns: [model, lock, sealed(2), A(3), B(4)]
+              if(applyDiff(m.sealed,b.sealed,row,2)) changed=true;
+              if(applyDiff(m.grA,b.grA,row,3)) changed=true;
+              // Use B+ for website column 4
+              if(applyDiff(m.grBp,b.grBp,row,4)) changed=true;
+            }
+          }
+        }
+      }
+    });
+    return changed;
+  }
+
+  // ── APPLY iPAD CHANGES ──
+  function applyIPadChanges(merc,baseline){
+    var changed=false;
+    Object.keys(merc).forEach(function(mk){
+      var m=merc[mk],b=baseline[mk];if(!b) return;
+      var grp=m.group.toUpperCase();
+      var stor=m.storage.toUpperCase();
+      // Determine wifi vs cell
+      var isCell=stor.indexOf('CELLULAR')>-1;
+      var isWifi=stor.indexOf('WI-FI')>-1||stor.indexOf('WIFI')>-1;
+      var isVerizon=stor.indexOf('VERIZON')>-1;
+      // Try matching to newIpad
+      var niEntries=Object.entries(DATA.newIpad);
+      for(var ni=0;ni<niEntries.length;ni++){
+        var dk=niEntries[ni][0],dd=niEntries[ni][1];
+        var dt=dd.t.toUpperCase();
+        // Match model group
+        if(grp.indexOf('PRO 13')>-1&&dt.indexOf('PRO 13')>-1||grp.indexOf('PRO 11')>-1&&dt.indexOf('PRO 11')>-1||
+           grp.indexOf('AIR 13')>-1&&dt.indexOf('AIR 13')>-1||grp.indexOf('AIR 11')>-1&&dt.indexOf('AIR 11')>-1||
+           grp.indexOf('10TH')>-1&&dt.indexOf('10TH')>-1||grp.indexOf('9TH')>-1&&dt.indexOf('9TH')>-1){
+          // Match generation
+          if(grp.indexOf('M5')>-1&&dt.indexOf('M5')>-1||grp.indexOf('M4')>-1&&dt.indexOf('M4')>-1||
+             grp.indexOf('M3')>-1&&dt.indexOf('M3')>-1||grp.indexOf('M2')>-1&&dt.indexOf('M2')>-1||
+             grp.indexOf('10TH')>-1||grp.indexOf('9TH')>-1){
+            // Match connectivity type
+            if((isCell&&!isVerizon&&dd.tp==='cell')||(isWifi&&dd.tp==='wifi')||(!isCell&&!isWifi&&!isVerizon)){
+              var sri=findStorageRow(dd.r,m.storage);
+              if(sri>-1){
+                if(applyDiff(m.sealed,b.sealed,dd.r[sri],1)) changed=true;
+                if(applyDiff(m.open,b.open,dd.r[sri],2)) changed=true;
+              }
+            }
+          }
+        }
+      }
+      // Try matching to usedIpad
+      var uiEntries=Object.entries(DATA.usedIpad);
+      for(var ui=0;ui<uiEntries.length;ui++){
+        var udk=uiEntries[ui][0],udd=uiEntries[ui][1];
+        var udt=udd.t.toUpperCase();
+        if(grp.indexOf('PRO 13')>-1&&udt.indexOf('PRO 13')>-1||grp.indexOf('PRO 11')>-1&&udt.indexOf('PRO 11')>-1||
+           grp.indexOf('AIR 13')>-1&&udt.indexOf('AIR 13')>-1||grp.indexOf('AIR 11')>-1&&udt.indexOf('AIR 11')>-1){
+          if(grp.indexOf('M5')>-1&&udt.indexOf('M5')>-1||grp.indexOf('M4')>-1&&udt.indexOf('M4')>-1||
+             grp.indexOf('M3')>-1&&udt.indexOf('M3')>-1||grp.indexOf('M2')>-1&&udt.indexOf('M2')>-1){
+            if((isCell&&!isVerizon&&udd.tp==='cell')||(isWifi&&udd.tp==='wifi')||(!isCell&&!isWifi&&!isVerizon)){
+              var usri=findStorageRow(udd.r,m.storage);
+              if(usri>-1){
+                // usedIpad: [storage, HSO(1), B(2), C(3), D(4), DOA(5)]
+                if(applyDiff(m.grA,b.grA,udd.r[usri],1)) changed=true;
+                if(applyDiff(m.grB,b.grB,udd.r[usri],2)) changed=true;
+                if(applyDiff(m.grC,b.grC,udd.r[usri],3)) changed=true;
+                if(applyDiff(m.grD,b.grD,udd.r[usri],4)) changed=true;
+                if(applyDiff(m.doa,b.doa,udd.r[usri],5)) changed=true;
+              }
+            }
+          }
+        }
+      }
+    });
+    return changed;
+  }
+
+  // ── APPLY MACBOOK CHANGES ──
+  function applyMacbookChanges(merc,baseline){
+    var changed=false;
+    Object.keys(merc).forEach(function(mk){
+      var m=merc[mk],b=baseline[mk];if(!b) return;
+      var mGrp=m.group.toUpperCase();
+      var mSku=m.sku.toUpperCase();
+      var macEntries=Object.entries(DATA.macbook);
+      for(var mi=0;mi<macEntries.length;mi++){
+        var dk=macEntries[mi][0],dd=macEntries[mi][1];
+        var dt=dd.t.toUpperCase();
+        // Match by group title keywords
+        var groupMatch=false;
+        if(mGrp.indexOf('PRO 14')>-1&&mGrp.indexOf('M5')>-1&&dt.indexOf('PRO 14')>-1&&dt.indexOf('M5')>-1) groupMatch=true;
+        if(mGrp.indexOf('PRO 14')>-1&&mGrp.indexOf('M4')>-1&&dt.indexOf('PRO 14')>-1&&dt.indexOf('M4')>-1) groupMatch=true;
+        if(mGrp.indexOf('PRO 16')>-1&&mGrp.indexOf('M4')>-1&&dt.indexOf('PRO 16')>-1&&dt.indexOf('M4')>-1) groupMatch=true;
+        if(mGrp.indexOf('AIR 13')>-1&&mGrp.indexOf('M4')>-1&&dt.indexOf('AIR 13')>-1&&dt.indexOf('M4')>-1) groupMatch=true;
+        if(mGrp.indexOf('AIR 15')>-1&&mGrp.indexOf('M4')>-1&&dt.indexOf('AIR 15')>-1&&dt.indexOf('M4')>-1) groupMatch=true;
+        if(mGrp.indexOf('AIR 13')>-1&&mGrp.indexOf('M3')>-1&&dt.indexOf('AIR 13')>-1&&dt.indexOf('M3')>-1) groupMatch=true;
+        if(mGrp.indexOf('AIR 15')>-1&&mGrp.indexOf('M3')>-1&&dt.indexOf('AIR 15')>-1&&dt.indexOf('M3')>-1) groupMatch=true;
+        if(!groupMatch) continue;
+        // Try to match by SKU in the row labels
+        for(var ri=0;ri<dd.r.length;ri++){
+          var rowLabel=dd.r[ri][0].toUpperCase();
+          // Check if any SKU from Mercury appears in the website row label, or match by storage
+          var skuParts=mSku.split(/\s+/);
+          var skuMatch=false;
+          for(var sp=0;sp<skuParts.length;sp++){
+            if(skuParts[sp].length>4&&rowLabel.indexOf(skuParts[sp])>-1){skuMatch=true;break;}
+          }
+          // Also try matching by storage size
+          if(!skuMatch){
+            var mercStorage=mSku.match(/(\d+)\s*(?:GB|TB)/i);
+            var rowStorage=rowLabel.match(/(\d+)\s*(?:GB|TB)/i);
+            if(mercStorage&&rowStorage&&mercStorage[0].toUpperCase()===rowStorage[0].toUpperCase()){
+              // Only match if it's the same row position (first match)
+              skuMatch=true;
+            }
+          }
+          if(skuMatch){
+            // macbook: [spec, sealed(1), open(2)]
+            if(applyDiff(m.sealed,b.sealed,dd.r[ri],1)) changed=true;
+            if(applyDiff(m.open,b.open,dd.r[ri],2)) changed=true;
+            break;
+          }
+        }
+      }
+    });
+    return changed;
+  }
+
+  // ── APPLY WATCH CHANGES ──
+  function applyWatchChanges(merc,baseline){
+    var changed=false;
+    Object.keys(merc).forEach(function(mk){
+      var m=merc[mk],b=baseline[mk];if(!b) return;
+      var mName=m.model.toUpperCase();
+      var wEntries=Object.keys(DATA.watch);
+      for(var wi=0;wi<wEntries.length;wi++){
+        var arr=DATA.watch[wEntries[wi]];
+        for(var ai=0;ai<arr.length;ai++){
+          var row=arr[ai];
+          var rName=row[0].toUpperCase();
+          // Match by key terms (model name, mm size)
+          var mmMatch=mName.match(/(\d+)\s*MM/i);
+          var rmmMatch=rName.match(/(\d+)\s*MM/i);
+          var sameSize=mmMatch&&rmmMatch&&mmMatch[1]===rmmMatch[1];
+          var sameSeries=false;
+          if(mName.indexOf('ULTRA 3')>-1&&rName.indexOf('ULTRA 3')>-1) sameSeries=true;
+          if(mName.indexOf('ULTRA GEN 2')>-1&&rName.indexOf('ULTRA 2')>-1||mName.indexOf('ULTRA 2')>-1&&rName.indexOf('ULTRA 2')>-1) sameSeries=true;
+          if(mName.indexOf('SERIES 11')>-1&&rName.indexOf('SERIES 11')>-1) sameSeries=true;
+          if(mName.indexOf('SERIES 10')>-1&&rName.indexOf('SERIES 10')>-1) sameSeries=true;
+          if(mName.indexOf('SERIES 9')>-1&&rName.indexOf('SERIES 9')>-1) sameSeries=true;
+          if(mName.indexOf('SE (3')>-1&&rName.indexOf('SE 3')>-1) sameSeries=true;
+          if(mName.indexOf('SE (2')>-1&&rName.indexOf('SE 2')>-1) sameSeries=true;
+          if(mName.indexOf('SERIES 8')>-1&&rName.indexOf('SERIES 8')>-1) sameSeries=true;
+          if(sameSeries&&sameSize){
+            // watch: [model, sealed(1), open(2), hso(3), B(4)]
+            if(applyDiff(m.sealed,b.sealed,row,1)) changed=true;
+            if(applyDiff(m.open,b.open,row,2)) changed=true;
+            if(applyDiff(m.hso,b.hso,row,3)) changed=true;
+            if(applyDiff(m.grB,b.grB,row,4)) changed=true;
+            break;
+          }
+        }
+      }
+    });
+    return changed;
+  }
+
+  // ── APPLY AIRPODS CHANGES ──
+  function applyAirpodsChanges(merc,baseline){
+    var changed=false;
+    Object.keys(merc).forEach(function(mk){
+      var m=merc[mk],b=baseline[mk];if(!b) return;
+      var mName=m.model.toUpperCase();
+      var aEntries=Object.keys(DATA.airpods);
+      for(var ai=0;ai<aEntries.length;ai++){
+        var arr=DATA.airpods[aEntries[ai]];
+        for(var ri=0;ri<arr.length;ri++){
+          var row=arr[ri];
+          var rName=row[0].toUpperCase();
+          // Match by model number (SKU) or key terms
+          var skuMatch=mName.match(/[A-Z]{3,5}\d{1,2}[A-Z]{0,2}/);
+          var rSkuMatch=rName.match(/[A-Z]{3,5}\d{1,2}[A-Z]{0,2}/);
+          if(skuMatch&&rSkuMatch&&skuMatch[0]===rSkuMatch[0]){
+            // airpods: [model, sealed_price(1)] — only 1 price column
+            if(applyDiff(m.sealed,b.sealed,row,1)) changed=true;
+            break;
+          }
+          // Fallback: match by descriptive terms
+          if(mName.indexOf('PRO 3')>-1&&rName.indexOf('PRO 3')>-1||
+             mName.indexOf('MAX')>-1&&mName.indexOf('USB')>-1&&rName.indexOf('MAX')>-1&&rName.indexOf('USB')>-1||
+             mName.indexOf('MAX')>-1&&mName.indexOf('LIGHTNING')>-1&&rName.indexOf('MAX')>-1&&rName.indexOf('LIGHTNING')>-1){
+            if(applyDiff(m.sealed,b.sealed,row,1)) changed=true;
+            break;
+          }
+        }
+      }
+    });
+    return changed;
+  }
+
+  // ── MAIN SYNC ──
+  function syncPrices(){
+    console.log('[Mercury Sync] Starting full sync...');
+    var tabs=Object.keys(CSV_TABS);
+    var fetches=tabs.map(function(t){return fetchTab(t).then(function(rows){return {tab:t,rows:rows};}).catch(function(e){console.warn('[Sync] '+t+' failed:',e);return {tab:t,rows:null};});});
+
+    Promise.all(fetches).then(function(results){
+      var allMerc={};
+      results.forEach(function(res){
+        if(!res.rows) return;
+        console.log('[Sync] '+res.tab+': '+res.rows.length+' rows');
+        switch(res.tab){
+          case 'iphones': allMerc.iphones=parseIPhones(res.rows);break;
+          case 'samsung': allMerc.samsung=parseSamsung(res.rows);break;
+          case 'ipad':    allMerc.ipad=parseIPad(res.rows);break;
+          case 'macbooks':allMerc.macbooks=parseMacbooks(res.rows);break;
+          case 'watch':   allMerc.watch=parseWatch(res.rows);break;
+          case 'airpods': allMerc.airpods=parseAirpods(res.rows);break;
+        }
+      });
+
+      var counts=Object.keys(allMerc).map(function(k){return k+':'+Object.keys(allMerc[k]||{}).length;}).join(', ');
+      console.log('[Sync] Parsed models — '+counts);
+
+      var baseline=null;
+      try{baseline=JSON.parse(localStorage.getItem(SYNC_KEY));}catch(e){}
+
+      if(!baseline){
+        localStorage.setItem(SYNC_KEY,JSON.stringify(allMerc));
+        localStorage.setItem(SYNC_TS_KEY,Date.now().toString());
+        console.log('[Sync] Baseline stored for all categories.');
+        return;
+      }
+
+      var changed=false;
+      if(allMerc.iphones&&baseline.iphones&&applyIPhoneChanges(allMerc.iphones,baseline.iphones)) changed=true;
+      if(allMerc.samsung&&baseline.samsung&&applySamsungChanges(allMerc.samsung,baseline.samsung)) changed=true;
+      if(allMerc.ipad&&baseline.ipad&&applyIPadChanges(allMerc.ipad,baseline.ipad)) changed=true;
+      if(allMerc.macbooks&&baseline.macbooks&&applyMacbookChanges(allMerc.macbooks,baseline.macbooks)) changed=true;
+      if(allMerc.watch&&baseline.watch&&applyWatchChanges(allMerc.watch,baseline.watch)) changed=true;
+      if(allMerc.airpods&&baseline.airpods&&applyAirpodsChanges(allMerc.airpods,baseline.airpods)) changed=true;
+
+      localStorage.setItem(SYNC_KEY,JSON.stringify(allMerc));
+      localStorage.setItem(SYNC_TS_KEY,Date.now().toString());
+
+      if(changed){
+        if(typeof renderAll==='function') renderAll();
+        if(typeof saveData==='function') saveData();
+        console.log('[Mercury Sync] Prices updated across categories.');
+        toast('Prices synced with Mercury sheet','ok');
+      } else {
+        console.log('[Mercury Sync] No price changes detected.');
+      }
+    }).catch(function(err){
+      console.warn('[Mercury Sync] Sync error:',err);
+    });
+  }
+
+  setTimeout(syncPrices,5000);
+  setInterval(syncPrices,SYNC_INTERVAL);
+
+  window.mercurySync=syncPrices;
+  window.mercuryResetBaseline=function(){
+    localStorage.removeItem(SYNC_KEY);
+    localStorage.removeItem(SYNC_TS_KEY);
+    syncPrices();
+    toast('Mercury baseline reset. Next sync will establish new baseline.','ok');
+  };
+})();
 </script>
 </body>
 </html>
