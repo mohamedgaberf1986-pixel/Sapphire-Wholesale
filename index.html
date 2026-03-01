@@ -1431,10 +1431,16 @@ function renderAll(){renderNI();renderUI();renderNIpad();renderUIpad();renderMac
 // ── AGREEMENT OVERLAY ──
 function acceptAgreement(){
   document.getElementById('agree-overlay').style.display='none';
-  sessionStorage.setItem('agreed','1');
+  sessionStorage.setItem('m901_agreed_session','1');
+  localStorage.setItem('m901_agreed','1');
 }
 (function(){
-  if(sessionStorage.getItem('agreed')==='1'){
+  // If this is a brand-new tab (no session flag), clear the localStorage agreement
+  // so user must re-agree. If session flag exists, it's just a refresh — keep it.
+  if(!sessionStorage.getItem('m901_agreed_session')){
+    localStorage.removeItem('m901_agreed');
+  }
+  if(localStorage.getItem('m901_agreed')==='1'){
     document.getElementById('agree-overlay').style.display='none';
   } else {
     const body=document.getElementById('agree-body');
@@ -3002,9 +3008,3 @@ document.addEventListener('click',function(e){
 </script>
 </body>
 </html>
-
-
-
-
-
-
